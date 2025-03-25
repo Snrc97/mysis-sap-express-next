@@ -1,5 +1,9 @@
 import React from "react";
-import ThemeToggle from "../theme-toggle";
+import ThemeToggle from "@/components/theme-toggle";
+import Icon from "@/components/ui-custom/Icon";
+import { ChevronDown } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 type HeaderProps = {
   title: string;
@@ -14,7 +18,28 @@ const Header: React.FC<any> = ({ title, description }: HeaderProps) => {
         <p className="text-lg">{description}</p>
       </div>
 
-      <ThemeToggle />
+      <div className="flex flex-row text-left gap-5">
+        <ThemeToggle />
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="flex items-center gap-2 w-20">
+              <Button variant={"ghost"} className="relative h-12 w-6">
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">3</span>
+              </Button>
+              <Icon name={"bell"} size={28} className="absolute" />
+
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-64 p-2">
+            <DropdownMenuItem onClick={() => alert("New comment on your post")}>📩 New comment on your post</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => alert("New friend request")}>👤 New friend request</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => alert("Someone liked your photo")}>❤️ Someone liked your photo</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+      </div>
+
     </header>
   );
 };

@@ -23,7 +23,7 @@ type IconProps = {
   className?: string;
 };
 
-export default function Icon({ name, size = 24, className = "" }: IconProps) {
+export default function Icon({ name, size = 24, className }: IconProps) {
   const LucideComponent = iconMap[name]; // Get the icon component dynamically
   if (!LucideComponent) return null; // If the icon name is not found, return nothing
 
