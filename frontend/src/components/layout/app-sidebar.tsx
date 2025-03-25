@@ -90,7 +90,7 @@ export default function AppSidebar() {
                         Çıkış
                     </Button>
                 </div>
-                
+
                 <div className="flex items-center justify-center p-4">
                     <p className="text-sm text-gray-500">MYSIS SAP SHADCN UI</p>
                 </div>
