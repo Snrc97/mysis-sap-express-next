@@ -1,0 +1,12 @@
+{
+  "workbench.colorCustomizations": {
+    "folderPathColor.custom1": "#FF69B4",
+    "folderPathColor.custom2": "#4cadc5",
+  },
+  "folder-path-color.folders": [
+    { "path": "frontend/src/components/ui", "symbol": "UI", "color": "custom1" },
+    { "path": "frontend/src/app", "symbol": "AP", "color": "custom2" },
+    { "path": "frontend/src/hooks", "symbol": "SR", "color": "green" },
+    { "path": "frontend/src/styles", "symbol": "T", "color": "yellow" }
+  ]
+}
