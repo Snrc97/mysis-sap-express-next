@@ -1,7 +1,5 @@
-"use client"
-
+"use client";
 import * as React from "react"
-import { useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
@@ -17,7 +15,7 @@ import { Icons } from "@/components/ui-reusables/icons"
 import { apiService } from "@/scripts/api-service"
 import { setCookie } from "@/scripts/nookies-cookies"
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement> ;
 
 type FormData = z.infer<typeof userAuthSchema>
 
@@ -31,7 +29,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   })
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
-  const searchParams = useSearchParams();
 
 
 

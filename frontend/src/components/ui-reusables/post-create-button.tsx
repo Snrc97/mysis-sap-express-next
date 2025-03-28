@@ -4,11 +4,11 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 
 import { cn } from "@/lib/utils"
-import { ButtonProps, buttonVariants } from "@/components/ui/button"
+import { buttonVariants, Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/ui-reusables/icons"
 
-interface PostCreateButtonProps extends ButtonProps {}
+type PostCreateButtonProps = React.ComponentPropsWithoutRef<typeof Button>;
 
 export function PostCreateButton({
   className,

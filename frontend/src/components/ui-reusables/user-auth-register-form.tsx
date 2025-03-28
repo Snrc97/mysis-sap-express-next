@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 import * as React from "react"
 import { useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -15,9 +14,17 @@ import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/ui-reusables/icons"
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 type FormData = z.infer<typeof userAuthSchema>
+
+function UserAuthRegisterFormComponent() {
+  const searchParams = useSearchParams();
+  const ref = searchParams?.get("from");
+
+  return ref || "/";
+}
+
 
 export function UserAuthRegisterForm({ className, ...props }: UserAuthFormProps) {
   const {
@@ -27,9 +34,12 @@ export function UserAuthRegisterForm({ className, ...props }: UserAuthFormProps)
   } = useForm<FormData>({
     resolver: zodResolver(userAuthSchema),
   })
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false)
-  const searchParams = useSearchParams()
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
+
+
+
+
 
   async function onSubmit(data: FormData) {
     setIsLoading(true)
@@ -37,7 +47,7 @@ export function UserAuthRegisterForm({ className, ...props }: UserAuthFormProps)
     const signInResult = await signIn("email", {
       email: data.email.toLowerCase(),
       redirect: false,
-      callbackUrl: searchParams?.get("from") || "/",
+      callbackUrl: UserAuthRegisterFormComponent()
     })
 
     setIsLoading(false)
@@ -77,7 +87,7 @@ export function UserAuthRegisterForm({ className, ...props }: UserAuthFormProps)
               disabled={isLoading || isGitHubLoading}
               {...register("email")}
             />
-             <Input
+            <Input
               id="password"
               name="password"
 
@@ -90,7 +100,7 @@ export function UserAuthRegisterForm({ className, ...props }: UserAuthFormProps)
               required
               disabled={isLoading || isGitHubLoading}
             />
-              <Input
+            <Input
               id="password_repeat"
               name="password_repeat"
               placeholder="Şifrenizi Tekrar girin"

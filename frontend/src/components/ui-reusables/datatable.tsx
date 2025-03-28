@@ -1,4 +1,4 @@
-import React, { forwardRef, memo, useEffect, useState } from "react";
+import React, { forwardRef, memo, useCallback, useEffect, useState } from "react";
 import { Table, TableHeader, TableBody, TableRow, TableCell, TableHead } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "../ui/pagination";
@@ -167,13 +167,15 @@ const Datatable: React.FC<DataTableProps> = memo(
 
         useEffect(() => {
             setViewRows(getRowsByPaging(rows || [], currentPage, rowsPerPage));
-        }, [currentPage]);
+        }, [currentPage, rowsPerPage, rows]);
 
         const commonButtonClassName = "bg-gray-600 hover:bg-gray-700 cursor-pointer text-gray-300 hover:text-gray-200 border-white";
 
-        useEffect(() => {
+       
+
+        useEffect(()=>{
             handleOnRefresh();
-        }, []);
+        }, [])
 
         return (
             <div className="flex flex-col gap-2">
