@@ -16,5 +16,5 @@ export function formatDate(input: string | number): string {
 }
 
 export function absoluteUrl(path: string) {
-  return `${"http://localhost:3000/"}${path}`
+  return `${"http://127.0.0.1:3000/"}${path}`
 }

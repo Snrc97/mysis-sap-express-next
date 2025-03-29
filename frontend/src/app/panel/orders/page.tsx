@@ -5,6 +5,7 @@ import Datatable, { DataTableActionProps } from "@/components/ui-reusables/datat
 import PageContainer from "@/components/layout/page-container";
 import { ReusableFormProps } from "@/components/ui-reusables/reusable-form-element";
 import { Metadata } from "next";
+import * as dotenv from "dotenv";
 
 enum OrderStatus {
   PENDING = "Beklemede",
@@ -57,14 +58,13 @@ const Orders: React.FC = () => {
     }
   ];
 
-  const url = 'http://localhost:8000/api/orders';
-
+  const endpoint = "orders";
 
   return (
 
     <PageContainer title="Siparişler">
    
-      <Datatable url={url} rows={[]} actions={actions} columns={columnMapping} />
+      <Datatable url={endpoint} rows={[]} actions={actions} columns={columnMapping} />
     </PageContainer>
 
   );

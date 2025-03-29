@@ -7,6 +7,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, D
 import "@/helpers/extensions/all.tsx";
 import { ReusableFormElement, ReusableFormProps } from "./reusable-form-element";
 import Swal from 'sweetalert2'
+import { apiService } from "@/scripts/api-service";
 
 export type DynamicKeyValue = { [key: string]: string | number | readonly string[] | Array<any> };
 
@@ -51,7 +52,7 @@ const Datatable: React.FC<DataTableProps> = memo(
         const handleOnRefresh = async () => {
             setRefreshing(true);
             if (url) {
-                await fetch(url).then(x => x.json()).then(x => {
+                await apiService.get(url).then(x => x.json()).then(x => {
                     setViewRows(x.data);
 
                     if (columns.length < 1 && x.data.length > 0) {
@@ -99,12 +100,10 @@ const Datatable: React.FC<DataTableProps> = memo(
                 confirmButtonText: "Evet",
                 cancelButtonText: "İptal",
                 background: "#1a202c",
-            }).then((result) => {
+            }).then(async (result) => {
                 if (result.isConfirmed) {
                     if (url) {
-                        fetch(url + "/" + id, {
-                            method: "DELETE",
-                        }).then(x => x.json()).then(res => {
+                        await apiService.delete(url + "/" + id).then(res => {
                             Swal.fire({
                                 title: res.msg,
                                 icon: "success",
@@ -112,6 +111,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                             });
                             handleOnRefresh();
                         });
+
                     }
                 }
             });
@@ -134,15 +134,11 @@ const Datatable: React.FC<DataTableProps> = memo(
                 }
 
 
-                console.log(submit_url, " ", method);
 
-                const response = await fetch(submit_url, {
+                const response = await apiService.request(submit_url,
                     method,
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(modalInputs),
-                });
+                    modalInputs
+                );
 
                 const res = await response.json();
                 if (response.ok) {
@@ -171,11 +167,11 @@ const Datatable: React.FC<DataTableProps> = memo(
 
         const commonButtonClassName = "bg-gray-600 hover:bg-gray-700 cursor-pointer text-gray-300 hover:text-gray-200 border-white";
 
-       
 
-        useEffect(()=>{
+
+        useEffect(() => {
             handleOnRefresh();
-        }, [])
+        }, []);
 
         return (
             <div className="flex flex-col gap-2">

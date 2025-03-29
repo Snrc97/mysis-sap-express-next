@@ -34,11 +34,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   async function onSubmit(data: FormData) {
     setIsLoading(true)
-
+    let result = false;
     try {
 
       const signInResult = await apiService.post("auth/login", data);
-
+      result = signInResult?.success ?? false;
 
       if (!signInResult?.success) {
 
@@ -63,7 +63,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       });
       setTimeout(() => {
         setIsLoading(false);
-        window.location.reload();
+        if(result)
+        {
+          window.location.reload();
+        }
       }, 1000);
 
 
