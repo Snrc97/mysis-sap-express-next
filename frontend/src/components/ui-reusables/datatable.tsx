@@ -52,7 +52,7 @@ const Datatable: React.FC<DataTableProps> = memo(
         const handleOnRefresh = async () => {
             setRefreshing(true);
             if (url) {
-                await apiService.get(url).then(x => x.json()).then(x => {
+                await apiService.get(url).then(x => {
                     setViewRows(x.data);
 
                     if (columns.length < 1 && x.data.length > 0) {
@@ -135,13 +135,13 @@ const Datatable: React.FC<DataTableProps> = memo(
 
 
 
-                const response = await apiService.request(submit_url,
+                const res = await apiService.request(submit_url,
                     method,
                     modalInputs
                 );
 
-                const res = await response.json();
-                if (response.ok) {
+               
+                if (res.success) {
                     Swal.fire({
                         title: res.msg,
                         icon: "success",

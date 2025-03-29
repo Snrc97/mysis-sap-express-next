@@ -1,5 +1,6 @@
 "use strict";
 import { getCookie } from "./nookies-cookies";
+
 export class ApiService {
   public baseUrl: string;
 
@@ -64,8 +65,10 @@ export class ApiService {
 }
 
 
-const api_url = process.env?.API_URL ?? "";
- const apiService = new ApiService(api_url);
- console.log("api url: ", apiService.baseUrl);
+
+ const apiService = new ApiService("http://localhost:8000/api/");
+// const apiService = new ApiService("https://mysissoft.site/api/");
+
+ console.log("apiService url : ", apiService.baseUrl);
 
 export { apiService } ;
