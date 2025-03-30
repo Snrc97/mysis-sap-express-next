@@ -60,7 +60,6 @@ const Datatable: React.FC<DataTableProps> = memo(
                         setViewColumns(columns);
                     }
 
-                    console.log(x.data);
                 });
             }
             setRefreshing(false);
@@ -121,6 +120,8 @@ const Datatable: React.FC<DataTableProps> = memo(
 
         const handleModalSubmit = async () => {
 
+            console.log("modalInputs: ", modalInputs);
+
             if ((actions?.createable || actions?.updateable) && url) {
 
                 let submit_url = url;
@@ -130,13 +131,15 @@ const Datatable: React.FC<DataTableProps> = memo(
                     delete modalInputs.id;
                 }
                 else if (method == "PUT") {
-                    submit_url = submit_url + "/" + modalInputs?.id;
+                    submit_url = submit_url + "/" + modalInputs.id;
                 }
 
 
+             
 
                 const res = await apiService.request(submit_url,
                     method,
+                    undefined,
                     modalInputs
                 );
 

@@ -1,4 +1,5 @@
 "use strict";
+import { DynamicKeyValue } from "@/components/ui-reusables/datatable";
 import { getCookie } from "./nookies-cookies";
 
 export class ApiService {
@@ -16,7 +17,7 @@ export class ApiService {
   public async request(
     endpoint: string | null,
     method: "GET" | "POST" | "PUT" | "DELETE",
-    params?: { [key: string]: unknown },
+    params?: DynamicKeyValue,
     data?: unknown
   ): Promise<any> {
     const url = new URL(`${this.baseUrl}${endpoint || ""}`);
@@ -49,7 +50,7 @@ export class ApiService {
 
   public get = (
     endpoint: string | null,
-    params?: { [key: string]: unknown }
+    params?: DynamicKeyValue
   ): Promise<any> => this.request(endpoint, "GET", params);
 
   public post = (endpoint: string | null, data?: unknown): Promise<any> =>
@@ -60,7 +61,7 @@ export class ApiService {
 
   public delete = (
     endpoint: string | null,
-    params?: { [key: string]: unknown }
+    params?: DynamicKeyValue
   ): Promise<any> => this.request(endpoint, "DELETE", params);
 }
 
