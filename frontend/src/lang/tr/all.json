@@ -1,0 +1,46 @@
+{
+  "sidebar": {
+    "franchise_and_customer_management": "Bayilik ve Müşteri Yönetimi",
+    "order_management": "Sipariş Yönetimi",
+    "offer_management": "Teklif Yönetimi",
+    "logistic_and_export_management": "Lojistik ve İhracat Yönetimi",
+    "stock_and_product_management": "Stok ve Ürün Yönetimi",
+    "management_panel": "Yönetim Paneli"
+  },
+  "erp": {
+    "stock_management": "Stok Yönetimi",
+    "stock": "Stok",
+    "warehouse": "Depo",
+    "warehouses": "Depolar",
+    "product": "Ürün",
+    "products": "Ürünler",
+    "product_group": "Ürün Grubu",
+    "product_group_list": "Ürün Grupları",
+    "product_category": "Ürün Kategorisi",
+    "product_type": "Ürün Tipi",
+    "product_unit": "Ürün Birimi",
+    "product_unit_list": "Ürün Birimleri",
+    "lod": "Lod",
+    "serial_number": "Seri Numarası",
+    "serial_numbers": "Seri Numaraları"
+  },
+
+  "common": {
+    "process_successful": "İşlem Başarılı : {process_name?}",
+    "process_unsuccessful": "İşlem Başarısız : {process_name?}",
+    "error": "Hata",
+    "warning": "Uyarı",
+    "info": "Bilgi",
+    "confirm": "Onayla",
+    "cancel": "İptal",
+    "ok": "Tamam",
+    "yes": "Evet",
+    "no": "Hayır",
+
+    "list": "Liste",
+    "list_of": "{what?} Listesi",
+    "add": "{what?} Ekle",
+    "edit": "{what?} Düzenle",
+    "delete": "{what?} Sil"
+  }
+}

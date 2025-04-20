@@ -8,6 +8,8 @@ import "@/helpers/extensions/all.tsx";
 import { ReusableFormElement, ReusableFormProps } from "./reusable-form-element";
 import Swal from 'sweetalert2'
 import { apiService } from "@/scripts/api-service";
+import moment from "moment-timezone";
+import { view } from 'framer-motion';
 
 export type DynamicKeyValue = { [key: string]: string | number | readonly string[] | Array<any> };
 
@@ -20,9 +22,16 @@ export type DataTableActionProps = {
     deleteable?: boolean;
 }
 
+export type CrudInfo = {
+    createColumns?: ReusableFormProps[];
+    updateColumns?: ReusableFormProps[];
+    detailColumns?: ReusableFormProps[];
+}
+
 export type DataTableProps = {
     columns: ReusableFormProps[];
     rows?: { [key: string]: string | number | boolean }[];
+    crudInfo?: CrudInfo,
     actions?: DataTableActionProps;
     url?: string;
 };
@@ -33,8 +42,30 @@ const getRowsByPaging = (rows: any[], currentPage: number, rowsPerPage: number) 
     return rows.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 }
 
+const getRowValueForFormattedColumn = ({ rowValue, column }: { rowValue: any, column: ReusableFormProps }) => {
+    if (column.type == "input") {
+        if (column.format) {
+            switch (column.inputType) {
+                case "date":
+
+                    rowValue = moment.utc(rowValue).format(column.format);
+
+                    break;
+                case "datetime-local":
+                    rowValue = moment.utc(rowValue).format(column.format);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    return rowValue;
+}
+
 const Datatable: React.FC<DataTableProps> = memo(
     forwardRef(({ columns, rows, actions, url }, ref: React.Ref<HTMLTableElement>) => {
+
 
 
         const [refreshing, setRefreshing] = useState(false);
@@ -49,7 +80,7 @@ const Datatable: React.FC<DataTableProps> = memo(
             getRowsByPaging(rows, currentPage, rowsPerPage) : []
         );
 
-        const handleOnRefresh = async () => {
+        const handleRefresh = async (onDataLoaded?: (data:any) => void) => {
             setRefreshing(true);
             if (url) {
                 await apiService.get(url).then(x => {
@@ -60,8 +91,13 @@ const Datatable: React.FC<DataTableProps> = memo(
                         setViewColumns(columns);
                     }
 
+                    if (onDataLoaded) {
+                        onDataLoaded(x.data);
+                    }
+
                 });
             }
+            
             setRefreshing(false);
         }
 
@@ -108,7 +144,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                                 icon: "success",
                                 timer: 2000,
                             });
-                            handleOnRefresh();
+                            handleRefresh();
                         });
 
                     }
@@ -118,9 +154,34 @@ const Datatable: React.FC<DataTableProps> = memo(
 
         }
 
+
+        const handleRowUpdate = (index: number) => {
+
+            if (actions?.updateable && url) {
+
+                const row = viewRows[index];
+                apiService.put(`${url}/${row.id}`, row).then(res => {
+                    if (res.success) {
+                        setViewRows([...viewRows])
+                        Swal.fire({
+                            title: res.msg,
+                            icon: "success",
+                            timer: 2000,
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            title: res.msg,
+                            icon: "error",
+                            timer: 2000,
+                        });
+                    }
+                })
+            }
+        }
+
         const handleModalSubmit = async () => {
 
-            console.log("modalInputs: ", modalInputs);
 
             if ((actions?.createable || actions?.updateable) && url) {
 
@@ -135,7 +196,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                 }
 
 
-             
+
 
                 const res = await apiService.request(submit_url,
                     method,
@@ -143,7 +204,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                     modalInputs
                 );
 
-               
+
                 if (res.success) {
                     Swal.fire({
                         title: res.msg,
@@ -151,7 +212,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                         timer: 2000,
                     });
                     setIsModalOpen(false);
-                    handleOnRefresh();
+                    handleRefresh();
                 }
                 else {
                     Swal.fire({
@@ -173,7 +234,7 @@ const Datatable: React.FC<DataTableProps> = memo(
 
 
         useEffect(() => {
-            handleOnRefresh();
+            handleRefresh();
         }, []);
 
         return (
@@ -215,16 +276,111 @@ const Datatable: React.FC<DataTableProps> = memo(
                     <TableBody key={refreshing ? 1 : 0} >
                         {viewRows.length > 0 && viewRows.map((row, index) => (
                             <TableRow key={index}>
-                                {viewColumns.map((column) => (
-                                    <TableCell
-                                        align="center"
-                                        key={column.name}
-                                        className="border-b border-l border-r border-gray-300"
-                                    >
-                                        {row[column.name]}
+                                {viewColumns.map((column) => {
 
-                                    </TableCell>
-                                ))}
+                                    let rowValue = row[column.name];
+                                    rowValue = getRowValueForFormattedColumn({ rowValue, column });
+
+                                    return (
+                                        <TableCell
+                                            align="center"
+                                            key={column.name}
+                                            className="border-b border-l border-r border-gray-300"
+                                            onClick={(e) => {
+
+                                                if (!actions?.updateable) {
+                                                    return;
+                                                }
+
+                                                const elementType = column.type;
+                                                const editInput = document.createElement(elementType == "input" ? "input" : "select");
+                                               
+                                                const input = e.currentTarget as HTMLTableCellElement
+                                                const oldInnerText = `${input.innerText}`;
+                                                const rowValue = viewRows[index][column.name];
+
+
+                                                const type: InputType | undefined = column.inputType;
+
+
+
+                                                if (elementType != "select") {
+                                                    editInput.setAttribute("type", type ?? "text");
+                                                }
+
+                                                if (elementType == "input") {
+                                                    let formatSt = "";
+                                                    if (type == "datetime-local") {
+                                                        formatSt = "YYYY-MM-DDTHH:mm";
+                                                    }
+                                                    else if (type == "date") {
+                                                        formatSt = "YYYY-MM-DD";
+                                                    }
+                                                    let newValue = moment(rowValue).utc(false).format(formatSt);
+                                                    editInput.setAttribute("value", newValue);
+                                                    
+                                                    editInput.onblur = (e) => {
+                                                         let newValue = moment(editInput.value).format(formatSt);
+                                                       
+                                                        if (newValue !== rowValue) {
+                                                            viewRows[index][column.name] = moment(editInput.value).utcOffset(3).format(formatSt);
+                                                            handleRowUpdate(index);
+                                                            viewRows[index][column.name] = moment(editInput.value).utcOffset(3).format(formatSt);
+
+                                                        }
+                                                    }
+                                                }
+                                                else if (elementType == "select") {
+                                                    column.options?.forEach((option: any) => {
+                                                        const opt = document.createElement("option");
+                                                        opt.value = option.value;
+                                                        opt.innerText = option.label;
+                                                        editInput.appendChild(opt);
+                                                    });
+                                                    editInput.value = rowValue;
+                                                    editInput.onchange = (e) => {
+                                                        const newValue = editInput.value;
+                                                        if (newValue !== rowValue) {
+                                                            viewRows[index][column.name] = newValue;
+                                                            handleRowUpdate(index)
+                                                        }
+                                                    }
+                                                }
+
+
+                                                
+                                                if(!input.children.length){
+                                                    
+
+                                                    input.innerText = '';
+                                                    input.appendChild(editInput);
+                                                }
+                                                editInput.focus();
+
+
+
+                                                editInput.addEventListener('blur', () => {
+                                                    input.removeChild(editInput);
+                                                    if(input.innerText == '')
+                                                    {
+                                                        input.innerText = oldInnerText;
+                                                        // handleRefresh();
+                                                    }
+                                                   
+
+                                                });
+
+
+
+                                            }}
+                                        >
+                                            {rowValue}
+
+                                        </TableCell>
+                                    )
+                                }
+
+                                )}
                                 {
                                     (actions?.showable || actions?.updateable || actions?.deleteable) &&
                                     <TableCell align="center" className="flex justify-center gap-2 border-b border-l border-r border-gray-300">

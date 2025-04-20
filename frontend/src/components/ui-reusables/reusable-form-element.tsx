@@ -12,6 +12,7 @@ export interface ReusableFormProps {
   required?: boolean;
   disabled?: boolean;
   placeholder?: string;
+  format?: string;
   onChange?: (value: string | number | readonly string[]) => void;
 }
 

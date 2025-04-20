@@ -49,6 +49,8 @@
     "framer-motion": "^12.5.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.483.0",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.48",
     "motion": "^12.5.0",
     "next": "15.2.3",
     "next-auth": "^4.24.11",

@@ -44,7 +44,9 @@ const Orders: React.FC = () => {
     {
       name: "order_date",
        label: "Sipariş Tarihi",
-       inputType: "datetime-local",  
+       inputType: "datetime-local",
+       format: "DD.MM.YYYY HH:mm",
+       type: "input",
     },
     {
       name: "status",

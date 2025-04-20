@@ -22,107 +22,100 @@ const DropdownButton = (item: NestedSidebarItem) => {
   return (
     <motion.div>
 
-    <Collapsible open={isOpen} onOpenChange={(open) => {
-     setIsOpen(open);
-      if(item.onClick)
-      {
-        item.onClick();
-      }
-    }}>
-      <CollapsibleTrigger asChild>
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full flex justify-between items-center px-2 py-2 hover:bg-gray-700"
-        >
-          <span
-
-            className="flex items-center gap-2">
-            {item?.icon && <Icon name={item.icon} size={18} />} {item.title}
-          </span>
-          <motion.span
-
-            initial={false}
-            animate={{
-              rotate: isOpen ? 0 : 180,
-              transition: { duration: 0.5 },
-            }}
+      <Collapsible open={isOpen} onOpenChange={(open) => {
+        setIsOpen(open);
+        if (item.onClick) {
+          item.onClick();
+        }
+      }}>
+        <CollapsibleTrigger asChild>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full flex justify-between items-center px-2 py-2 hover:bg-gray-700"
           >
-            <ChevronDown size={18} />
-          </motion.span>
+            <span
 
-        </motion.button>
-      </CollapsibleTrigger>
+              className="flex items-center gap-2">
+              {item?.icon && <Icon name={item.icon} size={18} />} {item.title}
+            </span>
+            <motion.span
 
-      <CollapsibleContent className="ml-6 flex flex-col">
-        {item.children?.map((child: any, index: number) => (
-          child?.url ?
-
-            <motion.a
-
-              key={index}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              href={child?.url || "#"}
-              className="p-2 hover:bg-gray-700 rounded flex items-center gap-2"
+              initial={false}
+              animate={{
+                rotate: isOpen ? 0 : 180,
+                transition: { duration: 0.5 },
+              }}
             >
-              {child?.icon && <Icon name={child.icon} size={18} />} {child.title}
-            </motion.a>
-            :
+              <ChevronDown size={18} />
+            </motion.span>
 
+          </motion.button>
+        </CollapsibleTrigger>
+
+        <CollapsibleContent className="ml-6 flex flex-col">
+          {item.children?.map((childItem: NestedSidebarItem, index: number) => (
             <div key={index} className="flex flex-col">
-              {
-                child.children && NestedSidebar({ items: child.children })
-
+              {!childItem?.children ?
+                <LinkButton {...childItem} />
+                :
+                <DropdownButton {...childItem} />
               }
             </div>
 
-        ))}
-      </CollapsibleContent>
-    </Collapsible>
-  </motion.div>
+          )
+
+          )}
+        </CollapsibleContent>
+      </Collapsible>
+    </motion.div>
+  );
+};
+
+const LinkButton = (item: NestedSidebarItem) => {
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild>
+        <motion.a
+          initial={false}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          animate={{
+            transition: { duration: 0.5 },
+          }}
+          className="cursor-pointer"
+          href={item?.url ?? "#"}
+        >
+          {item?.icon && <Icon name={item.icon} size={18} />}
+          <motion.span>{item.title}</motion.span>
+        </motion.a>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
   );
 };
 
 const NestedSidebar = ({ items }: { items: NestedSidebarItem[] }) => {
 
-  const [sidebarItems, setSidebarItems] = useState(items);
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
-      {sidebarItems.map((item: NestedSidebarItem, index: number) => {
+      {items.map((item: NestedSidebarItem, index: number) => {
 
         const hasChildren = item?.children != null && item.children.length > 0;
 
-        
+
 
         return (
           <div
 
             key={index}>
             {hasChildren ? (
-              <DropdownButton {...item} onClick={() => {  setSidebarItems([...sidebarItems]); }}/>
+              <DropdownButton {...item} />
             ) : (
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <motion.a
-                    initial={false}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    animate={{
-                      transition: { duration: 0.5 },
-                    }}
-                    className="cursor-pointer"
-                    href={item?.url || "#"}
-                  >
-                    {item?.icon && <Icon name={item.icon} size={18} />}
-                    <motion.span>{item.title}</motion.span>
-                  </motion.a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <LinkButton {...item} />
             )}
           </div>
         );

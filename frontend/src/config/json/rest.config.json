@@ -1,5 +1,5 @@
 {
-  "microservices": [
+  "hosts": [
     {
       "name": "default",
       "url": "http://localhost:8000/api/"

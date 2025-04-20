@@ -81,7 +81,7 @@ class MicroservicesContainer
 }
 
 const microServices : ApiService[] = []; 
-restConfig.microservices.forEach((service: typeof restConfig.microservices[0]) => {
+restConfig.hosts.forEach((service: typeof restConfig.hosts[0]) => {
   const apiService = new ApiService(service.name, service.url);
   microServices.push(apiService);
 }, [microServices]);
@@ -89,7 +89,5 @@ restConfig.microservices.forEach((service: typeof restConfig.microservices[0]) =
 
  const microservicesContainer = new MicroservicesContainer(microServices);
  const apiService : ApiService = microservicesContainer.getService("default") ?? new ApiService("default","http://localhost:8000/api/"); 
-
- console.log("apiService url : ", apiService.baseUrl);
 
 export { apiService, microservicesContainer } ;
