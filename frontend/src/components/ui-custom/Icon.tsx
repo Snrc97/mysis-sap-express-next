@@ -1,21 +1,6 @@
 /*************  ✨ Codeium Command 🌟  *************/
-import { LucideIcon, Home, Settings, User, Inbox, Bell, Search, Calendar, Table, Currency, DollarSign, Indent, LayoutDashboard } from "lucide-react";
-
-// Define a mapping of icon names to Lucide components
-const iconMap: Record<string, LucideIcon> = {
-  home: Home,
-  settings: Settings,
-  user: User,
-  inbox: Inbox,
-  bell: Bell,
-  search: Search,
-  calendar: Calendar,
-  table: Table,
-  currency: Currency,
-  dollar: DollarSign,
-  order: Indent,
-  dashboard: LayoutDashboard,
-};
+import * as LucideIcons from "lucide-react";
+import { LucideIcon } from 'lucide-react';
 
 type IconProps = {
   name: string;
@@ -23,9 +8,12 @@ type IconProps = {
   className?: string;
 };
 
-export default function Icon({ name, size = 24, className }: IconProps) {
-  const LucideComponent = iconMap[name]; // Get the icon component dynamically
+export default function Icon({ name, size = 24, className = "" }: IconProps) {
+  name = name.toUpperCaseFirst();
+  const LucideComponent = (LucideIcons as any)[name] as LucideIcon; // Cast to LucideIcon type
+  
   if (!LucideComponent) return null; // If the icon name is not found, return nothing
 
   return <LucideComponent size={size} className={className} />;
 }
+

@@ -11,16 +11,16 @@ import {
     SidebarProvider,
 } from "@/components/ui/sidebar";
 
-import NestedSidebar from "@/components/ui-reusables/nested-sidebar";
+import NestedSidebar, { NestedSidebarItem } from "@/components/ui-reusables/nested-sidebar";
 import { Button } from "../ui/button";
 import { destroyCookie } from "@/scripts/nookies-cookies";
 
 // Menu items.
-const items = [
+const items : NestedSidebarItem[] = [
     {
         title: "Yönetim Paneli",
-        url: "/",
         icon: "dashboard",
+        url: "/",
     },
     {
         title: "Sipariş Yönetimi",
@@ -28,10 +28,27 @@ const items = [
         isOpen: true,
         children: [
             {
+                title: "Bayilik ve Müşteri Yönetimi",
+                icon: "store",
+                isOpen: true,
+                children: [
+                    {
+                        title: "Bayiler",
+                        icon: "store",
+                        url: "/panel/dealers",
+                    },
+                    {
+                        title: "Müşteriler",
+                        icon: "users",
+                        url: "/panel/customers",
+                    }
+                ]
+            },
+            {
                 title: "Siparişler",
+                icon: "table",
                 url: "/panel/orders",
-                icon: "table"
-            }
+            },
         ]
     },
     // {
@@ -47,8 +64,8 @@ const items = [
     // },
     // {
     //     title: "Teklif Toplama ve Karşılaştırma",
-    //     url: "#",
     //     icon: "search",
+    //     url: "#",
     // },
    
 ]

@@ -1,11 +1,14 @@
 "use strict";
 import { DynamicKeyValue } from "@/components/ui-reusables/datatable";
 import { getCookie } from "./nookies-cookies";
+import * as restConfig from "@/config/json/rest.config.json";
 
 export class ApiService {
+  public name: string;
   public baseUrl: string;
 
-  constructor(baseUrl: string) {
+  constructor(name: string, baseUrl: string) {
+    this.name = name;
     this.baseUrl = baseUrl;
   }
 
@@ -65,11 +68,28 @@ export class ApiService {
   ): Promise<any> => this.request(endpoint, "DELETE", params);
 }
 
+class MicroservicesContainer
+{
+  public services: ApiService[] = [];
+  constructor(services: ApiService[]) {
+    this.services = services;
+  }
+  
+  public getService(name: string): ApiService | undefined {
+    return this.services.find(service => service.name == name);
+  }
+}
 
-
- const apiService = new ApiService("http://localhost:8000/api/");
+const microServices : ApiService[] = []; 
+restConfig.microservices.forEach((service: typeof restConfig.microservices[0]) => {
+  const apiService = new ApiService(service.name, service.url);
+  microServices.push(apiService);
+}, [microServices]);
 // const apiService = new ApiService("https://mysissoft.site/api/");
+
+ const microservicesContainer = new MicroservicesContainer(microServices);
+ const apiService : ApiService = microservicesContainer.getService("default") ?? new ApiService("default","http://localhost:8000/api/"); 
 
  console.log("apiService url : ", apiService.baseUrl);
 
-export { apiService } ;
+export { apiService, microservicesContainer } ;
