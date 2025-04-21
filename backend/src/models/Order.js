@@ -1,24 +1,27 @@
-module.exports = (sequelize) => {
-  const Order = sequelize.define('Order', {
-    id: {
-      type: require('sequelize').INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    bid_id: {
-      type: require('sequelize').INTEGER
-    },
-    order_date: {
-      type: require('sequelize').DATE,
-      defaultValue: require('sequelize').NOW
-    },
-    status: {
-      type: require('sequelize').ENUM('Pending', 'Completed', 'Cancelled'),
-      defaultValue: 'Pending'
-    }
-  }, {
-    tableName: 'orders',
-    timestamps: false
-  });
-  return Order;
-};
+const { DataTypes } = require('sequelize');
+const BaseModel = require('./BaseModel');
+
+class Order extends BaseModel {
+  constructor(sequelize) {
+    super(sequelize, 'Order', {
+      bid_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      order_date: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+      },
+      status: {
+        type: DataTypes.ENUM('draft','pending','confirmed','processing','shipped','delivered','cancelled','returned'),
+        defaultValue: 'pending'
+      }
+    }, {
+      tableName: 'orders',
+      timestamps: false
+    });
+  }
+}
+
+module.exports = Order;
+

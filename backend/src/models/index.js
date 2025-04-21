@@ -1,4 +1,4 @@
-const sequelize = require('../config/database');
+const sequelize = require('../../config/database');
 
 // Import models
 const Role = require('./Role')(sequelize);

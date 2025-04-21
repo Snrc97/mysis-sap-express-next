@@ -1,97 +1,94 @@
 const { User } = require("../models");
 
-exports.register = async (req, res) => {
-  try {
-    const newUser = await User.create(req.body);
-    res.status(201).customJson({ data: newUser, msg: "Kayıt başarılı" });
-  } catch (err) {
-    res.status(500).customJson({ success: false, msg: err.message });
-  }
-};
+const BaseController = require('./BaseController');
+const jwt = require('jsonwebtoken');
 
-exports.logout = async (req, res) => {
-  try {
-    res.clearCookie("auth-token");
-    res.status(200).customJson({ msg: "Çıkış Başarılı" });
-  } catch (err) {
-    res.status(500).customJson({ success: false, msg: err.message });
+class AuthController extends BaseController {
+  async register(req, res) {
+    try {
+      const newUser = await this.repo.create(req.body);
+      res.status(201).customJson({ data: newUser, msg: "Kayıt başarılı" });
+    } catch (err) {
+      res.status(500).customJson({ success: false, msg: err.message });
+    }
   }
-};
 
-exports.login = async (req, res) => {
-  try {
-    console.log(req.body.email, "\n", req.body.password);
-    const user = await User.findOne({
-      where: { email: req.body.email, password: req.body.password },
-    });
-    if (user) {
-      const jwt = require("jsonwebtoken");
-      const token = jwt.sign(
-        { userId: user.id, email: user.email },
-        process.env.JWT_SECRET || "secret",
-        { expiresIn: process.env.JWT_EXPIRES_IN || "1d" }
-      );
-      res.cookie("jwt", token, {
-        httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production" ? true : false,
+  async logout(req, res) {
+    try {
+      res.clearCookie("auth-token");
+      res.status(200).customJson({ msg: "Çıkış Başarılı" });
+    } catch (err) {
+      res.status(500).customJson({ success: false, msg: err.message });
+    }
+  }
+
+  async login(req, res) {
+    try {
+      const user = await this.repo.findOne({
+        where: { email: req.body.email, password: req.body.password },
       });
-      res.customJson({ data: { token }, msg: "Giriş başarılı" });
-    } else {
-      res
-        .status(401)
-        .customJson({ success: false, msg: "Geçersiz kimlik bilgileri" });
+      if (user) {
+        const token = jwt.sign(
+          { userId: user.id, email: user.email },
+          process.env.JWT_SECRET || "secret",
+          { expiresIn: process.env.JWT_EXPIRES_IN || "1d" }
+        );
+        res.cookie("jwt", token, {
+          httpOnly: true,
+          sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
+        });
+        res.customJson({ data: { token }, msg: "Giriş başarılı" });
+      } else {
+        res.status(401).customJson({ success: false, msg: "Geçersiz kimlik bilgileri" });
+      }
+    } catch (err) {
+      res.status(500).customJson({ success: false, msg: err.message });
     }
-  } catch (err) {
-    res.status(500).customJson({ success: false, msg: err.message });
   }
-};
 
-exports.forgotPassword = async (req, res) => {
-  try {
-    const user = await User.findOne({ where: { email: req.body.email } });
-    if (user) {
-      // Parola sıfırlama e-postası gönderme mantığı
-      res.customJson({ msg: "Parola sıfırlama e-postası gönderildi" });
-    } else {
-      res
-        .status(404)
-        .customJson({ success: false, msg: "Kullanıcı bulunamadı" });
+  async forgotPassword(req, res) {
+    try {
+      const user = await this.repo.findOne({ where: { email: req.body.email } });
+      if (user) {
+        // Parola sıfırlama e-postası gönderme mantığı
+        res.customJson({ msg: "Parola sıfırlama e-postası gönderildi" });
+      } else {
+        res.status(404).customJson({ success: false, msg: "Kullanıcı bulunamadı" });
+      }
+    } catch (err) {
+      res.status(500).customJson({ success: false, msg: err.message });
     }
-  } catch (err) {
-    res.status(500).customJson({ success: false, msg: err.message });
   }
-};
 
-exports.verifyEmail = async (req, res) => {
-  try {
-    const user = await User.findOne({ where: { email: req.body.email } });
-    if (user) {
-      // E-posta doğrulama mantığı
-      //   await user.sendEmailVerification();
-      res.customJson({ msg: "E-posta doğrulama e-postası gönderildi" });
-    } else {
-      res
-        .status(404)
-        .customJson({ success: false, msg: "Kullanıcı bulunamadı" });
+  async verifyEmail(req, res) {
+    try {
+      const user = await this.repo.findOne({ where: { email: req.body.email } });
+      if (user) {
+        // E-posta doğrulama mantığı
+        res.customJson({ msg: "E-posta doğrulama e-postası gönderildi" });
+      } else {
+        res.status(404).customJson({ success: false, msg: "Kullanıcı bulunamadı" });
+      }
+    } catch (err) {
+      res.status(500).customJson({ success: false, msg: err.message });
     }
-  } catch (err) {
-    res.status(500).customJson({ success: false, msg: err.message });
   }
-};
 
-exports.verifyPhoneNumber = async (req, res) => {
-  try {
-    const user = await User.findOne({ where: { phone: req.body.phone } });
-    if (user) {
-      // Telefon numarası doğrulama mantığı
-      res.customJson({ msg: "Telefon numarası başarıyla doğrulandı" });
-    } else {
-      res
-        .status(404)
-        .customJson({ success: false, msg: "Kullanıcı bulunamadı" });
+  async verifyPhoneNumber(req, res) {
+    try {
+      const user = await this.repo.findOne({ where: { phone: req.body.phone } });
+      if (user) {
+        // Telefon numarası doğrulama mantığı
+        res.customJson({ msg: "Telefon numarası başarıyla doğrulandı" });
+      } else {
+        res.status(404).customJson({ success: false, msg: "Kullanıcı bulunamadı" });
+      }
+    } catch (err) {
+      res.status(500).customJson({ success: false, msg: err.message });
     }
-  } catch (err) {
-    res.status(500).customJson({ success: false, msg: err.message });
   }
-};
+}
+const authController = new AuthController();
+module.exports = { authController };
+

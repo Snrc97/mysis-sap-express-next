@@ -1,18 +1,20 @@
-module.exports = (sequelize) => {
-  const Role = sequelize.define('Role', {
-    id: {
-      type: require('sequelize').INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    name: {
-      type: require('sequelize').STRING,
-      allowNull: false,
-      unique: true
-    }
-  }, {
-    tableName: 'roles',
-    timestamps: false
-  });
-  return Role;
-};
+const { sequelize, DataTypes } = require('sequelize');
+const BaseModel = require('./BaseModel');
+
+class Role extends BaseModel {
+  constructor(sequelize) {
+    super(sequelize, 'Role', {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      }
+    }, {
+      tableName: 'roles',
+      timestamps: false
+    });
+  }
+}
+const role = new Role(sequelize);
+module.exports = { role };
+
