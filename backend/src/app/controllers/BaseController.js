@@ -1,6 +1,8 @@
 const { BaseRepository } = require('../repositories');
-
 class BaseController {
+
+  static all = [];
+
   /**
    * @type {BaseRepository}
    */
@@ -10,6 +12,7 @@ class BaseController {
    * @param {BaseRepository} repo
    */
   constructor(repo) {
+    BaseController.all.push(this);
     this.repo = repo;
   }
 
@@ -69,5 +72,5 @@ class BaseController {
   }
 }
 
-module.exports = (model) => new BaseController(new BaseRepository(model));
+module.exports = { BaseController };
 
