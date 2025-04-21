@@ -1,8 +1,8 @@
 const { BaseController } = require('./BaseController');
-
+const orderRepo = require('../repositories/OrderRepository');
 class OrderController extends BaseController {
   constructor() {
-    super();
+    super(orderRepo.repository);
   }
 }
 

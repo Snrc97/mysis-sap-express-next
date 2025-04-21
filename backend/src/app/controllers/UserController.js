@@ -1,8 +1,8 @@
 const { BaseController } = require('./BaseController');
-
+const userRepo = require('../repositories/UserRepository');
 class UserController extends BaseController {
   constructor() {
-    super(UserRepository);
+    super(userRepo.repository);
   }
 }
 

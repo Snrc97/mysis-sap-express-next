@@ -1,9 +1,15 @@
-const { User } = require("../models");
 
 const BaseController = require('./BaseController');
 const jwt = require('jsonwebtoken');
 
+const userRepo = require('../repositories/UserRepository');
+
 class AuthController extends BaseController {
+
+    constructor() {
+      super(userRepo.repository);
+    }
+
   async register(req, res) {
     try {
       const newUser = await this.repo.create(req.body);
