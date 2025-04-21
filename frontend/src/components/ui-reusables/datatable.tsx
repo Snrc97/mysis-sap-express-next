@@ -4,12 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "../ui/pagination";
 import { ChevronLeftIcon, ChevronRightIcon, Eye, Pen, Rows, Trash, View } from "lucide-react";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
-import "@/helpers/extensions/all.tsx";
 import { ReusableFormElement, ReusableFormProps } from "./reusable-form-element";
 import Swal from 'sweetalert2'
 import { apiService } from "@/scripts/api-service";
 import moment from "moment-timezone";
-import { view } from 'framer-motion';
+import "@/helpers/extensions/all.tsx";
 
 export type DynamicKeyValue = { [key: string]: string | number | readonly string[] | Array<any> };
 
@@ -285,7 +284,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                                         <TableCell
                                             align="center"
                                             key={column.name}
-                                            className="border-b border-l border-r border-gray-300"
+                                            className="border-b border-l border-r border-gray-300 w-120"
                                             onClick={(e) => {
 
                                                 if (!actions?.updateable) {
@@ -294,10 +293,11 @@ const Datatable: React.FC<DataTableProps> = memo(
 
                                                 const elementType = column.type;
                                                 const editInput = document.createElement(elementType == "input" ? "input" : "select");
+                                                editInput.setAttribute("class", "w-full h-full bg-gray-200 text-gray-900 border border-gray-300 rounded-md p-2");
                                                
                                                 const input = e.currentTarget as HTMLTableCellElement
                                                 const oldInnerText = `${input.innerText}`;
-                                                const rowValue = viewRows[index][column.name];
+                                                let rowValue = viewRows[index][column.name];
 
 
                                                 const type: InputType | undefined = column.inputType;
@@ -316,14 +316,13 @@ const Datatable: React.FC<DataTableProps> = memo(
                                                     else if (type == "date") {
                                                         formatSt = "YYYY-MM-DD";
                                                     }
-                                                    let newValue = moment(rowValue).utc(false).format(formatSt);
-                                                    editInput.setAttribute("value", newValue);
+                                                    rowValue = moment(rowValue).utcOffset(0).format(formatSt);
+                                                    editInput.setAttribute("value", rowValue);
                                                     
                                                     editInput.onblur = (e) => {
-                                                         let newValue = moment(editInput.value).format(formatSt);
-                                                       
+                                                        let newValue = moment(editInput.value).format(formatSt);
                                                         if (newValue !== rowValue) {
-                                                            viewRows[index][column.name] = moment(editInput.value).utcOffset(3).format(formatSt);
+                                                            viewRows[index][column.name] = moment(editInput.value).utcOffset(6).format(formatSt);
                                                             handleRowUpdate(index);
                                                             viewRows[index][column.name] = moment(editInput.value).utcOffset(3).format(formatSt);
 

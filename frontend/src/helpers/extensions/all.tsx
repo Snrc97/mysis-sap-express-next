@@ -16,4 +16,3 @@ String.prototype.toUpperCaseFirst = function (this: string): string {
     if (this.length === 0) return this;
     return this.charAt(0).toLowerCase() + this.slice(1);
 };
-

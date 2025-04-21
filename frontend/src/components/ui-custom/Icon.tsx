@@ -1,6 +1,8 @@
 /*************  ✨ Codeium Command 🌟  *************/
 import * as LucideIcons from "lucide-react";
 import { LucideIcon } from 'lucide-react';
+import "@/helpers/extensions/all.tsx";
+
 
 type IconProps = {
   name: string;
