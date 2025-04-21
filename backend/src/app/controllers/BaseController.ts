@@ -2,16 +2,16 @@ import BaseModel from '../models/BaseModel';
 import BaseRepository from '../repositories/BaseRepository';
 
 namespace App.Controllers {
-  export class BaseController<T extends typeof BaseModel> {
-    static all : BaseController<any>[] = [];
+  export class BaseController {
+    static all : BaseController[] = [];
 
    
-    repo : BaseRepository<T> | undefined;
+    repo : BaseRepository<typeof BaseModel> | undefined;
 
     /**
      * @param {BaseRepository} repo
      */
-    constructor(repo) {
+    constructor(repo : BaseRepository<typeof BaseModel> | undefined) {
       BaseController.all.push(this);
       this.repo = repo;
     }

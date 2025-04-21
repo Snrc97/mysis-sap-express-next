@@ -1,13 +1,17 @@
-import { authController } from '../controllers/AuthController';
-import { validateLogin } from '../validation/authValidation';
+import OrderController from '../controllers/OrderController';
+import { validateLogin } from '../validation/AuthValidation';
 
 import * as express from 'express';
+import '../extensions/common';
+import UserController from '../controllers/UserController';
+import AuthController from '../controllers/AuthController';
+
+const authController = new AuthController();
 
   const router = express.Router();
-  require('../extensions/common');
 
   router.resource('/order', new OrderController());
-  router.resource('/user', UserController);
+  router.resource('/user', new UserController());
 
   router.post('/register', authController.register);
   router.post('/login', [validateLogin, authController.login]);
