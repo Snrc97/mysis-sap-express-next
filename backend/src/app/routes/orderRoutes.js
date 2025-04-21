@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const orderController = require('../controllers/OrderController');
-require("@/../../extensions/common");
+require("../extensions/common");
 
 router.resource('/order', orderController);
 

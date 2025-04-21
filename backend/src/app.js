@@ -1,5 +1,5 @@
 const express = require('express');
-require('../../extensions/common');
+require('./app/extensions/common');
 
 
 const app = express();
