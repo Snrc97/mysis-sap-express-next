@@ -1,4 +1,4 @@
-const { BaseRepository } = require('../repositories');
+const { BaseRepository } = require('../repositories/BaseRepository');
 class BaseController {
 
   static all = [];

@@ -1,11 +1,11 @@
-const { sequelize } = require('sequelize');
+const { sequelize, Sequelize } = require('sequelize');
 
-class BaseModel extends sequelize.Model {
+class BaseModel extends Sequelize.Model {
   static all = [];
 
   constructor(features, dataTypes) {
-    BaseModel.all.push(this);
     super();
+    BaseModel.all.push(this);
 
     this.init(dataTypes, {
       sequelize,

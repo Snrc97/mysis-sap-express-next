@@ -14,41 +14,50 @@ class UserModel extends BaseModel {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        field: 'id',
       },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        field: 'username'
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        field: 'email'
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        field: 'password'
       },
       first_name: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        field: 'first_name'
       },
       last_name: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        field: 'last_name'
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        field: 'phone'
       },
       is_active: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true
+        defaultValue: true,
+        field: 'is_active'
       },
       last_login: {
         type: DataTypes.DATE,
-        allowNull: true
+        allowNull: true,
+        field: 'last_login'
       }
     });
   }
