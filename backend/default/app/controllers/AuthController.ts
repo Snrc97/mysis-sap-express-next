@@ -1,17 +1,15 @@
 import BaseController from './BaseController';
 import jwt from 'jsonwebtoken';
 import UserRepository from '../repositories/UserRepository';
-import UserModel from '../models/UserModel';
 
-class AuthController extends BaseController<UserModel> {
+class AuthController extends BaseController {
   constructor() {
-    super();
-    this.repo = new UserRepository();
+    super(new UserRepository());
   }
 
-  register(req, res) {
+  async register(req, res) {
     try {
-      const newUser = this.repo?.create(req.body);
+      const newUser = await this.repo.create(req.body);
       res.status(201).customJson({ data: newUser, msg: 'Kayıt başarılı' });
     } catch (err) {
       res.status(500).customJson({ success: false, msg: err.message });
@@ -27,9 +25,9 @@ class AuthController extends BaseController<UserModel> {
     }
   }
 
-  login(req, res) {
+  async login(req, res) {
     try {
-      const user = this.repo?.findAll({
+      const user = await this.repo.findAll({
         where: { email: req.body.email, password: req.body.password },
       });
       if (user) {
@@ -54,9 +52,9 @@ class AuthController extends BaseController<UserModel> {
     }
   }
 
-  forgotPassword(req, res) {
+  async forgotPassword(req, res) {
     try {
-      const user = this.repo?.findAll({
+      const user = await this.repo.findAll({
         where: { email: req.body.email },
       });
       if (user) {
@@ -72,9 +70,9 @@ class AuthController extends BaseController<UserModel> {
     }
   }
 
-  verifyEmail(req, res) {
+  async verifyEmail(req, res) {
     try {
-      const user = this.repo?.findAll({
+      const user = await this.repo.findAll({
         where: { email: req.body.email },
       });
       if (user) {
@@ -90,9 +88,9 @@ class AuthController extends BaseController<UserModel> {
     }
   }
 
-  verifyPhoneNumber(req, res) {
+  async verifyPhoneNumber(req, res) {
     try {
-      const user = this.repo?.findAll({
+      const user = await this.repo.findAll({
         where: { phone: req.body.phone },
       });
       if (user) {

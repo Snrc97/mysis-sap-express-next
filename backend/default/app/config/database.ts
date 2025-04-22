@@ -1,6 +1,8 @@
-import { Sequelize, Dialect } from 'sequelize';
+import { Sequelize, Dialect, Model } from 'sequelize';
 import * as databaseConfig from './database.config.json' assert { type: 'json' };
-
+import { SequelizeOptions } from 'sequelize-typescript';
+import UserModel from '../models/UserModel';
+import OrderModel from '../models/OrderModel';
 class Database {
   name: string;
   sequelize: Sequelize;
@@ -44,22 +46,39 @@ class DatabaseManager {
   getDefSqu(): Sequelize | undefined {
     return this.getSqu('default');
   }
+
+  async syncAll() {
+    return Promise.all(
+      this.databases.map(async (db) => {
+        await db.sequelize.sync();
+      }))
+    }
+
 }
 
 const databaseManager = new DatabaseManager();
+
 databaseConfig.connections.forEach(
   (db) => {
     const database = new Database(
       db.name,
-      new Sequelize(db.database, db.username, db.password, {
+      new Sequelize({
+        username: db.username,
+        password: db.password,
+        database: db.database,
         host: db.host,
-        dialect: (db.dialect as Dialect),
+        dialect: db.dialect as Dialect,
         port: db.port,
         logging: false,
+
       })
     );
     databaseManager.add(database);
   },
   [databaseManager]
 );
-export { databaseManager };
+
+const sequelize =
+  databaseManager.getDefSqu() ?? new Sequelize('sqlite::memory:');
+
+export { databaseManager, sequelize };

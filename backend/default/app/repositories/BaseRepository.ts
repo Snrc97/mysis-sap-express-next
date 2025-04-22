@@ -1,43 +1,42 @@
 import { FindOptions, DestroyOptions, UpdateOptions } from 'sequelize';
-import BaseModel from '../models/BaseModel';
 
-class BaseRepository<T extends BaseModel> {
+class BaseRepository {
 
-  protected model: T | undefined;
+  protected model : any;
 
   constructor() {
   }
 
-  findAll(options?: FindOptions<T>) {
-    return this.model?.get(options);
+  async findAll(options?: FindOptions<typeof this.model>) {
+    return await this.model?.get(options);
   }
 
-  findOne(id: number, options?: FindOptions<T>) {
+  async findOne(id: number, options?: FindOptions<typeof this.model>) {
     if(options)
     {
       options.where = { ...options.where, id: id } as any;
     }
-    return this.model?.get((options))
+    return await this.model?.get((options))
   }
 
-  create(data: any) {
-    return this.model?.save(data);
+  async create(data: any) {
+    return await this.model?.save(data);
   }
 
-  update(
+  async update(
     id: number,
-    data: T,
-    options?: UpdateOptions<T>
+    data: typeof this.model,
+    options?: UpdateOptions<typeof this.model>
   ) {
-    return this.model?.update(data, { ...options, where: { id } });
+    return await this.model?.update(data, { ...options, where: { id } });
   }
 
-  delete(id: number, options?: DestroyOptions) {
+  async delete(id: number, options?: DestroyOptions) {
     const optionsCombined = {
       ...options,
       where: { id },
     };
-    return this.model?.destroy(optionsCombined);
+    return await this.model?.destroy(optionsCombined);
   }
 }
 

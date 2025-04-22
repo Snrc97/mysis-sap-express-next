@@ -1,15 +1,15 @@
-import BaseModel from '../models/BaseModel';
 import BaseRepository from '../repositories/BaseRepository';
 
-class BaseController<T extends BaseModel> {
-  protected repo: BaseRepository<T> | undefined;
+class BaseController {
+  protected repo: BaseRepository;
 
-  constructor() {
+  constructor(repo: BaseRepository) {
+    this.repo = repo;
   }
 
   async index(req, res) {
     await this.repo
-      ?.findAll()
+      .findAll()
       .then((data) => res.customJson({ data }))
       .catch((err) =>
         res.status(500).customJson({ success: false, msg: err.message })
@@ -18,7 +18,7 @@ class BaseController<T extends BaseModel> {
 
   async show(req, res) {
     await this.repo
-      ?.findOne(req.params.id)
+      .findOne(req.params.id)
       .then((data) => res.customJson({ data }))
       .catch((err) =>
         res.status(404).customJson({ success: false, msg: err.message })
@@ -27,8 +27,8 @@ class BaseController<T extends BaseModel> {
 
   async store(req, res) {
     await this.repo
-      ?.create(req.body)
-      ?.then((data) => res.customJson({ data }))
+      .create(req.body)
+      .then((data) => res.customJson({ data }))
       .catch((err) =>
         res.status(400).customJson({ success: false, msg: err.message })
       );
@@ -36,8 +36,8 @@ class BaseController<T extends BaseModel> {
 
   async update(req, res) {
     await this.repo
-      ?.update(req.params.id, req.body)
-      ?.then((data) => res.customJson({ data }))
+      .update(req.params.id, req.body)
+      .then((data) => res.customJson({ data }))
       .catch((err) =>
         res.status(400).customJson({ success: false, msg: err.message })
       );
@@ -45,8 +45,8 @@ class BaseController<T extends BaseModel> {
 
   async destroy(req, res) {
     await this.repo
-      ?.delete(req.params.id)
-      ?.then((data) => res.customJson({ data }))
+      .delete(req.params.id)
+      .then((data) => res.customJson({ data }))
       .catch((err) =>
         res.status(404).customJson({ success: false, msg: err.message })
       );

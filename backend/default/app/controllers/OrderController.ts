@@ -1,13 +1,11 @@
 import BaseController from './BaseController';
 import OrderRepository from '../repositories/OrderRepository';
-import OrderModel from '../models/OrderModel';
 
-class OrderController extends BaseController<OrderModel> {
+class OrderController extends BaseController {
   constructor() {
-    super();
-    this.repo = new OrderRepository();
-    console.log(this.repo);
+    super(new OrderRepository());
   }
 }
 
-export default OrderController;
+const orderController = new OrderController();
+export default orderController;

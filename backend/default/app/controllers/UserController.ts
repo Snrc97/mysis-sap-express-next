@@ -1,12 +1,11 @@
 import BaseController from './BaseController';
 import UserRepository from '../repositories/UserRepository';
-import UserModel from '../models/UserModel';
 
-class UserController extends BaseController<UserModel> {
+class UserController extends BaseController {
   constructor() {
-    super();
-    this.repo = new UserRepository();
+    super(new UserRepository());
   }
 }
 
-export default UserController;
+const userController = new UserController();
+export default userController;
