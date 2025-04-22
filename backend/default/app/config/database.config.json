@@ -1,0 +1,13 @@
+{
+  "connections": [
+    {
+      "name": "default",
+      "dialect": "mysql",
+      "database": "mys__sap_common",
+      "host": "localhost",
+      "port": 3306,
+      "username": "mysisroot",
+      "password": "X(F5hijbi*3e@)(-"
+    }
+  ]
+}
