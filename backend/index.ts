@@ -1,8 +1,8 @@
 import app from './src/app.js';
-import { sequelize } from './src/models/index.ts';
-import BaseModel from './src/models/BaseModel';
+import { Sequelize } from 'sequelize';
 // Sync database and start server
 const PORT = process.env.PORT || 3000;
+const sequelize = new Sequelize('mysql::memory:'); // Example using SQLite in memory
 sequelize.sync()
   .then(() => {
     app.listen(PORT, () => {

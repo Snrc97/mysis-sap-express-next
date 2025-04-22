@@ -16,7 +16,7 @@ namespace App.Controllers {
       this.repo = repo;
     }
 
-    getAll(req, res) {
+    index(req, res) {
       this.repo?.findAll()
         .then((data) => res.customJson({ data }))
         .catch((err) =>
@@ -24,7 +24,7 @@ namespace App.Controllers {
         );
     }
 
-    getById(req, res) {
+    show(req, res) {
       this.repo?.findOne(req.params.id)
         .then((data) => res.customJson({ data }))
         .catch((err) =>
@@ -32,7 +32,7 @@ namespace App.Controllers {
         );
     }
 
-    create(req, res) {
+    store(req, res) {
       this.repo?.create(req.body)
         .then((data) => res.customJson({ data }))
         .catch((err) =>
@@ -48,7 +48,7 @@ namespace App.Controllers {
         );
     }
 
-    delete(req, res) {
+    destroy(req, res) {
       this.repo?.delete(req.params.id)
         .then((data) => res.customJson({ data }))
         .catch((err) =>

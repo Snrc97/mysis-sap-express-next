@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "car inventory backend",
   "type": "module",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node index.ts",
+    "dev": "nodemon index.ts",
     "vercel-build": "echo hello"
   },
   "keywords": [
@@ -16,6 +16,7 @@
   "author": "Muturi David",
   "license": "ISC",
   "dependencies": {
+    "@types/express-serve-static-core": "^5.0.6",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
