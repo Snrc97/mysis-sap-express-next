@@ -15,7 +15,7 @@ module.exports = {
       {
         name: 'backend',
         cwd: './backend',
-        script: 'index.js', // or 'npm start' if using package.json
+        script: 'index.ts', // or 'npm start' if using package.json
         env: {
           NODE_ENV: 'production',
           PORT: 8000
