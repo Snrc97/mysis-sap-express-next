@@ -10,7 +10,7 @@ class BaseController {
   async index(req, res) {
     await this.repo
       .findAll()
-      .then((data) => res.customJson({ data }))
+      .then((data) => res.customJson({ data: data }))
       .catch((err) =>
         res.status(500).customJson({ success: false, msg: err.message })
       );
@@ -18,7 +18,7 @@ class BaseController {
 
   async show(req, res) {
     await this.repo
-      .findOne(req.params.id)
+      .findById(req.params.id)
       .then((data) => res.customJson({ data }))
       .catch((err) =>
         res.status(404).customJson({ success: false, msg: err.message })

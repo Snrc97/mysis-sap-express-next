@@ -8,4 +8,5 @@ class UserController extends BaseController {
 }
 
 const userController = new UserController();
-export default userController;
+export default UserController;
+export { userController }

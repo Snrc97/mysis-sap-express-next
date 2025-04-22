@@ -4,7 +4,7 @@ import BaseRepository from './BaseRepository';
 class OrderRepository extends BaseRepository {
   constructor() {
     super();
-    this.model = new OrderModel();
+    this.model = OrderModel;
     
   }
 }

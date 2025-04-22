@@ -31,20 +31,20 @@ Object.defineProperty(Router, 'resource', {
     const id = `${base}/:id`;
 
     if (controller.index) {
-      this.get(base, controller.index);
+      this.get(base, async (req, res) => await controller.index(req, res));
     }
     if (controller.show) {
-      this.get(id, controller.show);
+      this.get(id, async (req, res) => await controller.show(req, res));
     }
     if (controller.store) {
-      this.post(base, controller.store);
+      this.post(base, async (req, res) => await controller.store(req, res));
     }
     if (controller.update) {
-      this.put(id, controller.update);
-      this.patch(id, controller.update);
+      this.put(id, async (req, res) => await controller.update(req, res));
+      this.patch(id, async (req, res) => await controller.update(req, res));
     }
     if (controller.destroy) {
-      this.delete(id, controller.destroy);
+      this.delete(id, async (req, res) => await controller.destroy(req, res));
     }
 
     return this;

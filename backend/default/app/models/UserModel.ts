@@ -1,9 +1,27 @@
-import { Sequelize, DataTypes } from 'sequelize';
-import { databaseManager, sequelize } from '../config/database';
-import { table } from 'console';
+import { Sequelize, DataTypes, Model } from 'sequelize';
+import { sequelize } from '../config/database';
 
-const UserModel = sequelize.define(
-  'User',
+interface UserAttributes {
+  id: number;
+  username: string;
+  password: string;
+  email: string;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  is_active?: boolean;
+  last_login?: Date;
+}
+
+class UserModel extends Model<UserAttributes> {
+
+
+  static associate(models: any) {
+    // Define associations here
+    // Example: this.hasMany(models.OrderModel, { foreignKey: 'user_id' });
+  }
+}
+UserModel.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -27,14 +45,17 @@ const UserModel = sequelize.define(
     first_name: {
       type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: '',
     },
     last_name: {
       type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: '',
     },
     phone: {
       type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: '',
     },
     is_active: {
       type: DataTypes.BOOLEAN,
@@ -43,11 +64,13 @@ const UserModel = sequelize.define(
     last_login: {
       type: DataTypes.DATE,
       allowNull: true,
+      defaultValue: null,
     },
   },
   {
+    sequelize,
     tableName: '_user',
+    timestamps: false,
   }
 );
-
 export default UserModel;

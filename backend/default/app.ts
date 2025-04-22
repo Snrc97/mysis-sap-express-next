@@ -4,13 +4,13 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 const app : any = express();
 
-app.options('*', cors());
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-});
+// app.options('*', cors());
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     next();
+// });
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 import router from './app/routes/Routes';
 

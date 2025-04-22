@@ -50,28 +50,34 @@ class DatabaseManager {
   async syncAll() {
     return Promise.all(
       this.databases.map(async (db) => {
-        await db.sequelize.sync();
-      }))
-    }
+        await db.sequelize.sync().then((result) => {
+          
+          console.log(`✅ ${db.name} DB synced!`);
+        });
 
+      })
+    );
+  }
 }
 
 const databaseManager = new DatabaseManager();
 
 databaseConfig.connections.forEach(
   (db) => {
+    const sequelizeOptions: SequelizeOptions = {
+      database: db.database,
+      username: db.username,
+      password: db.password,
+      dialect: db.dialect as Dialect,
+      host: db.host,
+      port: db.port,
+      logging: false
+
+     
+    }
     const database = new Database(
       db.name,
-      new Sequelize({
-        username: db.username,
-        password: db.password,
-        database: db.database,
-        host: db.host,
-        dialect: db.dialect as Dialect,
-        port: db.port,
-        logging: false,
-
-      })
+      new Sequelize(sequelizeOptions )
     );
     databaseManager.add(database);
   },
@@ -79,6 +85,12 @@ databaseConfig.connections.forEach(
 );
 
 const sequelize =
-  databaseManager.getDefSqu() ?? new Sequelize('sqlite::memory:');
+  databaseManager.getDefSqu() ?? new Sequelize('mysql::memory:');
+
+sequelize
+  .authenticate()
+  .then(() => console.log('✅ DB connected!'))
+  .catch((err) => console.error('❌ DB connection error:', err));
+
 
 export { databaseManager, sequelize };
