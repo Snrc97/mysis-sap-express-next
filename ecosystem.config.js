@@ -14,8 +14,9 @@ module.exports = {
       // Express.js (Backend)
       {
         name: 'backend',
-        cwd: './backend',
-        script: 'index.ts', // or 'npm start' if using package.json
+        cwd: './backend/default',
+        script: 'npm',
+        args: 'start',
         env: {
           NODE_ENV: 'production',
           PORT: 8000
