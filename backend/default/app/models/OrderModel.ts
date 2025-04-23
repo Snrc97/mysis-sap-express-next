@@ -1,4 +1,4 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
 import Order from '../../../../business/entities/erp/Order';
 
