@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 import { apiService } from "@/scripts/api-service";
 import moment from "moment-timezone";
 import "@/helpers/extensions/all.tsx";
+import ColumnMap from '@/types/ColumnMap';
 
 export type DynamicKeyValue = { [key: string]: string | number | readonly string[] | Array<any> };
 
@@ -28,13 +29,10 @@ export type CrudInfo = {
     detailColumns?: ReusableFormProps[];
 }
 
-export type ColumnMapping = {
-    tableColumns: ReusableFormProps[];
-    formColumns: ReusableFormProps[];
-    detailColumns: ReusableFormProps[];
-}
+
 
 export type DataTableProps = {
+    columnMap?: ColumnMap;
     columns: ReusableFormProps[];
     rows?: { [key: string]: string | number | boolean }[];
     crudInfo?: CrudInfo,
@@ -42,7 +40,7 @@ export type DataTableProps = {
     url?: string;
 };
 
-type ModelMode = "create" | "update" | "show";
+export type CrudMode = "create" | "update" | "show";
 
 const getRowsByPaging = (rows: any[], currentPage: number, rowsPerPage: number) => {
     return rows.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
@@ -70,18 +68,19 @@ const getRowValueForFormattedColumn = ({ rowValue, column }: { rowValue: any, co
 }
 
 const Datatable: React.FC<DataTableProps> = memo(
-    forwardRef(({ columns, rows, actions, url }, ref: React.Ref<HTMLTableElement>) => {
+    forwardRef(({ columns, rows, actions, url, columnMap }, ref: React.Ref<HTMLTableElement>) => {
 
 
 
         const [refreshing, setRefreshing] = useState(false);
-        const [modalMode, setModalMode] = useState<ModelMode>("create");
+        const [crudMode, setCrudMode] = useState<CrudMode>("create");
         const [isModalOpen, setIsModalOpen] = useState(false);
         const [selectedRowIndex, setSelectedRowIndex] = useState<number>();
         const [modalInputs, setModalInputs] = useState<DynamicKeyValue>({});
         const [currentPage, setCurrentPage] = useState(1);
         const [rowsPerPage, setRowsPerPage] = useState(1);
-        const [viewColumns, setViewColumns] = useState(columns);
+        const [dataColumnMap, setDataColumnMap] = useState(columnMap);
+        const [viewColumns, setViewColumns] = useState(columnMap?.table || columns);
         const [viewRows, setViewRows] = useState(rows ?
             getRowsByPaging(rows, currentPage, rowsPerPage) : []
         );
@@ -93,10 +92,10 @@ const Datatable: React.FC<DataTableProps> = memo(
                     console.log("data", x.data);
                     setViewRows(x.data);
 
-                    if (columns.length < 1 && x.data.length > 0) {
-                        columns = Object.keys(x.data[0]).map((x: any) => { return { name: x, label: x } });
-                        setViewColumns(columns);
-                    }
+                    // if (columns.length < 1 && x.data.length > 0) {
+                    //     columns = Object.keys(x.data[0]).map((x: any) => { return { name: x, label: x } });
+                    //     setViewColumns(columns);
+                    // }
 
                     if (onDataLoaded) {
                         onDataLoaded(x.data);
@@ -117,7 +116,7 @@ const Datatable: React.FC<DataTableProps> = memo(
 
         };
 
-        const handleModalOpen = (isOpen: boolean, mode: ModelMode, selectedIndex?: number) => {
+        const handleModalOpen = (isOpen: boolean, mode: CrudMode, selectedIndex?: number) => {
             if (selectedIndex !== undefined) {
                 setModalInputs({ ...viewRows[selectedIndex] });
             }
@@ -125,7 +124,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                 setModalInputs({});
             }
             setSelectedRowIndex(selectedIndex ?? undefined);
-            setModalMode(mode ?? "show");
+            setCrudMode(mode ?? "show");
             setIsModalOpen(isOpen);
 
 
@@ -194,7 +193,7 @@ const Datatable: React.FC<DataTableProps> = memo(
 
                 let submit_url = url;
 
-                const method = modalMode === "create" ? "POST" : "PUT";
+                const method = crudMode === "create" ? "POST" : "PUT";
                 if (method == "POST" && modalInputs?.id != undefined) {
                     delete modalInputs.id;
                 }
@@ -428,12 +427,12 @@ const Datatable: React.FC<DataTableProps> = memo(
                     </PaginationContent>
                 </Pagination>
 
-                <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <Dialog open={isModalOpen} onOpenChange={setIsModalOpen} >
 
-                    <DialogContent>
-                        <DialogTitle>{modalMode === "create" ? "Yeni Kayıt" : modalMode === "update" ? "Güncelle" : "Detay"}</DialogTitle>
+                    <DialogContent className="overflow-y-scroll max-h-[calc(100vh-200px)]">
+                        <DialogTitle>{crudMode === "create" ? "Yeni Kayıt" : crudMode === "update" ? "Güncelle" : "Detay"}</DialogTitle>
                         <form className="grid grid-cols-1 py-5">
-                            {viewColumns.map((column) => (column.name !== "id" &&
+                            {columnMap?.getByCrudMode(crudMode).map((column) => (column.name !== "id" &&
                                 <div key={column.name} className="flex flex-col gap-3">
                                     <label htmlFor={column.name} className="text-sm font-medium">
                                         {column.label.toUpperCaseFirst()} :
@@ -449,7 +448,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                                             required={true}
                                             defaultValue={selectedRowIndex !== undefined ? (viewRows[selectedRowIndex]?.[column.name] ?? undefined) : undefined}
                                             onChange={(value) => { modalInputs[column.name] = value; }}
-                                            disabled={modalMode === "show"}
+                                            disabled={crudMode === "show"}
                                         />
 
 
@@ -459,9 +458,10 @@ const Datatable: React.FC<DataTableProps> = memo(
                             ))}
                         </form>
                         <div className="flex flex-row justify-end items-center gap-2 p-0 m-0">
-                            <Button onClick={() => setIsModalOpen(false)}>Kapat</Button>
+                            <Button className="bg-gray-600 hover:bg-gray-700 cursor-pointer text-gray-300 hover:text-gray-200 border-white" 
+                            onClick={() => setIsModalOpen(false)}>Kapat</Button>
                             {
-                                modalMode !== "show" &&
+                                crudMode !== "show" &&
                                 <Button
                                     onClick={handleModalSubmit}
                                     type="submit"

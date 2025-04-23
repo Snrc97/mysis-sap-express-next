@@ -8,13 +8,16 @@ export interface ReusableFormProps {
   label: string;
   type?: "input" | "select";
   elementType?: InputType;
-  options?: { value: string | number; label: string }[];
   defaultValue?: string | number | readonly string[];
   required?: boolean;
   disabled?: boolean;
   placeholder?: string;
   format?: string;
   onChange?: (value: string | number | readonly string[]) => void;
+
+  // case type : select
+  options?: { value: string | number; label: string }[];
+
 }
 
 export const ReusableFormElement: React.FC<ReusableFormProps> = ({

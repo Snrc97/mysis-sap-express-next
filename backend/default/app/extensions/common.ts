@@ -2,6 +2,8 @@ import { Router, response } from 'express';
 import { RequestHandler } from 'express-serve-static-core';
 import BaseController from '../controllers/BaseController';
 
+
+
 declare module 'express-serve-static-core' {
   interface Response {
     customJson(data: unknown): Response;
@@ -77,6 +79,7 @@ Router.prototype.resource = function (
 
   return this;
 };
+
 
 // declare module 'express-serve-static-core' {
 //     interface Router {
