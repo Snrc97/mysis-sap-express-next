@@ -1,3 +1,4 @@
+
 import React, { forwardRef, memo, useCallback, useEffect, useState } from "react";
 import { Table, TableHeader, TableBody, TableRow, TableCell, TableHead } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,12 @@ export type CrudInfo = {
     detailColumns?: ReusableFormProps[];
 }
 
+export type ColumnMapping = {
+    tableColumns: ReusableFormProps[];
+    formColumns: ReusableFormProps[];
+    detailColumns: ReusableFormProps[];
+}
+
 export type DataTableProps = {
     columns: ReusableFormProps[];
     rows?: { [key: string]: string | number | boolean }[];
@@ -44,7 +51,7 @@ const getRowsByPaging = (rows: any[], currentPage: number, rowsPerPage: number) 
 const getRowValueForFormattedColumn = ({ rowValue, column }: { rowValue: any, column: ReusableFormProps }) => {
     if (column.type == "input") {
         if (column.format) {
-            switch (column.inputType) {
+            switch (column.elementType) {
                 case "date":
 
                     rowValue = moment.utc(rowValue).format(column.format);
@@ -83,6 +90,7 @@ const Datatable: React.FC<DataTableProps> = memo(
             setRefreshing(true);
             if (url) {
                 await apiService.get(url).then(x => {
+                    console.log("data", x.data);
                     setViewRows(x.data);
 
                     if (columns.length < 1 && x.data.length > 0) {
@@ -300,7 +308,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                                                 let rowValue = viewRows[index][column.name];
 
 
-                                                const type: InputType | undefined = column.inputType;
+                                                const type: InputType | undefined = column.elementType;
 
 
 
@@ -435,8 +443,8 @@ const Datatable: React.FC<DataTableProps> = memo(
                                         <ReusableFormElement
                                             name={column.name}
                                             label={column.label}
-                                            type={column?.inputType === "select" ? "select" : column?.type ?? "input"}
-                                            inputType={column?.inputType ?? "text"}
+                                            type={column?.elementType === "select" ? "select" : column?.type ?? "input"}
+                                            elementType={column?.elementType ?? "text"}
                                             options={column?.options ?? []}
                                             required={true}
                                             defaultValue={selectedRowIndex !== undefined ? (viewRows[selectedRowIndex]?.[column.name] ?? undefined) : undefined}

@@ -1,9 +1,9 @@
 module.exports = {
     apps: [
-      // Next.js (Frontend)
+      // Next.js (next)
       {
-        name: 'frontend',
-        cwd: './frontend',
+        name: 'next',
+        cwd: './next',
         script: 'npm',
         args: 'start',
         env: {

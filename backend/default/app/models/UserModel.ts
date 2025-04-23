@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config/database';
 
-interface UserAttributes {
+export interface UserEntity {
   id: number;
   username: string;
   password: string;
@@ -13,7 +13,7 @@ interface UserAttributes {
   last_login?: Date;
 }
 
-class UserModel extends Model<UserAttributes> {
+class UserModel extends Model<UserEntity> {
 
 
   static associate(models: any) {

@@ -15,15 +15,18 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "start:backend": "npm run start --prefix backend",
-    "start:frontend": "npm run start --prefix frontend",
-    "dev:backend": "npm run dev --prefix backend",
-    "dev:frontend": "npm run dev --prefix frontend"
+    "start": "concurrently \"npm run start:backend\" \"npm run start:next\"",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:next\"",
+    "start:backend": "npm run start --prefix backend/default",
+    "start:next": "npm run start --prefix next",
+    "dev:backend": "npm run dev --prefix backend/default",
+    "dev:next": "npm run dev --prefix next"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
     "npm-run-all": "^4.1.5"
+  },
+  "dependencies": {
+    "next": "^15.3.1"
   }
 }

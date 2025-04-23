@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
 
-interface OrderAttributes {
+export interface OrderEntity {
 
   id: number;
   order_number: number;
@@ -20,7 +20,7 @@ interface OrderAttributes {
   notes?: string;
 }
 
-class OrderModel extends Model <OrderAttributes> {
+class OrderModel extends Model <OrderEntity> {
 
   
   static associate(models: any) {
