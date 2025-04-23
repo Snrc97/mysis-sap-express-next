@@ -36,7 +36,13 @@
       "cancelled": "Iptal Edildi",
       "returned": "İade Edildi",
       "added": "Eklendi"
-    }
+    },
+    "order_status": "Sipariş Durumu",
+    "order_date": "Sipariş Tarihi",
+    "order": "Sipariş",
+    "customer": "Müşteri",
+    "offer": "Teklif",
+    "offer_status": "Teklif Durumu"
   },
 
   "common": {
@@ -61,6 +67,8 @@
     "search": "Ara",
     "search_for": "{what?} Ara",
     "searching": "Aranıyor",
+    "status": "Durum",
+    "actions": "İşlemler",
 
     "tr_dropdown": "Türkçe",
     "en_dropdown": "İngilizce",

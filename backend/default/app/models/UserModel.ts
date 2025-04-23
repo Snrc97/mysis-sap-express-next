@@ -1,19 +1,9 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config/database';
+import User from '../../../../business/entities/erp/User';
 
-export interface UserEntity {
-  id: number;
-  username: string;
-  password: string;
-  email: string;
-  first_name?: string;
-  last_name?: string;
-  phone?: string;
-  is_active?: boolean;
-  last_login?: Date;
-}
 
-class UserModel extends Model<UserEntity> {
+class UserModel extends Model<User> {
 
 
   static associate(models: any) {

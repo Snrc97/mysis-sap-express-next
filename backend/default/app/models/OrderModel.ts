@@ -1,26 +1,9 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
+import Order from '../../../../business/entities/erp/Order';
 
-export interface OrderEntity {
 
-  id: number;
-  order_number: number;
-  customer_id: number;
-  order_date?: Date;
-  status?: string;
-  total_amount?: number;
-  discount_amount?: number;
-  tax_amount?: number;
-  shipping_amount?: number;
-  grand_total?: number;
-  shipping_address_id: number;
-  billing_address_id: number;
-  payment_method: string;
-  payment_status?: string;
-  notes?: string;
-}
-
-class OrderModel extends Model <OrderEntity> {
+class OrderModel extends Model <Order> {
 
   
   static associate(models: any) {
