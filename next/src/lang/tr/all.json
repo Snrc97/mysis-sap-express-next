@@ -41,6 +41,15 @@
     "list_of": "{what?} Listesi",
     "add": "{what?} Ekle",
     "edit": "{what?} Düzenle",
-    "delete": "{what?} Sil"
+    "delete": "{what?} Sil",
+    "save": "Kaydet",
+    "close": "Kapat",
+    "search": "Ara",
+    "search_for": "{what?} Ara",
+    "searching": "Aranıyor",
+
+    "tr_dropdown": "Türkçe",
+    "en_dropdown": "İngilizce",
+    "de_dropdown": "Almanca"
   }
 }

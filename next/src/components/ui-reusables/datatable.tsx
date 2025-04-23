@@ -1,4 +1,4 @@
-
+'use client'
 import React, { forwardRef, memo, useCallback, useEffect, useState } from "react";
 import { Table, TableHeader, TableBody, TableRow, TableCell, TableHead } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -8,8 +8,8 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, D
 import { ReusableFormElement, ReusableFormProps } from "./reusable-form-element";
 import Swal from 'sweetalert2'
 import { apiService } from "@/scripts/api-service";
-import moment from "moment-timezone";
-import "@/helpers/extensions/all.tsx";
+import moment, { lang } from "moment-timezone";
+import "@/helpers/extensions/all.ts";
 import ColumnMap from '@/types/ColumnMap';
 
 export type DynamicKeyValue = { [key: string]: string | number | readonly string[] | Array<any> };
@@ -467,7 +467,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                                     type="submit"
                                     className="bg-blue-900 hover:bg-blue-950 cursor-pointer text-gray-300 hover:text-gray-200 border-white"
                                 >
-                                    Kaydet
+                                    {trans("common.save")}
                                 </Button>
                             }
                         </div>

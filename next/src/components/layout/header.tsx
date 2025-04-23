@@ -1,9 +1,10 @@
 import React from "react";
 import ThemeToggle from "@/components/theme-toggle";
 import Icon from "@/components/ui-custom/Icon";
-import { ChevronDown } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import dynamic from 'next/dynamic';
+const LanguageDropdown = dynamic(() => import('@/components/ui-custom/LanguageDropdown'), { ssr: false });
 
 type HeaderProps = {
   title: string;
@@ -19,7 +20,10 @@ const Header: React.FC<any> = ({ title, description }: HeaderProps) => {
       </div>
 
       <div className="flex flex-row text-left gap-5">
+    
+    <LanguageDropdown/>
         <ThemeToggle />
+
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
