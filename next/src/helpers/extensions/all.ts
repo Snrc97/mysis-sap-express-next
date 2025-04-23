@@ -1,4 +1,3 @@
-'use client';
 
 export {};
 
@@ -52,6 +51,7 @@ appLangs.forEach(
 const translations =
   translationsObject[appLang] || translationsObject[appLangs[0]]; // default language
 global.trans = (key: string, args?: { [key: string]: string }) => {
+    const empty = '*' + key + '*';
   let translation: any = '';
   let current: any = translations;
   const keys = key.split('.');
@@ -59,15 +59,15 @@ global.trans = (key: string, args?: { [key: string]: string }) => {
     for (let i = 0; i < keys.length - 1; i++) {
       const k = keys[i];
       if (current[k] === undefined) {
-        return key;
+        return empty;
       }
       current = current[k];
     }
-    translation = current[keys[keys.length - 1]];
+    translation = current[keys[keys.length - 1]] ?? empty;
   } else {
     translation = current[key];
     if (translation === undefined) {
-      return '*' + key + '*';
+      return empty;
     }
   }
 

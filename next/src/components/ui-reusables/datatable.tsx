@@ -12,6 +12,7 @@ import moment, { lang } from "moment-timezone";
 import "@/helpers/extensions/all.ts";
 import ColumnMap from '@/types/ColumnMap';
 
+
 export type DynamicKeyValue = { [key: string]: string | number | readonly string[] | Array<any> };
 
 export type InputType = "text" | "number" | "select" | "checkbox" | "radio" | "date" | "datetime-local" | "time";
@@ -80,7 +81,7 @@ const Datatable: React.FC<DataTableProps> = memo(
         const [currentPage, setCurrentPage] = useState(1);
         const [rowsPerPage, setRowsPerPage] = useState(1);
         const [dataColumnMap, setDataColumnMap] = useState(columnMap);
-        const [viewColumns, setViewColumns] = useState(columnMap?.table || columns);
+        const [viewColumns, setViewColumns] = useState(dataColumnMap?.table || columns);
         const [viewRows, setViewRows] = useState(rows ?
             getRowsByPaging(rows, currentPage, rowsPerPage) : []
         );
@@ -381,7 +382,6 @@ const Datatable: React.FC<DataTableProps> = memo(
                                             }}
                                         >
                                             {rowValue}
-
                                         </TableCell>
                                     )
                                 }

@@ -2,36 +2,36 @@ import { ReusableFormProps } from '@/components/ui-reusables/reusable-form-eleme
 import ColumnMap from '@/types/ColumnMap';
 import { OrderStatus, OrderStatus_options } from '@/types/order';
 
+const labels = {
+  order_number: trans('erp.order_number'),
+  customer: trans('erp.customer'),
+  order_date:  trans('erp.order_date'),
+  status:  trans('common.status'),
+}
 
-
-
-
-const orderMaps = {
-  table: [],
-};
 const table: ReusableFormProps[] = [
   {
     name: 'order_number',
-    label: 'Sipariş Numarası',
+    label: labels.order_number,
     type: 'input',
     elementType: 'number',
   },
   {
     name: 'customer_id',
-    label: 'Müşteri',
+    label: labels.customer,
     type: 'input',
     elementType: 'number',
   },
   {
     name: 'order_date',
-    label: 'Sipariş Tarihi',
+    label: labels.order_date,
     elementType: 'datetime-local',
     format: 'DD.MM.YYYY HH:mm',
     type: 'input',
   },
   {
     name: 'status',
-    label: 'Durum',
+    label: labels.status,
     type: 'select',
     options: OrderStatus_options,
   },
@@ -40,7 +40,7 @@ const table: ReusableFormProps[] = [
 const create: ReusableFormProps[] = [
   {
     name: 'order_number',
-    label: 'Sipariş Numarası',
+    label: labels.order_number,
     type: 'input',
     elementType: 'number',
   },
@@ -128,4 +128,12 @@ const columnMap: ColumnMap = new ColumnMap(
  }
 );
 
-export { columnMap };
+export type OrderMapsType = {
+  columnMap: ColumnMap;
+};
+
+const OrderMaps : OrderMapsType = {
+  columnMap,
+};
+
+export default OrderMaps;
