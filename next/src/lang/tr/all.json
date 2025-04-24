@@ -42,7 +42,10 @@
     "order": "Sipariş",
     "customer": "Müşteri",
     "offer": "Teklif",
-    "offer_status": "Teklif Durumu"
+    "offer_status": "Teklif Durumu",
+    "cart": "Sepet",
+    "cart_status": "Sepet Durumu",
+    "cart_add_to": "Sepete Ekle"
   },
 
   "common": {
@@ -73,5 +76,16 @@
     "tr_dropdown": "Türkçe",
     "en_dropdown": "İngilizce",
     "de_dropdown": "Almanca"
+  },
+
+  "web": {
+    "home": "Anasayfa",
+    "products": "Ürünler",
+    "projects": "Projeler",
+    "consumer_groups": "Tüketici Grupları",
+    "subjects": "Konular",
+    "services": "Hizmetler",
+    "company": "Şirket"
+
   }
 }

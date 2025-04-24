@@ -69,7 +69,7 @@ export default function HomePage() {
             image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
             price: 40
         },
-    ]
+    ];
 
     return (
         <MainLayout title="MYSIS" className='flex flex-col w-full items-center'>
@@ -79,7 +79,7 @@ export default function HomePage() {
                     src='https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
                     alt="Hero Cover"
                 > */}
-                <div className='w-full h-full mt-15 flex flex-row items-start justify-center bg-blue-100'>
+                <div className='w-full h-full mt-16 flex flex-row items-start justify-center bg-blue-100'>
                     <Swiper
                     onSwiper={setCoverSwiper}
                         className='w-full h-full z-999'
@@ -108,9 +108,9 @@ export default function HomePage() {
                                 <Image
                                     src={product.image}
                                     alt={product.title}
-                                    width={500}
-                                    height={500}
-                                    className="object-cover w-[100%] h-150"
+                                    width={1920}
+                                    height={1080}
+                                    className="object-cover w-[100%] h-160"
                                 />
                             </SwiperSlide>
                         ))}
