@@ -11,19 +11,21 @@ const variants = {
     exit: { opacity: 0, x: 100 },
 };
 
+type MainLayoutProps = {
+    title?: string;
+    description?: string;
+    children: React.ReactNode;
+    className?: string;
+    headerButtons?: HeaderButton[];
+}
+
 export default function MainLayout({
     title,
     description,
     children,
     className,
-    headerButtons 
-}: {
-    title: string;
-    description?: string;
-    children: React.ReactNode;
-    className?: string;
-    headerButtons?: HeaderButton[]
-}) {
+    headerButtons,
+}: MainLayoutProps) {
     const pathname = usePathname();
 
     return (
@@ -36,8 +38,23 @@ export default function MainLayout({
             transition={{ duration: 0.2 }}
             className="flex flex-col min-h-screen bg-white"
         >
-            <Header title={title} description={description || ""} headerButtons={headerButtons}/>
-            <main className={className}>
+            <Header description={description || ""} headerButtons={headerButtons}/>
+            <main className={className + " my-16"}>
+                {
+                    title &&
+                    <motion.div 
+                    initial={{ opacity: 0, y: -50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: "circOut" }} 
+
+                    
+                    className='w-full h-20 flex flex-row items-center justify-center text-green-400 text-5xl border-b border-gray-200'>
+                    <h1 className='mb-2'>
+                        <span className="font-bold">{title}</span>
+                    </h1>
+                </motion.div>
+                }
+              
                 {children}
             </main>
             <Footer />

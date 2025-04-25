@@ -72,14 +72,14 @@ export default function HomePage() {
     ];
 
     return (
-        <MainLayout title="MYSIS" className='flex flex-col w-full items-center'>
+        <MainLayout className='flex flex-col w-full items-center'>
 
             <div className="flex flex-col w-full h-full items-end justify-center">
                 {/* <HeroCover
                     src='https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
                     alt="Hero Cover"
                 > */}
-                <div className='w-full h-full mt-16 flex flex-row items-start justify-center bg-blue-100'>
+                <div className='w-full h-full flex flex-row items-start justify-center bg-blue-100'>
                     <Swiper
                     onSwiper={setCoverSwiper}
                         className='w-full h-full z-999'

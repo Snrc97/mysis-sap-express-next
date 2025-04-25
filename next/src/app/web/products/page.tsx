@@ -7,8 +7,9 @@ import 'swiper/css/pagination'
 
 import MainLayout from '@/components/web/layout/main'
 import ProductCard, { ProductCardItem } from '@/components/web/product-card'
-import { Grid } from 'lucide-react'
 import { HeaderButton } from '@/components/web/layout/header'
+import { useEffect, useState } from 'react'
+import Pagination from '@/components/ui-custom/Pagination'
 
 export default function Products() {
 
@@ -65,26 +66,40 @@ export default function Products() {
         },
     ];
 
-    const headerButtons : HeaderButton[] = [
-        { title: trans("erp.cart"), link: "/web/products/cart", icon: "ShoppingCartIcon", badge: 100 }]
+    const [cartItems, setCartItems] = useState<ProductCardItem[]>([]);
+
+
+
+    const handleAddToCart = () => {
+        const cartItems: ProductCardItem[] = typeof window !== 'undefined' && window.localStorage.getItem('cart') ? JSON.parse(window.localStorage.getItem('cart') || '[]') : [];
+        setCartItems(cartItems);
+    }
+    useEffect(() => {
+        handleAddToCart();
+    }, []);
+
+    const headerButtons: HeaderButton[] = [
+        { title: trans("erp.cart"), link: "/web/products/cart", icon: "ShoppingCartIcon", badge: cartItems.length }]
 
     return (
-        <MainLayout title="MYSIS" className='flex flex-col w-full items-center' headerButtons={headerButtons} >
+        <MainLayout title={trans('erp.products')} className='flex flex-col w-full items-center' headerButtons={headerButtons} >
 
-            <div className="flex flex-col w-full h-full items-end justify-center mt-16">
+            <div className="flex flex-col w-full h-full items-end justify-center">
                 <div className='w-full h-full pl-90 py-20 gap-10 flex flex-row flex-wrap items-start justify-start '>
 
                     {
                         products.map((product, index) => (
-                            <ProductCard key={product.id} product={product} />
+                            <ProductCard key={product.id} product={product} OnAddedToCart={(product => handleAddToCart())} />
                         ))
                     }
+
+
 
 
                 </div>
 
 
-
+                <Pagination numberOfItems={products.length} />
 
             </div>
 

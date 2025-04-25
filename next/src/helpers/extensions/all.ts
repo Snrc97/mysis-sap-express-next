@@ -1,4 +1,3 @@
-
 export {};
 
 declare global {
@@ -20,7 +19,7 @@ export const appLangs = ['tr', 'en', 'de'];
 let appLang = appLangs[0]; // default language
 
 if (typeof window != 'undefined') {
-    appLang = window?.localStorage?.getItem('appLang') || appLang;
+  appLang = window?.localStorage?.getItem('appLang') || appLang;
 }
 
 export { appLang };
@@ -50,8 +49,9 @@ appLangs.forEach(
 
 const translations =
   translationsObject[appLang] || translationsObject[appLangs[0]]; // default language
+
 global.trans = (key: string, args?: { [key: string]: string }) => {
-    const empty = '*' + key + '*';
+  const empty = '*' + key + '*';
   let translation: any = '';
   let current: any = translations;
   const keys = key.split('.');
@@ -71,9 +71,15 @@ global.trans = (key: string, args?: { [key: string]: string }) => {
     }
   }
 
-  if (args) {
+  if (!args) {
+    translation = translation.replace(/\{.*?\}/g, '');
+  } else {
     Object.keys(args).forEach((argKey) => {
-      translation = translation.replace(`:${argKey}`, args[argKey]);
+      if (!args[argKey] && translation.includes(`{${argKey}?}`)) {
+        translation = translation.replace(`{${argKey}?}`, '');
+        return;
+      }
+      translation = translation.replace(`{${argKey}?}`, args[argKey]);
     });
   }
 

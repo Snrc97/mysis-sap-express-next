@@ -24,7 +24,7 @@
     "serial_number": "Seri No",
     "serial_numbers": "Seri Numaraları",
     "order_number": "Sipariş No",
-    "order_status_enum" : {
+    "order_status_enum": {
       "pending": "Beklemede",
       "accepted": "Onaylandı",
       "rejected": "Reddedildi",
@@ -45,7 +45,27 @@
     "offer_status": "Teklif Durumu",
     "cart": "Sepet",
     "cart_status": "Sepet Durumu",
-    "cart_add_to": "Sepete Ekle"
+    "subtotal": "Ara Toplam",
+    "total": "Toplam",
+    "price": "Fiyat",
+    "quantity": "Miktar",
+    "unit": "Birim",
+    "amount": "Tutar",
+    "barcode": "Barkod"
+
+
+  },
+
+  "e-commerce": {
+    "continueShopping": "Alısverişe Devam Et",
+    "addToCart": "Sepete Ekle",
+    "removeFromCart": "Sepetten Kaldır",
+    "viewCart": "Sepeti Görüntüle",
+    "checkout": "Ödeme Yap",
+    "myCart": "Sepetim",
+    "cart" : {
+      "empty": "Sepetiniz Boş"
+    }
   },
 
   "common": {
@@ -65,6 +85,7 @@
     "add": "{what?} Ekle",
     "edit": "{what?} Düzenle",
     "delete": "{what?} Sil",
+    "remove": "{what?} Kaldır",
     "save": "Kaydet",
     "close": "Kapat",
     "search": "Ara",
@@ -72,6 +93,17 @@
     "searching": "Aranıyor",
     "status": "Durum",
     "actions": "İşlemler",
+
+    "image": "Resim",
+    "title": "Başlık",
+    "description": "Açıklama",
+    "date": "Tarih",
+    "code": "Kod",
+    "qrcode": "Qr Kod",
+    "name": "Adı",
+    "address": "Adres",
+    "phone": "Telefon",
+    "email": "E-posta",
 
     "tr_dropdown": "Türkçe",
     "en_dropdown": "İngilizce",
@@ -86,6 +118,5 @@
     "subjects": "Konular",
     "services": "Hizmetler",
     "company": "Şirket"
-
   }
 }
