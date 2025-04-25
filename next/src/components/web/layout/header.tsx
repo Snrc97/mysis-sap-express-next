@@ -27,7 +27,7 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const [searchInputVisible, setSearchInputVisible] = React.useState(false);
   const [languageDropdownVisible, setLanguageDropdownVisible] = React.useState(false);
@@ -49,8 +49,8 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
   }, []);
 
   headerButtons = [
-   
-   
+
+
     { title: trans("web.products"), link: "/web/products" },
     { title: trans("web.projects"), link: "#" },
     { title: trans("web.consumer_groups"), link: "#" },
@@ -94,8 +94,8 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
 
   return (
     <header className="flex flex-col">
-      <div className='z-11 fixed top-0 h-16 flex flex-row w-full h-15 items-center justify-between border-b border-gray-500'>
-      <Button variant={"default"}
+      <div className='z-3 fixed top-0 h-16 flex flex-row w-full h-15 items-center justify-between border-b border-gray-500'>
+        <Button variant={"default"}
           id="responsive-hamburger-menu-button"
           className='
         min-[1390px]:hidden
@@ -124,10 +124,10 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
           </div>
         </div>
 
-
+      
 
         {
-          <div onBlur={() => setOpen(false)} className={`
+          <div className={`
             max-[1390px]:${open ? "flex" : "hidden"}
             max-[1390px]:w-full 
             max-[1390px]:pl-3 
@@ -153,64 +153,7 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
             `}>
             <div className='h-full w-full flex flex-col justify-center'>
 
-            {
-                    <div className={'h-auto w-53 max-[1390px]:w-43 rounded text-nowrap flex flex-row items-center justify-start absolute mt-16 max-[1390px]:mt-12 min-[1390px]:right-3 max-[1390px]:right-144'}
 
-
-                    >
-                      {
-                        searchInputVisible &&
-                        <motion.div className='w-full h-full max-[1390px]:mt-0 absolute '
-                          initial={{ opacity: 0, y: -50 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, ease: "easeOut" }}
-                          onBlur={() => setSearchInputVisible(false)}
-
-                        >
-                          <form className='flex flex-row items-center rounded-xl bg-white border-2 border-gray-700' onSubmit={(e) => {
-                            e.preventDefault();
-                            const formData = new FormData(e.currentTarget);
-                            const searchQuery = formData.get('search') as string;
-                            redirect(`?search?q=${searchQuery}`);
-                          }}>
-                            <input id='search-input' type="text" name="search" className='w-full h-full outline-none text-black px-4' placeholder="Arama Yap" />
-
-
-                            <Button type="submit" variant={"secondary"} className='bg-green-700 cursor-pointer text-white' size={"icon"}>
-                              <Icon name="search" size={23} />
-                            </Button>
-
-                          </form>
-                        </motion.div>
-                      }
-
-
-                      {
-                        languageDropdownVisible &&
-
-                        <motion.div className='w-full h-full max-[1390px]:mt-38 absolute rounded'
-                          initial={{ opacity: 0, y: -50 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, ease: "easeOut" }}
-                          onBlur={() => setLanguageDropdownVisible(false)}
-                        >
-                          <ul className='flex flex-col gap-2 p-2 bg-green-800 border-2 border-gray-900 rounded'>
-                            {
-                              appLangs.map(lang => (
-                                <li key={lang} onClick={() => setAppLang(lang)}>
-                                  <div className='flex flex-row items-center justify-center gap-2 cursor-pointer hover:bg-green-900 rounded'>
-                                    <Icon name={lang} size={25} className='h-full w-full' />
-                                    <span className='text-lg text-gray-100 font-bold'>{trans(`common.${lang}_dropdown`)}</span>
-                                  </div>
-                                </li>
-                              ))
-                            }
-                          </ul>
-                        </motion.div>
-                      }
-
-                    </div>
-                  }
 
 
               <ul className='min-[1390px]:flex gap-4 min-[1390px]:flex-row max-[1390px]:flex-column max-[1390px]:mx-auto max-[1390px]:w-50 flex-wrap w-full h-full justify-end px-3 py-3 items-center'>
@@ -234,6 +177,8 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
                       rounded 
                       relative 
                       transition-all
+                      hover:text-gray-700
+                      hover:scale-105
                       ">{button.title}</Link>
                           : // if the header button is icon-button
                           <Button
@@ -261,13 +206,13 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
 
                   ))
                 }
-                 
+
 
 
 
               </ul>
 
-           
+
 
             </div>
 
@@ -279,6 +224,8 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
             </div>
 
 
+
+
           </div>
 
         }
@@ -288,7 +235,64 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
 
       </div>
 
+      {
+          <div className={'z-2 max-[1390px]:z-999 h-auto w-53 max-[1390px]:w-43 rounded text-nowrap flex flex-row items-center justify-start fixed mt-16 max-[1390px]:mt-79 min-[1390px]:right-3 max-[1390px]:ml-141'}
 
+
+          >
+            {
+              searchInputVisible &&
+              <motion.div className='w-full h-full max-[1390px]:mt-0 absolute '
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                onBlur={() => setSearchInputVisible(false)}
+
+              >
+                <form className='flex flex-row items-center rounded-xl bg-white border-2 border-gray-700' onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const searchQuery = formData.get('search') as string;
+                  redirect(`?search?q=${searchQuery}`);
+                }}>
+                  <input id='search-input' type="text" name="search" className='w-full h-full outline-none text-black px-4' placeholder="Arama Yap" />
+
+
+                  <Button type="submit" variant={"secondary"} className='bg-green-700 cursor-pointer text-white' size={"icon"}>
+                    <Icon name="search" size={23} />
+                  </Button>
+
+                </form>
+              </motion.div>
+            }
+
+
+            {
+              languageDropdownVisible &&
+
+              <motion.div className='w-full h-full max-[1390px]:mt-38 absolute rounded'
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                onBlur={() => setLanguageDropdownVisible(false)}
+              >
+                <ul className='flex flex-col gap-2 p-2 bg-green-800 border-2 border-gray-900 rounded'>
+                  {
+                    appLangs.map(lang => (
+                      <li key={lang} onClick={() => setAppLang(lang)}>
+                        <div className='flex flex-row items-center justify-center gap-2 cursor-pointer hover:bg-green-900 rounded'>
+                          <Icon name={lang} size={25} className='h-full w-full' />
+                          <span className='text-lg text-gray-100 font-bold'>{trans(`common.${lang}_dropdown`)}</span>
+                        </div>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </motion.div>
+            }
+
+          </div>
+        }
 
     </header >
   );
