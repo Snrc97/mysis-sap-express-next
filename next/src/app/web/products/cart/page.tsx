@@ -28,7 +28,7 @@ export default function CartPage() {
         setItems(cartItems);
         const cal_subTotal = cartItems.reduce((total: number, item: CartItem) => total + ((item.quantity || 1) * item.price), 0)
         setSubTotal(cal_subTotal);
-      
+
     }
 
     const handleUpdateLoadTable = () => {
@@ -38,7 +38,7 @@ export default function CartPage() {
         }, 2000);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         handleUpdateLoadTable();
     }, []);
 
@@ -105,7 +105,31 @@ export default function CartPage() {
                                 </div>
                                 <div className='w-full text-center'>
 
-                                    <input name='quantity' onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))} className='w-full h-10 border-3 rounded text-center' type="number" value={item.quantity || 1} />
+                                    <div className='flex items-center justify-center'>
+                                        <button
+                                        type='button'
+                                            className='w-7 h-10 px-2 py-1 border rounded-r bg-green-500 hover:bg-green-400 cursor-pointer text-white font-bold hover:scale-105 transition-all duration-300 ease-in-out'
+                                            onClick={() => handleQuantityChange(item.id, (item.quantity || 1) - 1)}
+                                        >
+                                            -
+                                        </button>
+                                        <input
+                                            name='quantity'
+                                            className='w-12 h-10 border-t border-b text-center
+                                            [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
+                                            '
+                                            type='number'
+                                            value={item.quantity || 1}
+                                            readOnly
+                                        />
+                                        <button
+                                        type='button'
+                                            className='w-7 h-10 px-2 py-1 border rounded-r bg-green-500 hover:bg-green-400 cursor-pointer text-white font-bold hover:scale-105 transition-all duration-300 ease-in-out'
+                                            onClick={() => handleQuantityChange(item.id, (item.quantity || 1) + 1)}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
                                 <div className='w-full text-center'>
                                     <p className='mt-2'>{((item.quantity || 1) * item.price).toFixed(2)}</p>
@@ -139,16 +163,19 @@ export default function CartPage() {
                 </div>
                 {
                     items.length > 0 && (
-                        <Link href="/web/products">
-                            <Button
-                                variant={"default"}
-                                className='mt-6 bg-green-500 hover:bg-green-600 cursor-pointer'
+                        <div>
+                            <Link href="/web/products">
+                                <Button
+                                    variant={"default"}
+                                    className='mt-6 bg-green-500 hover:bg-green-600 cursor-pointer'
 
-                            >
-                                {trans('e-commerce.continueShopping')}
-                                <ChevronRightIcon />
-                            </Button>
-                        </Link>
+                                >
+                                    {trans('e-commerce.continueShopping')}
+                                    <ChevronRightIcon />
+                                </Button>
+                            </Link>
+                        </div>
+
                     )
                 }
 
