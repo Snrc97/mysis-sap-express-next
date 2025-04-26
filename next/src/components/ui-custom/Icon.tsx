@@ -1,9 +1,9 @@
 'use client'
 /*************  ✨ Codeium Command 🌟  *************/
 import * as LucideIcons from "lucide-react";
-import { LucideIcon, } from 'lucide-react';
+import { LucideIcon,  } from 'lucide-react';
 
-import "@/helpers/extensions/all.ts";
+import "@/helpers/extensions/client_helper";
 import React from 'react';
 
 interface IconProps extends React.ComponentProps<LucideIcon>

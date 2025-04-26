@@ -14,7 +14,7 @@ import Pagination from '@/components/ui-custom/Pagination'
 export default function Products() {
 
 
-    const products: ProductCardItem[] = [
+    let _products: ProductCardItem[] = [
         {
             id: 1,
             title: 'Product 1',
@@ -66,17 +66,43 @@ export default function Products() {
         },
     ];
 
+    const [products, setProducts] = useState<ProductCardItem[]>(_products);
+
     const [cartItems, setCartItems] = useState<ProductCardItem[]>([]);
 
+    const [selectedSortBy, setSelectedSortBy] = useState<string>();
 
 
     const handleAddToCart = () => {
-        const cartItems: ProductCardItem[] = typeof window !== 'undefined' && window.localStorage.getItem('cart') ? JSON.parse(window.localStorage.getItem('cart') || '[]') : [];
+        const cartItems: ProductCardItem[] = typeof window !== 'undefined' && localStorageGetItem('cart') ? JSON.parse(localStorageGetItem('cart') || '[]') : [];
         setCartItems(cartItems);
     }
     useEffect(() => {
         handleAddToCart();
     }, []);
+
+
+
+    const handleSetProducts = (props : {__products?: ProductCardItem[], sortBy?: string}) => {
+        let { __products, sortBy } = props;
+        __products = __products || _products;
+        sortBy = sortBy || selectedSortBy;
+        if(!sortBy)
+        {
+            setProducts(__products);
+        }
+        else if (sortBy === 'asc') {
+            setProducts(__products.sort((a, b) => a.price - b.price));
+        } else if (sortBy === 'desc') {
+            setProducts(__products.sort((a, b) => b.price - a.price));
+        }
+        
+
+    };
+
+    const handlePageChange = (page: number) => {
+        handleSetProducts({sortBy: selectedSortBy});
+    }
 
     const headerButtons: HeaderButton[] = [
         { title: trans("erp.cart"), link: "/web/products/cart", icon: "ShoppingCartIcon", badge: cartItems.length }]
@@ -84,23 +110,85 @@ export default function Products() {
     return (
         <MainLayout title={trans('erp.products')} className='flex flex-col w-full items-center' headerButtons={headerButtons} >
 
-            <div className="flex flex-col w-full h-full items-end justify-center">
-                <div className='w-full h-full pl-90 py-20 gap-10 flex flex-row flex-wrap items-start justify-start '>
 
-                    {
-                        products.map((product, index) => (
-                            <ProductCard key={product.id} product={product} OnAddedToCart={(product => handleAddToCart())} />
-                        ))
-                    }
+            {/* Sort by Price */}
+            <div className="w-full h-full bg-green-300  font-bold flex flex-row items-center justify-end px-66 py-2">
+                <span className="mr-2 font-bold text-xl">{trans('common.sort')}:</span>
+                <select  title='Sort' className="border border-gray-300 text-white rounded-xl px-3 py-1 bg-green-600 hover:bg-green-700" onChange={(e) => {
+                    const value = e.currentTarget.value;
+                    setSelectedSortBy(value);
+                    handleSetProducts({sortBy: value});
+                }}>
+                    <option value="">{trans('common.select')}</option>
+                    <option value="asc">{trans('e-commerce.sort.priceLowToHigh')}</option>
+                    <option value="desc">{trans('e-commerce.sort.priceHighToLow')}</option>
+                </select>
+            </div>
+            <div className="flex flex-row w-full h-full py-10 px-10 gap-10">
+                {/* Sidebar */}
+                <div className="w-1/4 h-full p-4 bg-gray-100">
+                    {/* Search Bar */}
+                    <div className="mb-4">
+                        <input
+                            type="text"
+                            placeholder={trans('common.search_for', { what: trans('erp.product') })}
+                            className="w-full p-2 border border-gray-300 rounded"
+                            onChange={(e) => {
+                                const value = e.currentTarget.value.toLowerCase();
+                                const filteredProducts = _products.filter((product) => (
+                                    product.title.toLowerCase().includes(value) ||
+                                    product.description.toLowerCase().includes(value)
+                                ));
+                                handleSetProducts({__products: filteredProducts});
+                            }}
+                        />
+                    </div>
 
-
-
-
+                    {/* Filters */}
+                    <div>
+                        <h3 className="font-semibold mb-2">Filtreler</h3>
+                        <div>
+                            <label>
+                                <input type="checkbox" onChange={() => {
+                                    // Implement filter logic here
+                                }} />
+                                Filtre 1
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="checkbox" onChange={() => {
+                                    // Implement filter logic here
+                                }} />
+                                Filtre 2
+                            </label>
+                        </div>
+                        {/* Add more filters as needed */}
+                    </div>
                 </div>
 
 
-                <Pagination numberOfItems={products.length} />
+                <div className="flex flex-col w-full h-full items-end justify-center">
 
+
+
+                    <div className='w-full h-full gap-6 flex flex-row flex-wrap items-start justify-start '>
+
+                        {
+                            products.map((product, index) => (
+                                <ProductCard key={product.id} className='w-70' product={product} OnAddedToCart={(product => handleAddToCart())} />
+                            ))
+                        }
+
+
+
+
+                    </div>
+
+
+                    <Pagination OnPageChange={handlePageChange} numberOfItems={products.length} />
+
+                </div>
             </div>
 
 

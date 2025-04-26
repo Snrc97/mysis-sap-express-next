@@ -1,4 +1,5 @@
-export {};
+'use client';
+
 
 declare global {
   interface String {
@@ -10,50 +11,39 @@ declare global {
     toPluckFromEnum(enm: any): any;
   }
 
-  var trans: (key: string, args?: { [key: string]: string }) => string;
   var appLang: string;
+  var localStorageGetItem: (key: string) => string | null;
+  var localStorageSetItem: (key: string, value: string) => void;
+  var trans:  (key: string, args?: { [key: string]: string }) => string;
+  var translations: { [key: string]: string };
 }
 
-export const appLangs = ['tr', 'en', 'de'];
+global.appLang = 'tr';
 
-let appLang = appLangs[0]; // default language
-
-if (typeof window != 'undefined') {
-  appLang = window?.localStorage?.getItem('appLang') || appLang;
+function localStorageGetItem(key: string): string | null {
+  if (typeof window === 'undefined') return null; // 🛡️ safe check
+  return localStorage.getItem(key);
 }
 
-export { appLang };
+global.localStorageGetItem = localStorageGetItem;
 
-export const setAppLang = (lang: string) => {
-  if (typeof window == 'undefined') {
-    return;
-  }
-  if (window?.localStorage) {
-    appLang = lang;
-    window.localStorage.setItem('appLang', lang);
-    location.reload();
-  }
-};
+function localStorageSetItem(key: string, value: string): void {
+  if (typeof window === 'undefined') return; // 🛡️ safe check
+  localStorage.setItem(key, value);
+}
 
-const getTranslationsPath = (appLang: string) => `@/lang/${appLang}/all.json`;
+global.localStorageSetItem = localStorageSetItem;
 
-let translationsObject: any = {};
 
-appLangs.forEach(
-  (lang) => {
-    const pathTranslations = require(getTranslationsPath(lang));
-    translationsObject = { ...translationsObject, [lang]: pathTranslations };
-  },
-  [translationsObject]
-);
-
-const translations =
-  translationsObject[appLang] || translationsObject[appLangs[0]]; // default language
 
 global.trans = (key: string, args?: { [key: string]: string }) => {
   const empty = '*' + key + '*';
   let translation: any = '';
-  let current: any = translations;
+  let current: any = global.translations;
+  if(!current)
+  {
+    return empty;
+  }
   const keys = key.split('.');
   if (keys.length > 1) {
     for (let i = 0; i < keys.length - 1; i++) {
@@ -86,6 +76,7 @@ global.trans = (key: string, args?: { [key: string]: string }) => {
   return translation;
 };
 
+
 String.prototype.toUpperCaseFirst = function (this: string): string {
   if (this.length === 0) return this;
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -102,3 +93,5 @@ Array.toPluckFromEnum = function (enm: any) {
     label: value,
   }));
 };
+
+export {};

@@ -5,6 +5,7 @@ import { Pagination as Pgn, PaginationContent, PaginationEllipsis, PaginationIte
 type PaginationProps = {
     numberOfItems?: number;
     itemsPerPage?: number;
+    OnPageChange?: (page: number) => void
 };
 
 export default function Pagination(props: PaginationProps) {
@@ -19,13 +20,16 @@ export default function Pagination(props: PaginationProps) {
     const [nextEnabled, setNextEnabled] = React.useState(page < pageSize);
 
 
-  
+
 
     const handlePageChange = (page: number) => {
-     
+
         setPage(page);
         setPreviousEnabled(page > 1);
         setNextEnabled(page < pageSize);
+        if (props.OnPageChange) {
+            props.OnPageChange(page);
+        }
     };
 
 

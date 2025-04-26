@@ -65,12 +65,35 @@
     "myCart": "Sepetim",
     "cart" : {
       "empty": "Sepetiniz Boş"
+    },
+    "sort": {
+      "priceLowToHigh": "Artan Fiyat",
+      "priceHighToLow": "Azalan Fiyat",
+      "nameAZ": "A'dan Z'ye",
+      "nameZA": "Z'den A'ya"
     }
   },
 
   "common": {
     "process_successful": "İşlem Başarılı : {process_name?}",
     "process_unsuccessful": "İşlem Başarısız : {process_name?}",
+
+    "account": {
+      "login": "Giriş Yap",
+      "logout": "Cıkıs Yap",
+      "register": "Kayıt Ol",
+      "sign-in": "Giriş Yap",
+      "sign-up": "Kayıt Ol",
+      "forgot_password": "Şifremi Unuttum",
+      "reset_password": "Şifremi Sıfırla",
+      "login_with_google": "Google ile Giriş Yap",
+      "login_with_facebook": "Facebook ile Giriş Yap",
+      "login_with_twitter": "Twitter ile Giriş Yap",
+      "email": "E-posta",
+      "password": "Şifre",
+      "confirm_password": "Şifre Tekrar"
+    },
+
     "error": "Hata",
     "warning": "Uyarı",
     "info": "Bilgi",
@@ -93,6 +116,11 @@
     "searching": "Aranıyor",
     "status": "Durum",
     "actions": "İşlemler",
+    "select": "Seç", 
+
+    "required": "Zorunlu",
+    "sort": "Sırala",
+    "filter": "Filtrele",
 
     "image": "Resim",
     "title": "Başlık",

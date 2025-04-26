@@ -19,7 +19,7 @@ export default function CartPage() {
     const [subTotal, setSubTotal] = useState(0);
 
     const getCartItemsFromStorage = () => {
-        const cartItems = JSON.parse(window.localStorage.getItem('cart') || '[]');
+        const cartItems = JSON.parse(localStorageGetItem('cart') || '[]');
         return cartItems;
     }
 
@@ -28,16 +28,24 @@ export default function CartPage() {
         setItems(cartItems);
         const cal_subTotal = cartItems.reduce((total: number, item: CartItem) => total + ((item.quantity || 1) * item.price), 0)
         setSubTotal(cal_subTotal);
+      
     }
 
-    useEffect(() => {
+    const handleUpdateLoadTable = () => {
         handleLoadTable();
+        setTimeout(() => {
+            handleUpdateLoadTable();
+        }, 2000);
+    }
+
+    useEffect(()=>{
+        handleUpdateLoadTable();
     }, []);
 
     const handleRemoveFromCart = (id: number) => {
         const cartItems = getCartItemsFromStorage();
         const filteredItems = cartItems.filter((item: CartItem) => item.id !== id);
-        window.localStorage.setItem('cart', JSON.stringify(filteredItems));
+        localStorageSetItem('cart', JSON.stringify(filteredItems));
         handleLoadTable();
     }
 
@@ -50,22 +58,22 @@ export default function CartPage() {
             }
             return item;
         });
-        window.localStorage.setItem('cart', JSON.stringify(updatedItems));
+        localStorageSetItem('cart', JSON.stringify(updatedItems));
         handleLoadTable();
     }
 
     return (
         <MainLayout title={trans('e-commerce.myCart')} className='flex flex-col w-full items-center bg-blue'  >
             <div
-                className='w-[70%] h-full flex flex-col px-6 py-6 md:px-12 md:py-12 bg-white rounded-md shadow-md items-center justify-center'
+                className='w-[70%] h-[700px] overflow-y-scroll flex flex-col px-6 py-6 md:px-12 md:py-12 bg-white rounded-md shadow-md items-center justify-start'
             >
 
                 {items.length === 0 ? (
                     <p className='text-center text-2xl font-bold'>{trans('e-commerce.cart.empty')}</p>
                 ) : (
-                    <div className="grid grid-cols-1 w-full h-100 overflow-y-scroll">
+                    <div className="grid grid-cols-1 w-full h-auto">
 
-                        <Card className='flex flex-row px-2 py-3 w-full h-20 items-center justify-between text-xl font-bold'>
+                        <Card className='flex flex-row px-2 py-3 w-full h-20 items-center text-xl font-bold'>
 
                             <div className='w-full text-center'>
                                 <p>{trans('erp.product')}</p>
@@ -87,7 +95,7 @@ export default function CartPage() {
                         </Card>
 
                         {items.map((item: CartItem) => (
-                            <Card key={item.id} className='flex flex-row px-2 py-3 w-full h-20 items-center justify-between '>
+                            <Card key={item.id} className='flex flex-row px-2 py-3 w-full h-20 items-center '>
 
                                 <div className='w-full text-center'>
                                     <h2 className='text-lg'>{item.title}</h2>
@@ -120,6 +128,10 @@ export default function CartPage() {
                         ))}
                     </div>
                 )}
+
+                <div className='w-full h-full'>
+
+                </div>
 
                 <div className='flex items-center justify-between mt-6'>
                     <p>{trans('erp.subtotal')}: <span className='font-bold'>{subTotal.toFixed(2)}</span></p>

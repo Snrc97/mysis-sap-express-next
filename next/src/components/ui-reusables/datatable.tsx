@@ -9,7 +9,7 @@ import { ReusableFormElement, ReusableFormProps } from "./reusable-form-element"
 import Swal from 'sweetalert2'
 import { apiService } from "@/scripts/api-service";
 import moment, { lang } from "moment-timezone";
-import "@/helpers/extensions/all.ts";
+import "@/helpers/extensions/client_helper";
 import ColumnMap from '@/types/ColumnMap';
 
 

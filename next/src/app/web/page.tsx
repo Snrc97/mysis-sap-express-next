@@ -126,12 +126,11 @@ export default function HomePage() {
                             watchSlidesProgress={true}
                             
                             modules={[FreeMode, Navigation, Thumbs]}
-                            className="mySwiper h-90"
+                            className="mySwiper h-90 absolute"
                             onActiveIndexChange={(swiper: any) => setActiveSlide(swiper.activeIndex)}
-                            slideActiveClass='border-green-500'
                         >
                             {products.map((product: any, index: number) => (
-                                <SwiperSlide key={index}  className='cursor-pointer'>
+                                <SwiperSlide key={index}  className={'cursor-pointer transition duration-600 ease-in-out border-green-500' + (activeSlide === index ? ' border-2' : ' hover:border-5')}>
 
                                     {/* thumbnail */}
                                     <Image
@@ -146,7 +145,7 @@ export default function HomePage() {
                                                 coverSwiper.slideTo(index);
                                             }
                                         }}
-                                        className="object-cover w-20 h-18 "
+                                        className="object-cover w-full h-full"
                                     />
                                 </SwiperSlide>
                             ))}
@@ -161,7 +160,7 @@ export default function HomePage() {
 
             </div>
 
-            <div className='flex flex-row w-full gap-7 items-center justify-center h-full px-5 py-20'>
+            <div className='w-full h-full px-5 py-20'>
 
                 <Swiper
                     className='w-full h-full z-999'
@@ -173,8 +172,8 @@ export default function HomePage() {
                         Navigation,
                         EffectFade
                     ]}
-                    spaceBetween={10}
-                    slidesPerView={4}
+                    spaceBetween={30}
+                    slidesPerView={5}
                     loop={true}
                     speed={250}
                     pagination={{ clickable: true }}
