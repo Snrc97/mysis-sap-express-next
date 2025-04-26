@@ -1,25 +1,35 @@
 "use client";
 import { Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 interface ButtonSpinnerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    onClick?: () => Promise<void>
+  onClick?: () => Promise<void>;
+  onSubmit?:  (event: FormEvent<HTMLButtonElement>) => Promise<FormEvent<HTMLButtonElement>>
 }
 
-export const ButtonSpinner: React.FC<ButtonSpinnerProps> = ({ className, onClick, children }) => {
+export const ButtonSpinner: React.FC<ButtonSpinnerProps> = ({ className, onClick, onSubmit, children }) => {
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const handleOnClick = async () => {
+        setIsLoading(true);
+        await onClick?.();
+        setIsLoading(false);
+    }
+
+    const handleOnSubmit = async (event: FormEvent<HTMLButtonElement>) => {
+        setIsLoading(true);
+        await onSubmit?.(event);
+        setIsLoading(false);
+    }
 
     return (
         <Button
 
             className={className}
-            onClick={async () => {
-                setIsLoading(true);
-                    await onClick?.();
-                setIsLoading(false);
-            }}
+            onClick={handleOnClick}
+            onSubmit={async (e) => await handleOnSubmit(e)}
             disabled={isLoading}
         >
             <div className="flex flex-row items-center gap-2">
