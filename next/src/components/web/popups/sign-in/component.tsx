@@ -1,4 +1,5 @@
 'use client'
+import { ButtonSpinner } from '@/components/ui-custom/ButtonSpinner'
 import Icon from '@/components/ui-custom/Icon'
 import { useState } from 'react'
 import 'swiper/css'
@@ -55,12 +56,12 @@ export default function SignIn() {
                     </button>
 
                 </div>
-                <button
+                <ButtonSpinner
                     type="submit"
                     className="cursor-pointer bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 my-3 rounded-lg transition-colors duration-200 self-end"
                 >
                     {trans("common.account.sign-in")}
-                </button>
+                </ButtonSpinner>
             </div>
 
         </form>
