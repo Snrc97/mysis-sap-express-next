@@ -8,6 +8,7 @@ import OrderController, {
 import UserController, { userController } from '../controllers/UserController';
 import { databaseManager, sequelize } from '../config/database';
 import { customerController } from '../controllers/CustomerController';
+import { authController } from '../controllers/AuthController';
 
 
 
@@ -24,14 +25,7 @@ import { customerController } from '../controllers/CustomerController';
     router.resource('order', orderController);
     router.resource('customer', customerController);
     router.resource('user', userController);
-    // router.post('/register', authController.register);
-    // router.post('/login', [validateLogin, authController.login]);
-    // router.post('/logout', [validateLogin, authController.logout]);
-    // router.post('/forgot-password', authController.forgotPassword);
-    // router.post('/verify-email', authController.verifyEmail);
-    // router.post('/verify-phone-number', authController.verifyPhoneNumber);
-
-
+    router.resource('auth', authController);
 
   export default router;
 

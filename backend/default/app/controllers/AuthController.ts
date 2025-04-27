@@ -106,5 +106,6 @@ class AuthController extends BaseController {
     }
   }
 }
-
+const authController = new AuthController();
 export default AuthController;
+export { authController };
