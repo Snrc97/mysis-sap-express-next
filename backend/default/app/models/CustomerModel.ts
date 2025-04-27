@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
-import Customer from '../../../../layer1_business/entities/erp/Customer';
+import Customer from '../../layer1_business/entities/erp/Customer';
 
 
 
@@ -21,46 +21,26 @@ CustomerModel.init( {
     primaryKey: true,
     autoIncrement: true,
   },
-  user_id: {
+  address_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0,
   },
-  tax_number: {
+  first_name: {
     type: DataTypes.STRING(50),
     allowNull: false,
-    defaultValue: '',
   },
-  tax_office: {
+  last_name: {
     type: DataTypes.STRING(50),
     allowNull: false,
-    defaultValue: '',
   },
-  company_name: {
-    type: DataTypes.STRING(100),
-    allowNull: false,
-    defaultValue: '',
+  created_at: {
+    type: DataTypes.DATE,
+    allowNull: true,
   },
-  is_franchise: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
+  updated_at: {
+    type: DataTypes.DATE,
+    allowNull: true,
   },
-  credit_limit: {
-    type: DataTypes.FLOAT,
-    defaultValue: 0.0,
-  },
-  current_balance: {
-    type: DataTypes.FLOAT,
-    defaultValue: 0.0,
-  },
-  discount_rate: {
-    type: DataTypes.FLOAT,
-    defaultValue: 0.0,
-  },
-  min_order_amount: {
-    type: DataTypes.FLOAT,
-    defaultValue: 0.0,
-  }
 },
 {
   sequelize,

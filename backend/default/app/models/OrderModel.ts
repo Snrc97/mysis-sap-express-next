@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
-import Order from '../../../../layer1_business/entities/erp/Order';
+import Order from '../../layer1_business/entities/erp/Order';
 
 
 class OrderModel extends Model <Order> {
@@ -20,84 +20,33 @@ OrderModel.init( {
     primaryKey: true,
     autoIncrement: true,
   },
-  order_number: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true,
-    defaultValue: 0,
-  },
   customer_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: 0,
   },
-  order_date: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+  product_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
+  quantity: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
   },
   status: {
-    type: DataTypes.ENUM(
-      'draft',
-      'pending',
-      'confirmed',
-      'processing',
-      'shipped',
-      'delivered',
-      'cancelled',
-      'returned'
-    ),
+    type: DataTypes.STRING(50),
+    allowNull: false,
     defaultValue: 'pending',
-  },
-  total_amount: {
-    type: DataTypes.DECIMAL(10, 2),
-    defaultValue: 0,
-  },
-  discount_amount: {
-    type: DataTypes.DECIMAL(10, 2),
-    defaultValue: 0,
-  },
-  tax_amount: {
-    type: DataTypes.DECIMAL(10, 2),
-    defaultValue: 0,
-  },
-  shipping_amount: {
-    type: DataTypes.DECIMAL(10, 2),
-    defaultValue: 0,
-  },
-  grand_total: {
-    type: DataTypes.DECIMAL(10, 2),
-    defaultValue: 0,
-  },
-  shipping_address_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: 0,
-  },
-  billing_address_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: 0,
-  },
-  payment_method: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: "cash",
-  },
-  payment_status: {
-    type: DataTypes.ENUM('pending', 'paid', 'failed', 'refunded'),
-    defaultValue: 'pending',
-  },
-  notes: {
-    type: DataTypes.TEXT,
-    defaultValue: "",
   },
   created_at: {
     type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+    allowNull: false,
   },
   updated_at: {
     type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+    allowNull: false,
   },
 },
 {

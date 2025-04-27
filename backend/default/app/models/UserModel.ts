@@ -1,11 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
-import User from '../../../../layer1_business/entities/user/User';
-
+import User from '../../layer1_business/entities/user/User';
 
 class UserModel extends Model<User> {
-
-
   static associate(models: any) {
     // Define associations here
     // Example: this.hasMany(models.OrderModel, { foreignKey: 'user_id' });
@@ -17,6 +14,9 @@ UserModel.init(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    role_id: {
+      type: DataTypes.INTEGER,
     },
     username: {
       type: DataTypes.STRING,
@@ -32,29 +32,29 @@ UserModel.init(
       allowNull: false,
       unique: true,
     },
-    first_name: {
+    phone_number: {
       type: DataTypes.STRING,
       allowNull: true,
       defaultValue: '',
     },
-    last_name: {
+    status: {
       type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: '',
-    },
-    phone: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: '',
-    },
-    is_active: {
-      type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
     last_login: {
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: null,
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: DataTypes.NOW,
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: DataTypes.NOW,
     },
   },
   {
