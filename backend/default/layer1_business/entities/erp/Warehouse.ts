@@ -1,6 +1,6 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
-export default interface Warehouse extends BaseEntity {
+export default interface Warehouse extends IEntity {
 
     address_id: number;
     name: string;

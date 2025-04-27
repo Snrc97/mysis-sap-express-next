@@ -1,6 +1,6 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
-export default interface Supplier extends BaseEntity {
+export default interface Supplier extends IEntity {
 
     company_id: number; // supplier
     product_id: number; // supplying product

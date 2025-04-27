@@ -1,6 +1,6 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
-export default interface Item extends BaseEntity {
+export default interface Item extends IEntity {
   product_id: number;
   serial_number: string;
   sku: string;

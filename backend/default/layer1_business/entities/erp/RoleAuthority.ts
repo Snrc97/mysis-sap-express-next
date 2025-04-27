@@ -1,6 +1,6 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
-export default interface RoleAuthority extends BaseEntity {
+export default interface RoleAuthority extends IEntity {
 
 
 }

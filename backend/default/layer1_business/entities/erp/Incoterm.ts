@@ -1,6 +1,6 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
-export default interface Incoterm extends BaseEntity {
+export default interface Incoterm extends IEntity {
 
 
 }

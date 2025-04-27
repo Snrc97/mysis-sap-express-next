@@ -1,6 +1,6 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
-export default interface Address extends BaseEntity {
+export default interface Address extends IEntity {
 
     district_id: number;
     title: string;

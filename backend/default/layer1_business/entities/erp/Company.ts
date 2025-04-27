@@ -1,6 +1,6 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
-export default interface Company extends BaseEntity {
+export default interface Company extends IEntity {
   address_id: number;
   name: string;
   tax_number: string;

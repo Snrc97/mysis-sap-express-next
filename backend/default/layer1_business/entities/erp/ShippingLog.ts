@@ -1,6 +1,6 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
-export default interface ShippingLog extends BaseEntity {
+export default interface ShippingLog extends IEntity {
 
 
 }

@@ -1,8 +1,8 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
 export type UserStatus = 'not_verified' | 'verified' | 'banned';
 
-export default interface User extends BaseEntity {
+export default interface User extends IEntity {
 
   role_id: number;
   username: string;

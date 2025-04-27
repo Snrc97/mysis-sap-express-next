@@ -1,6 +1,6 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
-export default interface Brand extends BaseEntity {
+export default interface Brand extends IEntity {
   title: string;
   summary?: string;
   content?: string;

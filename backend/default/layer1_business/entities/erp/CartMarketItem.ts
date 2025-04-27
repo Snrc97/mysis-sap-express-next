@@ -1,6 +1,6 @@
-import BaseEntity from '../BaseEntity';
+import IEntity from '../IEntity';
 
-export default interface CartMarketItem extends BaseEntity {
+export default interface CartMarketItem extends IEntity {
 
     cart_id: number;
     market_item_id: number;
