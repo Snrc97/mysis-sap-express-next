@@ -10,7 +10,7 @@ declare module 'express-serve-static-core' {
   }
 
   interface Router {
-    resource(path: string, controller: BaseController): this;
+    resource(path: string, controller: BaseController, middleware?: RequestHandler | RequestHandler[]): this;
   }
 }
 Object.defineProperty(response, 'customJson', {
@@ -55,26 +55,27 @@ Object.defineProperty(Router, 'resource', {
 
 Router.prototype.resource = function (
   path: string,
-  controller: BaseController
+  controller: BaseController,
+  middleware?: RequestHandler | RequestHandler[]
 ): Router {
   const base = `/${path}`;
   const id = `${base}/:id`;
 
   if (controller.index) {
-    this.get(base, controller.index);
+    this.get(base, middleware, controller.index);
   }
   if (controller.show) {
-    this.get(id, controller.show);
+    this.get(id, middleware, controller.show);
   }
   if (controller.store) {
-    this.post(base, controller.store);
+    this.post(base, middleware, controller.store);
   }
   if (controller.update) {
-    this.put(id, controller.update);
-    this.patch(id, controller.update);
+    this.put(id, middleware, controller.update);
+    this.patch(id, middleware, controller.update);
   }
   if (controller.destroy) {
-    this.delete(id, controller.destroy);
+    this.delete(id, middleware, controller.destroy);
   }
 
   return this;
