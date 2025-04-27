@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 28 Nis 2025, 00:09:33
+-- Üretim Zamanı: 28 Nis 2025, 02:03:01
 -- Sunucu sürümü: 8.3.0
 -- PHP Sürümü: 8.3.6
 
@@ -35,13 +35,13 @@ CREATE TABLE IF NOT EXISTS `_address` (
   `contact_person` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci DEFAULT NULL,
   `phone_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
-  `postal_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
+  `postal_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci DEFAULT NULL,
   `address_line_1` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
   `address_line_2` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 
 --
 -- Tablo döküm verisi `_address`
@@ -51,7 +51,9 @@ INSERT INTO `_address` (`id`, `district_id`, `title`, `contact_person`, `email`,
 (1, NULL, 'Adresim', 'Okan', 'testokn@mail.com', '05554446666', '34788', 'Çekmeköy - İstanbul', NULL, '2025-04-27 18:26:45', '2025-04-27 19:10:46'),
 (2, NULL, 'Ev Adresim', 'Müjdat', 'testmujd@mail.com', '05564446686', '34764', 'Ümraniye - İstanbul', NULL, '2025-04-27 18:26:45', '2025-04-27 20:55:19'),
 (3, NULL, 'Firma Adresi', 'Mustafa Tosun', 'tgatic@mail.com', '05462145687', '34330', 'Levent - İstanbul', NULL, '2025-04-27 20:00:19', '2025-04-27 20:55:05'),
-(4, NULL, 'Depo Adresi', 'Arif Karadeniz', 'tgadepo1@mail.com', '05427267895', '34940', 'Tuzla - İstanbul', NULL, '2025-04-27 20:54:40', '2025-04-27 20:54:40');
+(4, NULL, 'Depo Adresi', 'Arif Karadeniz', 'tgadepo1@mail.com', '05427267895', '34940', 'Tuzla - İstanbul', NULL, '2025-04-27 20:54:40', '2025-04-27 20:54:40'),
+(5, NULL, 'Evim', 'Kaan Demirci', 'kaandem332@mail.com', '05527967281', NULL, 'Sarıyer - İstanbul', NULL, '2025-04-27 20:54:40', '2025-04-27 20:54:40'),
+(6, NULL, 'İş Yerim', 'Hakan Şanlı', 'hakansanli124@mail.com', '05464391704', NULL, 'Sarıyer - İstanbul', NULL, '2025-04-27 20:54:40', '2025-04-27 20:54:40');
 
 -- --------------------------------------------------------
 
@@ -210,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `_customer` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 
 --
 -- Tablo döküm verisi `_customer`
@@ -218,7 +220,9 @@ CREATE TABLE IF NOT EXISTS `_customer` (
 
 INSERT INTO `_customer` (`id`, `address_id`, `first_name`, `last_name`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Okan', 'Kara', '2025-04-27 19:52:25', '2025-04-27 21:00:25'),
-(2, 2, 'Müjdat', 'Güneş', '2025-04-27 19:52:25', '2025-04-27 21:00:34');
+(2, 2, 'Müjdat', 'Güneş', '2025-04-27 19:52:25', '2025-04-27 21:00:34'),
+(3, 5, 'Kaan', 'Demirci', '2025-04-27 21:14:11', '2025-04-27 21:14:58'),
+(4, 6, 'Hakan', 'Şanlı', '2025-04-27 21:14:11', '2025-04-27 21:15:00');
 
 -- --------------------------------------------------------
 
@@ -478,7 +482,7 @@ CREATE TABLE IF NOT EXISTS `_market` (
 --
 
 INSERT INTO `_market` (`id`, `company_id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 1, 'MYSIS Market', '', '2025-04-27 19:14:21', '2025-04-27 20:01:45');
+(1, 1, 'MYSIS TGA Market', '', '2025-04-27 19:14:21', '2025-04-27 21:10:17');
 
 -- --------------------------------------------------------
 
@@ -599,17 +603,23 @@ DROP TABLE IF EXISTS `_order`;
 CREATE TABLE IF NOT EXISTS `_order` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `customer_id` bigint NOT NULL,
-  `item_id` bigint NOT NULL,
-  `quantity` int NOT NULL,
-  `order_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `delivery_date` date DEFAULT NULL,
-  `status` enum('pending','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
+  `product_id` bigint NOT NULL,
+  `quantity` int DEFAULT '1',
+  `status` enum('pending','shipped','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `item_id` (`item_id`) USING BTREE,
-  KEY `customer_id` (`customer_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+  KEY `customer_id` (`customer_id`) USING BTREE,
+  KEY `product_id` (`product_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+--
+-- Tablo döküm verisi `_order`
+--
+
+INSERT INTO `_order` (`id`, `customer_id`, `product_id`, `quantity`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, '', '2025-04-27 21:20:22', '2025-04-27 21:20:22'),
+(2, 2, 2, 2, '', '2025-04-27 21:20:22', '2025-04-27 21:20:22');
 
 -- --------------------------------------------------------
 
@@ -779,7 +789,15 @@ CREATE TABLE IF NOT EXISTS `_stock` (
   PRIMARY KEY (`id`),
   KEY `warehouse_id` (`warehouse_id`),
   KEY `item_id` (`item_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+--
+-- Tablo döküm verisi `_stock`
+--
+
+INSERT INTO `_stock` (`id`, `item_id`, `warehouse_id`, `quantity`, `reserved_quantity`, `is_unlimited_quantity`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 50, 0, 0, '2025-04-27 21:24:06', '2025-04-27 21:24:06'),
+(2, 2, 1, 1000, 0, 0, '2025-04-27 21:24:06', '2025-04-27 21:24:06');
 
 -- --------------------------------------------------------
 
@@ -826,7 +844,6 @@ DROP TABLE IF EXISTS `_user`;
 CREATE TABLE IF NOT EXISTS `_user` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `role_id` bigint NOT NULL DEFAULT '3',
-  `address_id` bigint DEFAULT NULL,
   `username` varchar(50) COLLATE utf8mb4_turkish_ci NOT NULL,
   `email` varchar(100) COLLATE utf8mb4_turkish_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
@@ -844,9 +861,9 @@ CREATE TABLE IF NOT EXISTS `_user` (
 -- Tablo döküm verisi `_user`
 --
 
-INSERT INTO `_user` (`id`, `role_id`, `address_id`, `username`, `email`, `password`, `phone_number`, `status`, `last_login`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'snrc', 'webkule.studios@gmail.com', '123456', '5347100469', 'not_verified', NULL, '2025-04-21 15:22:42', '2025-04-27 18:26:58'),
-(2, 3, 1, 'ttss', 'testmusteri@mail.com', '123456', '5424056547', 'not_verified', NULL, '2025-04-23 16:38:46', '2025-04-27 18:27:00');
+INSERT INTO `_user` (`id`, `role_id`, `username`, `email`, `password`, `phone_number`, `status`, `last_login`, `created_at`, `updated_at`) VALUES
+(1, 1, 'snrc', 'webkule.studios@gmail.com', '123456', '5347100469', 'verified', NULL, '2025-04-21 15:22:42', '2025-04-27 21:24:58'),
+(2, 3, 'ttss', 'testmusteri@mail.com', '123456', '5424056547', 'verified', NULL, '2025-04-23 16:38:46', '2025-04-27 21:25:01');
 
 -- --------------------------------------------------------
 
