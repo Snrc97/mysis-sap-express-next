@@ -4,8 +4,8 @@ import { Button } from '../ui/button';
 import { FormEvent, useState } from 'react';
 
 interface ButtonSpinnerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  onClick?: () => Promise<void>;
-  onSubmit?:  (event: FormEvent<HTMLButtonElement>) => Promise<FormEvent<HTMLButtonElement>>
+    onClick?: () => Promise<void>;
+    onSubmit?: (event: FormEvent<HTMLButtonElement>) => Promise<FormEvent<HTMLButtonElement>>
 }
 
 export const ButtonSpinner: React.FC<ButtonSpinnerProps> = ({ className, onClick, onSubmit, children }) => {
@@ -27,18 +27,22 @@ export const ButtonSpinner: React.FC<ButtonSpinnerProps> = ({ className, onClick
     return (
         <Button
 
-            className={className}
+            className={className + " min-w-[135px] cursor-pointer relative flex flex-row justify-center items-center"}
             onClick={handleOnClick}
             onSubmit={async (e) => await handleOnSubmit(e)}
             disabled={isLoading}
         >
-            <div className="flex flex-row items-center gap-2">
                 {
                     isLoading &&
-                    <Loader2 size={20} color='green' className='absolute top-1/2 left-1/2 animate-spin transition duration-[1s]' />
+                    <Loader2 size={25} color='white' className='
+                    absolute 
+                    ml-[-90px] 
+                    scale-120
+                    z-0
+                    animate-spin 
+                    transition duration-[0.5s]' />
                 }
                 {children}
-            </div>
         </Button>
     );
 };

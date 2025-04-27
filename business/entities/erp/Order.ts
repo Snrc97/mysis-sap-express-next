@@ -1,19 +1,12 @@
 import BaseEntity from '../BaseEntity';
 
-export default interface Order extends BaseEntity {
+export type OrderStatus = 'pending' | 'shipped' | 'completed' | 'cancelled';
 
-  order_number: number;
+export default interface Order extends BaseEntity {
   customer_id: number;
-  order_date?: Date;
-  status?: string;
-  total_amount?: number;
-  discount_amount?: number;
-  tax_amount?: number;
-  shipping_amount?: number;
-  grand_total?: number;
-  shipping_address_id: number;
-  billing_address_id: number;
-  payment_method: string;
-  payment_status?: string;
-  notes?: string;
+  product_id: number;
+  quantity: number;
+  status?: OrderStatus;
+  created_at?: Date;
+  updated_at?: Date;
 }

@@ -7,6 +7,7 @@ import OrderController, {
 } from '../controllers/OrderController';
 import UserController, { userController } from '../controllers/UserController';
 import { databaseManager, sequelize } from '../config/database';
+import { customerController } from '../controllers/CustomerController';
 
 
 
@@ -21,6 +22,7 @@ import { databaseManager, sequelize } from '../config/database';
 
     // const authController = new AuthController();
     router.resource('order', orderController);
+    router.resource('customer', customerController);
     router.resource('user', userController);
     // router.post('/register', authController.register);
     // router.post('/login', [validateLogin, authController.login]);

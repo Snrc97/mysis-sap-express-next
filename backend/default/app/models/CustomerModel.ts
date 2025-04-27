@@ -64,8 +64,8 @@ CustomerModel.init( {
 },
 {
   sequelize,
-  tableName: '_order',
-  timestamps: true
+  tableName: '_customer',
+  timestamps: false
 });
 
 export default CustomerModel;
