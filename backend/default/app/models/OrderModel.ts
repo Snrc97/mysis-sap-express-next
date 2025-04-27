@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
-import Order from '../../../../business/entities/erp/Order';
+import Order from '../../../../layer1_business/entities/erp/Order';
 
 
 class OrderModel extends Model <Order> {

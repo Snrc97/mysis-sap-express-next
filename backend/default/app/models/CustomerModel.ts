@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
-import Customer from '../../../../business/entities/erp/Customer';
+import Customer from '../../../../layer1_business/entities/erp/Customer';
 
 
 
