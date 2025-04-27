@@ -1,13 +1,18 @@
 import BaseEntity from '../BaseEntity';
 
+export type UserStatus = 'not_verified' | 'verified' | 'banned';
+
 export default interface User extends BaseEntity {
 
-    username: string;
-    password: string;
-    email: string;
-    first_name?: string;
-    last_name?: string;
-    phone?: string;
-    is_active?: boolean;
-    last_login?: Date;
+  role_id: number;
+  username: string;
+  email: string;
+  password: string;
+  phone_number?: string;
+  status: UserStatus;
+  last_login?: Date;
+  created_at?: Date;
+  updated_at?: Date;
+    
+
 }
