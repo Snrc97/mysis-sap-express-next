@@ -1,18 +1,33 @@
 import { Router, response } from 'express';
 import { RequestHandler } from 'express-serve-static-core';
 import BaseController from '../controllers/BaseController';
-
-
+import express from 'express';
 
 declare module 'express-serve-static-core' {
   interface Response {
     customJson(data: unknown): Response;
   }
 
+
+
+  
+
+
   interface Router {
-    resource(path: string, controller: BaseController, middleware?: RequestHandler | RequestHandler[]): this;
+    group(
+      prefix: string,
+      callback: (router: Router) => void,
+      middleware?: RequestHandler | RequestHandler[]
+    ): Router;
+    resource(
+      path: string,
+      controller: BaseController,
+      middleware?: RequestHandler | RequestHandler[]
+    ): Router;
   }
 }
+
+
 Object.defineProperty(response, 'customJson', {
   value: function ({ data, success, msg }) {
     // Add custom behavior here, e.g., logging or wrapping the response
@@ -27,11 +42,40 @@ Object.defineProperty(response, 'customJson', {
   writable: true,
 });
 
+
+
+
+Object.defineProperty(Router, 'group', {
+  value: function (
+    prefix: string,
+    callback: (router: Router) => Router,
+    middleware?: RequestHandler | RequestHandler[]
+  ): Router {
+    prefix = `/${prefix}`;
+    const router = Router();
+   
+    if (middleware) {
+      router.use(middleware);
+    }
+
+    callback(router);
+    
+    if (prefix) {
+      this.use(prefix, router);
+    } else {
+      this.use(router);
+    }
+
+    
+
+    return this;
+  },
+});
+
 Object.defineProperty(Router, 'resource', {
   value: function (path: string, controller: BaseController) {
     const base = `/${path}`;
     const id = `${base}/:id`;
-
     if (controller.index) {
       this.get(base, async (req, res) => await controller.index(req, res));
     }
@@ -52,35 +96,6 @@ Object.defineProperty(Router, 'resource', {
     return this;
   },
 });
-
-Router.prototype.resource = function (
-  path: string,
-  controller: BaseController,
-  middleware?: RequestHandler | RequestHandler[]
-): Router {
-  const base = `/${path}`;
-  const id = `${base}/:id`;
-
-  if (controller.index) {
-    this.get(base, middleware, controller.index);
-  }
-  if (controller.show) {
-    this.get(id, middleware, controller.show);
-  }
-  if (controller.store) {
-    this.post(base, middleware, controller.store);
-  }
-  if (controller.update) {
-    this.put(id, middleware, controller.update);
-    this.patch(id, middleware, controller.update);
-  }
-  if (controller.destroy) {
-    this.delete(id, middleware, controller.destroy);
-  }
-
-  return this;
-};
-
 
 // declare module 'express-serve-static-core' {
 //     interface Router {

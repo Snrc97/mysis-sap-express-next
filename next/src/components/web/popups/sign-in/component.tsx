@@ -1,7 +1,9 @@
 'use client'
 import { ButtonSpinner } from '@/components/ui-custom/ButtonSpinner'
 import Icon from '@/components/ui-custom/Icon'
-import { useState } from 'react'
+import { apiService } from '@/scripts/api-service'
+import { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 import 'swiper/css'
 import 'swiper/css/autoplay'
 import 'swiper/css/effect-fade'
@@ -15,17 +17,32 @@ export default function SignIn() {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const [hasLoggedIn, setHasLoggedIn] = useState(false);
+
+    useEffect(()=>{
+        setHasLoggedIn(checkHasLoggedIn());
+    }, []);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
-
-        alert('Signed in successful')
+        const res = await apiService.post('auth/login', { email, password });
+        Swal.fire(res.msg, '', res.success ? 'success' : 'error');
+        if(res.success)
+        {
+            const data = res.data;
+            const token = data.token;
+            localStorageSetItem('token', token);
+        }
     }
 
     return (
+        hasLoggedIn ? 
+        <></>
+        :
         <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-2 w-[400px] h-full items-start justify-center p-8 bg-white rounded-lg shadow-lg">
                 <label className="block mb-2 font-bold" htmlFor="email">{trans("common.account.email")}:</label>

@@ -1,6 +1,7 @@
 import BaseController from './BaseController';
 import jwt from 'jsonwebtoken';
 import UserRepository from '../repositories/UserRepository';
+import { md5 } from 'js-md5';
 
 class AuthController extends BaseController {
   constructor() {
@@ -9,6 +10,7 @@ class AuthController extends BaseController {
 
   async register(req, res) {
     try {
+      req.body.password = md5(req.body.password);
       const newUser = await this.repo.create(req.body);
       res.status(201).customJson({ data: newUser, msg: 'Kayıt başarılı' });
     } catch (err) {
@@ -27,6 +29,7 @@ class AuthController extends BaseController {
 
   async login(req, res) {
     try {
+      req.body.password = md5(req.body.password);
       const user = await this.repo.findAll({
         where: { email: req.body.email, password: req.body.password },
       });
@@ -36,7 +39,7 @@ class AuthController extends BaseController {
           process.env.JWT_SECRET || 'secret',
           { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
         );
-        res.cookie('jwt', token, {
+        res.cookie('auth-token', token, {
           httpOnly: true,
           sameSite: 'strict',
           secure: process.env.NODE_ENV === 'production',

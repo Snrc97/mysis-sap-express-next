@@ -16,6 +16,7 @@ declare global {
   var localStorageSetItem: (key: string, value: string) => void;
   var trans:  (key: string, args?: { [key: string]: string }) => string;
   var translations: { [key: string]: string };
+  var checkHasLoggedIn: () => boolean;
 }
 
 global.appLang = 'tr';
@@ -31,9 +32,9 @@ function localStorageSetItem(key: string, value: string): void {
   if (typeof window === 'undefined') return; // 🛡️ safe check
   localStorage.setItem(key, value);
 }
-
 global.localStorageSetItem = localStorageSetItem;
 
+global.checkHasLoggedIn = () => document.cookie.includes('auth-token');
 
 
 global.trans = (key: string, args?: { [key: string]: string }) => {
