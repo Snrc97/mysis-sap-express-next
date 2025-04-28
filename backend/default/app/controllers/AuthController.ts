@@ -1,36 +1,32 @@
 import BaseController from './BaseController';
 import jwt from 'jsonwebtoken';
-import UserRepository from '../repositories/UserRepository';
+import UserRepository, { userRepository as repo } from '../repositories/UserRepository';
 import { md5 } from 'js-md5';
 
-class AuthController extends BaseController {
+class AuthController {
+
+
   constructor() {
-    super(new UserRepository());
+
   }
+
+
 
   async register(req, res) {
     try {
       req.body.password = md5(req.body.password);
-      const newUser = await this.repo.create(req.body);
+      const newUser = await repo.create(req.body);
       res.status(201).customJson({ data: newUser, msg: 'Kayıt başarılı' });
     } catch (err) {
       res.status(500).customJson({ success: false, msg: err.message });
     }
   }
 
-  logout(req, res) {
-    try {
-      res.clearCookie('auth-token');
-      res.status(200).customJson({ msg: 'Çıkış Başarılı' });
-    } catch (err) {
-      res.status(500).customJson({ success: false, msg: err.message });
-    }
-  }
-
   async login(req, res) {
+
     try {
       req.body.password = md5(req.body.password);
-      const user = await this.repo.findAll({
+      const user = await repo.findAll({
         where: { email: req.body.email, password: req.body.password },
       });
       if (user) {
@@ -51,13 +47,22 @@ class AuthController extends BaseController {
           .customJson({ success: false, msg: 'Geçersiz kimlik bilgileri' });
       }
     } catch (err) {
+      res.status(500).customJson({ success: false, msg: err.stack });
+    }
+  }
+  
+  logout(req, res) {
+    try {
+      res.clearCookie('auth-token');
+      res.status(200).customJson({ msg: 'Çıkış Başarılı' });
+    } catch (err) {
       res.status(500).customJson({ success: false, msg: err.message });
     }
   }
 
   async forgotPassword(req, res) {
     try {
-      const user = await this.repo.findAll({
+      const user = await repo.findAll({
         where: { email: req.body.email },
       });
       if (user) {
@@ -75,7 +80,7 @@ class AuthController extends BaseController {
 
   async verifyEmail(req, res) {
     try {
-      const user = await this.repo.findAll({
+      const user = await repo.findAll({
         where: { email: req.body.email },
       });
       if (user) {
@@ -93,7 +98,7 @@ class AuthController extends BaseController {
 
   async verifyPhoneNumber(req, res) {
     try {
-      const user = await this.repo.findAll({
+      const user = await repo.findAll({
         where: { phone: req.body.phone },
       });
       if (user) {

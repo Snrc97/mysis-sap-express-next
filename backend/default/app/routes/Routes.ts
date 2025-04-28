@@ -16,8 +16,9 @@ router.get(
 router.resource('user', userController);
 router.resource('order', orderController);
 router.resource('customer', customerController);
+router.resource('market', marketController);
+router.resource('market-item', marketItemController);
 router.group('auth', (router) => {
-  router.get('/test2', authController.register);
   router.post('/register', authController.register);
   router.post('/login', validateLogin, authController.login);
   router.post('/logout', authController.logout);

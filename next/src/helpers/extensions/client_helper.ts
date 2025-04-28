@@ -14,6 +14,7 @@ declare global {
   var appLang: string;
   var localStorageGetItem: (key: string) => string | null;
   var localStorageSetItem: (key: string, value: string) => void;
+  var localStorageRemoveItem: (key: string) => void;
   var trans:  (key: string, args?: { [key: string]: string }) => string;
   var translations: { [key: string]: string };
   var checkHasLoggedIn: () => boolean;
@@ -34,7 +35,15 @@ function localStorageSetItem(key: string, value: string): void {
 }
 global.localStorageSetItem = localStorageSetItem;
 
-global.checkHasLoggedIn = () => document.cookie.includes('auth-token');
+function localStorageRemoveItem(key: string): void {
+  if (typeof window === 'undefined') return; // 🛡️ safe check
+  localStorage.removeItem(key);
+}
+
+global.localStorageRemoveItem = localStorageRemoveItem;
+
+
+global.checkHasLoggedIn = () => localStorageGetItem('auth-token') !== null;
 
 
 global.trans = (key: string, args?: { [key: string]: string }) => {

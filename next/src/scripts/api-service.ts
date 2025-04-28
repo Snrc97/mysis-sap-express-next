@@ -12,8 +12,8 @@ export class ApiService {
     this.baseUrl = baseUrl;
   }
 
-  private getToken(): string | undefined {
-    const token = getCookie("auth-token");
+  private getToken(): string | null {
+    const token = localStorageGetItem('auth-token') ;
     return token;
   }
 
@@ -32,13 +32,14 @@ export class ApiService {
     }
 
 
-    const fetchOptions = {
+    const fetchOptions : RequestInit = {
       method,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this.getToken()}`,
         Cookie: document.cookie,
       },
+      credentials: "include",
       body: data ? JSON.stringify(data) : undefined,
     };
 

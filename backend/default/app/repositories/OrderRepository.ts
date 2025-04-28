@@ -8,4 +8,7 @@ class OrderRepository extends BaseRepository {
     
   }
 }
+
+const orderRepository = new OrderRepository();
 export default OrderRepository;
+export { orderRepository };

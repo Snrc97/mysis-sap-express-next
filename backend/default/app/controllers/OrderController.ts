@@ -1,9 +1,9 @@
 import BaseController from './BaseController';
-import OrderRepository from '../repositories/OrderRepository';
+import { orderRepository } from '../repositories/OrderRepository';
 
 class OrderController extends BaseController {
   constructor() {
-    super(new OrderRepository());
+    super(orderRepository);
   }
 }
 

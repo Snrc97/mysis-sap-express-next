@@ -1,46 +1,44 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
-import Order from '../../layer1_business/entities/erp/Order';
+import Item from '../../layer1_business/entities/erp/Item';
 
 
-class OrderModel extends Model <Order> {
+class ItemModel extends Model <Item> {
 
   
   static associate(models: any) {
     // Define associations here
-    // Example: this.belongsTo(models.UserModel, { foreignKey: 'customer_id' });
-    this.belongsTo(models.CustomerModel, { foreignKey: 'customer_id' });
     this.belongsTo(models.ProductModel, { foreignKey: 'product_id' });
   }
 
 
 }
 
-OrderModel.init( {
+ItemModel.init( {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  customer_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: 0,
-  },
   product_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0,
   },
-  quantity: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: 0,
+  serial_number: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
-  status: {
-    type: DataTypes.STRING(50),
+  sku: {
+    type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: 'pending',
+  },
+  barcode: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  expiration_date: {
+    type: DataTypes.DATE,
+    allowNull: true,
   },
   created_at: {
     type: DataTypes.DATE,
@@ -53,9 +51,9 @@ OrderModel.init( {
 },
 {
   sequelize,
-  tableName: '_order',
+  tableName: '_item',
   timestamps: false
 });
 
-export default OrderModel;
+export default ItemModel;
 

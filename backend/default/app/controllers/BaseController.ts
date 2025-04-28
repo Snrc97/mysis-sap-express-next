@@ -1,9 +1,9 @@
 import BaseRepository from '../repositories/BaseRepository';
 
 class BaseController {
-  protected repo: BaseRepository;
+  protected repo: any;
 
-  constructor(repo: BaseRepository) {
+  constructor(repo: any) {
     this.repo = repo;
   }
 

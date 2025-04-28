@@ -66,6 +66,7 @@ export default function Products() {
         },
     ];
 
+
     const [products, setProducts] = useState<ProductCardItem[]>(_products);
 
     const [cartItems, setCartItems] = useState<ProductCardItem[]>([]);

@@ -8,4 +8,7 @@ class CustomerRepository extends BaseRepository {
     
   }
 }
+
+const customerRepository = new CustomerRepository();
 export default CustomerRepository;
+export { customerRepository };

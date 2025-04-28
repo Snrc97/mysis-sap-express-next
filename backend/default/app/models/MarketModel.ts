@@ -1,35 +1,38 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
-import Customer from '../../layer1_business/entities/erp/Customer';
+import Market from '../../layer1_business/entities/erp/Market';
 
-class CustomerModel extends Model <Customer> {
+
+class MarketModel extends Model <Market> {
+
   
   static associate(models: any) {
     // Define associations here
-    // Example: this.belongsTo(models.UserModel, { foreignKey: 'customer_id' });
-    this.belongsTo(models.AddressModel, { foreignKey: 'address_id' });
+    this.belongsTo(models.CompanyModel, { foreignKey: 'company_id' });
   }
+
 
 }
 
-CustomerModel.init( {
+MarketModel.init( {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  address_id: {
+  company_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  first_name: {
+  name: {
     type: DataTypes.STRING(50),
     allowNull: false,
   },
-  last_name: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
+  description: {
+    type: DataTypes.STRING(250),
+    allowNull: true,
   },
+
   created_at: {
     type: DataTypes.DATE,
     allowNull: true,
@@ -41,9 +44,9 @@ CustomerModel.init( {
 },
 {
   sequelize,
-  tableName: '_customer',
+  tableName: '_market',
   timestamps: false
 });
 
-export default CustomerModel;
+export default MarketModel;
 

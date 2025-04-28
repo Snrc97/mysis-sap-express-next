@@ -1,47 +1,47 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
-import Order from '../../layer1_business/entities/erp/Order';
+import MarketItem from '../../layer1_business/entities/erp/MarketItem';
 
 
-class OrderModel extends Model <Order> {
+class MarketItemModel extends Model <MarketItem> {
 
   
   static associate(models: any) {
     // Define associations here
-    // Example: this.belongsTo(models.UserModel, { foreignKey: 'customer_id' });
-    this.belongsTo(models.CustomerModel, { foreignKey: 'customer_id' });
-    this.belongsTo(models.ProductModel, { foreignKey: 'product_id' });
+    this.belongsTo(models.MarketModel, { foreignKey: 'market_id' });
+    this.belongsTo(models.ItemModel, { foreignKey: 'item_id' });
   }
 
 
 }
 
-OrderModel.init( {
+MarketItemModel.init( {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  customer_id: {
+  market_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0,
   },
-  product_id: {
+  item_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0,
+  },
+  price: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
   },
   quantity: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0,
   },
-  status: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    defaultValue: 'pending',
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: true,
   },
+
   created_at: {
     type: DataTypes.DATE,
     allowNull: true,
@@ -53,9 +53,9 @@ OrderModel.init( {
 },
 {
   sequelize,
-  tableName: '_order',
+  tableName: '_market_item',
   timestamps: false
 });
 
-export default OrderModel;
+export default MarketItemModel;
 

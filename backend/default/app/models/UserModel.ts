@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
-import User from '../../layer1_business/entities/user/User';
+import User from '../../layer1_business/entities/auth/User';
 
 class UserModel extends Model<User> {
   static associate(models: any) {

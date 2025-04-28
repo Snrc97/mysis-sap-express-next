@@ -1,9 +1,9 @@
 import BaseController from './BaseController';
-import CustomerRepository from '../repositories/CustomerRepository';
+import { customerRepository } from '../repositories/CustomerRepository';
 
 class CustomerController extends BaseController {
   constructor() {
-    super(new CustomerRepository());
+    super(customerRepository);
   }
 }
 

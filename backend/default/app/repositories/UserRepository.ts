@@ -1,5 +1,6 @@
 import UserModel from '../models/UserModel';
 import BaseRepository from './BaseRepository';
+
 class UserRepository extends BaseRepository {
   constructor() {
     super();
@@ -7,4 +8,6 @@ class UserRepository extends BaseRepository {
   }
 }
 
+const userRepository = new UserRepository();
 export default UserRepository;
+export { userRepository };
