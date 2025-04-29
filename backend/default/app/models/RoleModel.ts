@@ -6,6 +6,7 @@ class RoleModel extends Model<Role> {
   static associate(models: any) {
     // Define associations here
     // Example: this.hasMany(models.OrderModel, { foreignKey: 'role_id' });
+    return Object.values(models);
   }
 }
 RoleModel.init(

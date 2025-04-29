@@ -8,6 +8,7 @@ class AddressModel extends Model <Address> {
     // Define associations here
     // Example: this.belongsTo(models.UserModel, { foreignKey: 'customer_id' });
     // this.belongsTo(models.DistrictModel, { foreignKey: 'district_id' });
+    return Object.values(models);
   }
 
 }

@@ -1,6 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
 import Product from '../../layer1_business/entities/erp/Product';
+import CategoryModel from './CategoryModel';
+import BrandModel from './BrandModel';
 
 
 
@@ -10,9 +12,9 @@ class ProductModel extends Model <Product> {
   static associate(models: any) {
     // Define associations here
     // Example: this.belongsTo(models.UserModel, { foreignKey: 'product_id' });
-    this.belongsTo(models.CategoryModel, { foreignKey: 'category_id' });
-    this.belongsTo(models.BrandModel, { foreignKey: 'brand_id' });
-
+    this.belongsTo(models.CategoryModel, { foreignKey: 'category_id', as: 'category' });
+    this.belongsTo(models.BrandModel, { foreignKey: 'brand_id', as: 'brand' });
+    return Object.values(models);
   }
 
 
@@ -58,5 +60,6 @@ ProductModel.init( {
   timestamps: false
 });
 
+ProductModel.associate({ CategoryModel, BrandModel });
 export default ProductModel;
 

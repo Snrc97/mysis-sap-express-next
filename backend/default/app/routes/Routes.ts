@@ -6,6 +6,8 @@ import { orderController } from '../controllers/OrderController';
 import { userController } from '../controllers/UserController';
 import { customerController } from '../controllers/CustomerController';
 import { authController } from '../controllers/AuthController';
+import { marketController } from '../controllers/MarketController';
+import { marketItemController } from '../controllers/MarketItemController';
 
 const router = express.Router();
 router.get(

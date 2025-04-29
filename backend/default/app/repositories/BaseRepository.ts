@@ -7,6 +7,10 @@ import {
 class BaseRepository {
   protected model: any;
 
+  public getModel() {
+    return this.model;
+  }
+
   constructor() {}
 
   async findAll(options?: FindOptions<typeof this.model>) {

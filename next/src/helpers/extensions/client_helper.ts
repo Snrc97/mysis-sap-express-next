@@ -85,7 +85,17 @@ global.trans = (key: string, args?: { [key: string]: string }) => {
 
   return translation;
 };
+const formatters = {
+  TRY: new Intl.NumberFormat('tr-TR', {
+    style: 'currency',
+    currency: 'TRY',
+    maximumFractionDigits: 2,
+  }),
+};
 
+const formatCurrency = (currentValue: number): string => {
+  return formatters.TRY.format(currentValue);
+};
 
 String.prototype.toUpperCaseFirst = function (this: string): string {
   if (this.length === 0) return this;
@@ -104,4 +114,4 @@ Array.toPluckFromEnum = function (enm: any) {
   }));
 };
 
-export {};
+export { formatCurrency };

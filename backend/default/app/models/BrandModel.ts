@@ -10,6 +10,7 @@ class BrandModel extends Model <Brand> {
   static associate(models: any) {
     // Define associations here
     // Example: this.belongsTo(models.UserModel, { foreignKey: 'brand_id' });
+    return Object.values(models);
   }
 
 

@@ -44,6 +44,8 @@
     "offer": "Teklif",
     "offer_status": "Teklif Durumu",
     "cart": "Sepet",
+    "market_item": "Pazaryeri Öğesi",
+    "item": "Öğe",
     "cart_status": "Sepet Durumu",
     "subtotal": "Ara Toplam",
     "total": "Toplam",
@@ -65,7 +67,8 @@
     "checkout": "Ödeme Yap",
     "myCart": "Sepetim",
     "cart" : {
-      "empty": "Sepetiniz Boş"
+      "empty": "Sepetiniz Boş",
+      "order": "Sipariş Ver"
     },
     "sort": {
       "priceLowToHigh": "Artan Fiyat",

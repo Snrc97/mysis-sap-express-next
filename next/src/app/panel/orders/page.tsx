@@ -2,13 +2,11 @@
 
 import "@/styles/globals.css";
 import { DataTableActionProps } from "@/components/ui-reusables/datatable";
-const Datatable = dynamic(() => import("@/components/ui-reusables/datatable"), { ssr: false });
+import Datatable from '@/components/ui-reusables/datatable';
 import PageContainer from "@/components/layout/page-container";
 import ColumnMap from '@/types/ColumnMap';
-import dynamic from 'next/dynamic';
 import OrderMaps, { OrderMapsType } from '@/maps/order/map';
-
-
+import { useEffect, useState } from 'react';
 
 function Orders() {
 
@@ -19,10 +17,8 @@ function Orders() {
     deleteable: true,
   };
 
+  const [columnMap, setColumnMap] = useState<ColumnMap>(OrderMaps.columnMap);
 
-
-
-  const columnMap: ColumnMap = OrderMaps.columnMap;
 
   const endpoint = "order";
 

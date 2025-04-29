@@ -6,7 +6,8 @@ class CategoryModel extends Model<Category> {
   static associate(models: any) {
     // Define associations here
     // Example: this.belongsTo(models.UserModel, { foreignKey: 'category_id' });
-    this.belongsTo(models.CategoryModel, { foreignKey: 'parent_id' });
+    this.belongsTo(models.CategoryModel, { foreignKey: 'parent_id', as: 'parent' });
+    return Object.values(models);
   }
 }
 
@@ -46,4 +47,5 @@ CategoryModel.init(
   }
 );
 
+CategoryModel.associate({CategoryModel});
 export default CategoryModel;

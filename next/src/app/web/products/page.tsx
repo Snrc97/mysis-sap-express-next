@@ -6,103 +6,77 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 import MainLayout from '@/components/web/layout/main'
-import ProductCard, { ProductCardItem } from '@/components/web/product-card'
+import ProductCard from '@/components/web/product-card'
 import { HeaderButton } from '@/components/web/layout/header'
 import { useEffect, useState } from 'react'
 import Pagination from '@/components/ui-custom/Pagination'
+import { apiService } from '@/scripts/api-service'
+
+import { MarketItemListViewModel } from '@/../../backend/default/layer2_application/view_models/erp/MarketItemViewModels'
 
 export default function Products() {
 
 
-    let _products: ProductCardItem[] = [
-        {
-            id: 1,
-            title: 'Product 1',
-            description: "Ürün 1",
-            image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-            price: 30
-        },
-        {
-            id: 2,
-            title: 'Product 2',
-            description: "Ürün 2",
-            image: 'https://images.unsplash.com/photo-1692032667961-d17dcb5cef15?w=500&auto=format&fit=crop&q=60',
-            price: 30
-        },
-        {
-            id: 3,
-            title: 'Product 3',
-            description: "Ürün 3",
-            image: 'https://images.unsplash.com/photo-1692032667961-d17dcb5cef15?w=500&auto=format&fit=crop&q=60',
-            price: 30
-        },
-        {
-            id: 4,
-            title: 'Product 4',
-            description: "Ürün 4",
-            image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-            price: 40
-        },
-        {
-            id: 5,
-            title: 'Product 3',
-            description: "Ürün 3",
-            image: 'https://images.unsplash.com/photo-1692032667961-d17dcb5cef15?w=500&auto=format&fit=crop&q=60',
-            price: 30
-        },
-        {
-            id: 6,
-            title: 'Product 4',
-            description: "Ürün 4",
-            image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-            price: 40
-        },
-        {
-            id: 7,
-            title: 'Product 4',
-            description: "Ürün 4",
-            image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-            price: 40
-        },
+    let _marketListItems: MarketItemListViewModel[] = [
+
     ];
 
 
-    const [products, setProducts] = useState<ProductCardItem[]>(_products);
 
-    const [cartItems, setCartItems] = useState<ProductCardItem[]>([]);
+    const [marketListItems, setMarketListItems] = useState<MarketItemListViewModel[]>(_marketListItems);
+
+    useEffect(() => {
+        const fetchItems = async () => {
+            _marketListItems = await apiService.get('market-item').then(x => x.data);
+            setMarketListItems(_marketListItems);
+        }
+        fetchItems();
+
+    }, []);
+
+
+    const [cartItems, setCartItems] = useState<MarketItemListViewModel[]>([]);
 
     const [selectedSortBy, setSelectedSortBy] = useState<string>();
 
 
     const handleAddToCart = () => {
-        const cartItems: ProductCardItem[] = typeof window !== 'undefined' && localStorageGetItem('cart') ? JSON.parse(localStorageGetItem('cart') || '[]') : [];
-        setCartItems(cartItems);
+        if (typeof window !== 'undefined') {
+            const cartItemsStorage = localStorageGetItem('cart');
+            let cartItems: MarketItemListViewModel[] | Array<any> = cartItemsStorage ? JSON.parse(cartItemsStorage) : null;
+            if (cartItems) {
+                setCartItems(cartItems);
+            }
+
+        }
+
     }
     useEffect(() => {
         handleAddToCart();
     }, []);
 
 
+   
 
-    const handleSetProducts = (props : {__products?: ProductCardItem[], sortBy?: string}) => {
-        let { __products, sortBy } = props;
-        __products = __products || _products;
+    // handleFilter as well
+    const handleSetMarketListItems = (props: { __marketListItems?: MarketItemListViewModel[], sortBy?: string }) => {
+        let { __marketListItems, sortBy } = props;
+        __marketListItems = __marketListItems || marketListItems;
         sortBy = sortBy || selectedSortBy;
-        if(!sortBy)
-        {
-            setProducts(__products);
+        if (!sortBy) {
+            setMarketListItems(__marketListItems);
         }
         else if (sortBy === 'asc') {
-            setProducts(__products.sort((a, b) => a.price - b.price));
+            setMarketListItems(__marketListItems.sort((a, b) => a.price - b.price));
         } else if (sortBy === 'desc') {
-            setProducts(__products.sort((a, b) => b.price - a.price));
+            setMarketListItems(__marketListItems.sort((a, b) => b.price - a.price));
         }
-        
+
 
     };
 
     const handlePageChange = (page: number) => {
-        handleSetProducts({sortBy: selectedSortBy});
+        handleSetMarketListItems({ sortBy: selectedSortBy });
     }
 
     const headerButtons: HeaderButton[] = [
@@ -115,10 +89,10 @@ export default function Products() {
             {/* Sort by Price */}
             <div className="w-full h-full bg-green-300  font-bold flex flex-row items-center justify-end px-66 py-2">
                 <span className="mr-2 font-bold text-xl">{trans('common.sort')}:</span>
-                <select  title='Sort' className="border border-gray-300 text-white rounded-xl px-3 py-1 bg-green-600 hover:bg-green-700" onChange={(e) => {
+                <select title='Sort' className="border border-gray-300 text-white rounded-xl px-3 py-1 bg-green-600 hover:bg-green-700" onChange={(e) => {
                     const value = e.currentTarget.value;
                     setSelectedSortBy(value);
-                    handleSetProducts({sortBy: value});
+                    handleSetMarketListItems({ sortBy: value });
                 }}>
                     <option value="">{trans('common.select')}</option>
                     <option value="asc">{trans('e-commerce.sort.priceLowToHigh')}</option>
@@ -136,11 +110,11 @@ export default function Products() {
                             className="w-full p-2 border border-gray-300 rounded"
                             onChange={(e) => {
                                 const value = e.currentTarget.value.toLowerCase();
-                                const filteredProducts = _products.filter((product) => (
-                                    product.title.toLowerCase().includes(value) ||
-                                    product.description.toLowerCase().includes(value)
+                                const filteredProducts = _marketListItems.filter((x) => (
+                                    x.item.product.name.toLowerCase().includes(value) ||
+                                    x.item.product.description.toLowerCase().includes(value)
                                 ));
-                                handleSetProducts({__products: filteredProducts});
+                                handleSetMarketListItems({ __marketListItems: filteredProducts });
                             }}
                         />
                     </div>
@@ -176,8 +150,8 @@ export default function Products() {
                     <div className='w-full h-full gap-6 flex flex-row flex-wrap items-start justify-start '>
 
                         {
-                            products.map((product, index) => (
-                                <ProductCard key={product.id} className='w-70' product={product} OnAddedToCart={(product => handleAddToCart())} />
+                            marketListItems.map((x, index) => (
+                                <ProductCard key={x.id} className='w-70' marketListItem={x} OnAddedToCart={(product => handleAddToCart())} />
                             ))
                         }
 
@@ -187,7 +161,7 @@ export default function Products() {
                     </div>
 
 
-                    <Pagination OnPageChange={handlePageChange} numberOfItems={products.length} />
+                    <Pagination OnPageChange={handlePageChange} numberOfItems={marketListItems.length} />
 
                 </div>
             </div>

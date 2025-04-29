@@ -1,11 +1,8 @@
  enum OrderStatus {
   pending = 'Beklemede',
+  shipped = 'Kargoya Verildi',
   accepted = 'Onaylandı',
   rejected = 'Reddedildi',
-  draft = 'Taslak',
-  confirmed = 'Onaylandı',
-  processing = 'İşleniyor',
-  shipped = 'Gönderildi',
   delivered = 'Teslim Edildi',
   cancelled = 'Iptal Edildi',
   returned = 'İade Edildi',

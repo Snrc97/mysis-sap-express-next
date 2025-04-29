@@ -2,14 +2,20 @@ import BaseRepository from '../repositories/BaseRepository';
 
 class BaseController {
   protected repo: any;
+  protected attributes: any = {};
+  protected includes: any = {};
+  protected viewModels: any;
+  protected pluck_column: string = 'name';
 
   constructor(repo: any) {
     this.repo = repo;
   }
 
   async index(req, res) {
+    
     await this.repo
-      .findAll()
+    
+      .findAll({ include: this.includes.index, attributes: this.attributes })
       .then((data) => res.customJson({ data: data }))
       .catch((err) =>
         res.status(500).customJson({ success: false, msg: err.message })
@@ -49,6 +55,17 @@ class BaseController {
       .then((data) => res.customJson({ data }))
       .catch((err) =>
         res.status(404).customJson({ success: false, msg: err.message })
+      );
+  }
+
+  async pluck(req, res) {
+    
+    await this.repo
+    
+      .findAll({ include: this.includes.pluck })
+      .then((data) => res.customJson({ data: data }))
+      .catch((err) =>
+        res.status(500).customJson({ success: false, msg: err.message })
       );
   }
 }

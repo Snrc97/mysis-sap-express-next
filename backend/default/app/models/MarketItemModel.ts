@@ -1,6 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
 import MarketItem from '../../layer1_business/entities/erp/MarketItem';
+import ItemModel from './ItemModel';
+import MarketModel from './MarketModel';
 
 
 class MarketItemModel extends Model <MarketItem> {
@@ -8,8 +10,9 @@ class MarketItemModel extends Model <MarketItem> {
   
   static associate(models: any) {
     // Define associations here
-    this.belongsTo(models.MarketModel, { foreignKey: 'market_id' });
-    this.belongsTo(models.ItemModel, { foreignKey: 'item_id' });
+    this.belongsTo(models.MarketModel, { foreignKey: 'market_id', as: 'market' });
+    this.belongsTo(models.ItemModel, { foreignKey: 'item_id', as: 'item' });
+    return Object.values(models);
   }
 
 
@@ -28,6 +31,14 @@ MarketItemModel.init( {
   item_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  currency_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   price: {
     type: DataTypes.FLOAT,
@@ -57,5 +68,6 @@ MarketItemModel.init( {
   timestamps: false
 });
 
+MarketItemModel.associate({ MarketModel, ItemModel });
 export default MarketItemModel;
 

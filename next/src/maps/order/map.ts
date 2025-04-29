@@ -1,3 +1,4 @@
+"use client"
 import { ReusableFormProps } from '@/components/ui-reusables/reusable-form-element';
 import ColumnMap from '@/types/ColumnMap';
 import { OrderStatus, OrderStatus_options } from '@/types/order';
@@ -5,14 +6,15 @@ import { OrderStatus, OrderStatus_options } from '@/types/order';
 const labels = {
   order_number: trans('erp.order_number'),
   customer: trans('erp.customer'),
+  market_item: trans('erp.market_item'),
   order_date:  trans('erp.order_date'),
   status:  trans('common.status'),
 }
 
 const table: ReusableFormProps[] = [
   {
-    name: 'order_number',
-    label: labels.order_number,
+    name: 'id',
+    label: "ID",
     type: 'input',
     elementType: 'number',
   },
@@ -23,11 +25,10 @@ const table: ReusableFormProps[] = [
     elementType: 'number',
   },
   {
-    name: 'order_date',
-    label: labels.order_date,
-    elementType: 'datetime-local',
-    format: 'DD.MM.YYYY HH:mm',
+    name: 'market_item_id',
+    label: labels.market_item,
     type: 'input',
+    elementType: 'number',
   },
   {
     name: 'status',
@@ -35,89 +36,41 @@ const table: ReusableFormProps[] = [
     type: 'select',
     options: OrderStatus_options,
   },
+  {
+    name: 'created_at',
+    label: labels.order_date,
+    elementType: 'datetime-local',
+    format: 'DD.MM.YYYY HH:mm',
+    type: 'input',
+  }
+
 ];
 
 const create: ReusableFormProps[] = [
   {
-    name: 'order_number',
-    label: labels.order_number,
-    type: 'input',
-    elementType: 'number',
-  },
-  {
     name: 'customer_id',
-    label: 'Müşteri',
-    type: 'select',
-  },
-  {
-    name: 'total_amount',
-    label: 'Toplam Tutar',
+    label: labels.customer,
     type: 'input',
     elementType: 'number',
   },
   {
-    name: 'discount_amount',
-    label: 'İndirim Tutarı',
+    name: 'market_item_id',
+    label: labels.market_item,
     type: 'input',
     elementType: 'number',
-  },
-  {
-    name: 'tax_amount',
-    label: 'Vergi Tutarı',
-    type: 'input',
-    elementType: 'number',
-  },
-  {
-    name: 'shipping_amount',
-    label: 'Kargo Tutarı',
-    type: 'input',
-    elementType: 'number',
-  },
-  {
-    name: 'grand_total',
-    label: 'Genel Tutar',
-    type: 'input',
-    elementType: 'number',
-  },
-  {
-    name: 'shipping_address_id',
-    label: 'Gönderim Adresi',
-    type: 'select',
-  },
-  {
-    name: 'billing_address_id',
-    label: 'Fatura Adresi',
-    type: 'input',
-    elementType: 'number',
-  },
-  {
-    name: 'shipping_method_id',
-    label: 'Gönderim Yöntemi',
-    type: 'select',
-  },
-  {
-    name: 'payment_method_id',
-    label: 'Ödeme Yöntemi',
-    type: 'select',
-  },
-  {
-    name: 'order_date',
-    label: 'Sipariş Tarihi',
-    type: 'input',
-    elementType: 'datetime-local',
-    format: 'DD.MM.YYYY HH:mm',
-  },
-  {
-    name: 'notes',
-    label: 'Notlar',
-    type: 'input',
-    elementType: 'text',
   },
   {
     name: 'status',
-    label: 'Durum',
+    label: labels.status,
     type: 'select',
     options: OrderStatus_options,
+  },
+  {
+    name: 'created_at',
+    label: labels.order_date,
+    elementType: 'datetime-local',
+    format: 'DD.MM.YYYY HH:mm',
+    type: 'input',
   },
 ];
 

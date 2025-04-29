@@ -1,40 +1,44 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
-import Market from '../../layer1_business/entities/erp/Market';
-import CompanyModel from './CompanyModel';
+import ItemModel from './ItemModel';
+import MarketModel from './MarketModel';
+import Currency from '../../layer1_business/entities/erp/Currency';
 
 
-class MarketModel extends Model <Market> {
+class CurrencyModel extends Model <Currency> {
 
   
   static associate(models: any) {
     // Define associations here
-    this.belongsTo(models.CompanyModel, { foreignKey: 'company_id' });
+    // this.belongsTo(models.ItemModel, { foreignKey: 'item_id', as: 'item' });
     return Object.values(models);
   }
 
 
 }
 
-MarketModel.init( {
+CurrencyModel.init( {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  company_id: {
-    type: DataTypes.INTEGER,
+  CurrencyCode: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  name: {
-    type: DataTypes.STRING(50),
+  CurrencyName: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  description: {
-    type: DataTypes.STRING(250),
+  CountryName: {
+    type: DataTypes.STRING,
     allowNull: true,
   },
-
+  Symbol: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   created_at: {
     type: DataTypes.DATE,
     allowNull: true,
@@ -46,9 +50,9 @@ MarketModel.init( {
 },
 {
   sequelize,
-  tableName: '_market',
+  tableName: '_market_item',
   timestamps: false
 });
-MarketModel.associate({ CompanyModel });
-export default MarketModel;
+
+export default CurrencyModel;
 

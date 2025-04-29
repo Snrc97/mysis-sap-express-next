@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
 import Item from '../../layer1_business/entities/erp/Item';
+import ProductModel from './ProductModel';
 
 
 class ItemModel extends Model <Item> {
@@ -8,7 +9,8 @@ class ItemModel extends Model <Item> {
   
   static associate(models: any) {
     // Define associations here
-    this.belongsTo(models.ProductModel, { foreignKey: 'product_id' });
+    this.belongsTo(models.ProductModel, { foreignKey: 'product_id', as: 'product' });
+    return Object.values(models);
   }
 
 
@@ -55,5 +57,6 @@ ItemModel.init( {
   timestamps: false
 });
 
+ItemModel.associate({ ProductModel });
 export default ItemModel;
 

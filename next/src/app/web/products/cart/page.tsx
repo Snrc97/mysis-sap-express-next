@@ -1,21 +1,22 @@
 'use client'
 import { Button } from '@/components/ui/button'
 
-import Image from 'next/image';
+import Image from 'next/image'
 import { ChevronRightIcon } from 'lucide-react'
-import { FC, useEffect, useState } from 'react'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { ProductCardItem as CartItem } from '@/components/web/product-card'
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { useEffect, useState } from 'react'
+import { Card } from '@/components/ui/card'
 import MainLayout from '@/components/web/layout/main'
-import Link from 'next/link';
+import Link from 'next/link'
+import { CartMarketItemListViewModel } from '@/../../backend/default/layer2_application/view_models/erp/MarketItemViewModels'
+import no_image from '@/assets/images/no-image-available.jpg'
+import { formatCurrency } from '@/helpers/extensions/client_helper'
+import { apiService } from '@/scripts/api-service'
 
 
 
 export default function CartPage() {
 
-    const [items, setItems] = useState<CartItem[]>([]);
+    const [items, setItems] = useState<CartMarketItemListViewModel[]>([]);
     const [subTotal, setSubTotal] = useState(0);
 
     const getCartItemsFromStorage = () => {
@@ -26,7 +27,7 @@ export default function CartPage() {
     const handleLoadTable = () => {
         const cartItems = getCartItemsFromStorage();
         setItems(cartItems);
-        const cal_subTotal = cartItems.reduce((total: number, item: CartItem) => total + ((item.quantity || 1) * item.price), 0)
+        const cal_subTotal = cartItems.reduce((total: number, item: CartMarketItemListViewModel) => total + ((item.cart_quantity || 1) * item.price), 0)
         setSubTotal(cal_subTotal);
 
     }
@@ -44,22 +45,29 @@ export default function CartPage() {
 
     const handleRemoveFromCart = (id: number) => {
         const cartItems = getCartItemsFromStorage();
-        const filteredItems = cartItems.filter((item: CartItem) => item.id !== id);
+        const filteredItems = cartItems.filter((item: CartMarketItemListViewModel) => item.id !== id);
         localStorageSetItem('cart', JSON.stringify(filteredItems));
         handleLoadTable();
     }
 
 
-    const handleQuantityChange = (id: number, quantity: number) => {
+    const handleQuantityChange = (id: number, cart_quantity: number) => {
         const cartItems = getCartItemsFromStorage();
-        const updatedItems = cartItems.map((item: CartItem) => {
+        const updatedItems = cartItems.map((item: CartMarketItemListViewModel) => {
             if (item.id === id) {
-                return { ...item, quantity };
+                return { ...item, cart_quantity };
             }
             return item;
         });
         localStorageSetItem('cart', JSON.stringify(updatedItems));
         handleLoadTable();
+    }
+
+    const handleOrder = async () => {
+        const body: any = {
+            marketItems: items
+        }
+        const result = await apiService.post( "order", body);
     }
 
     return (
@@ -94,22 +102,22 @@ export default function CartPage() {
 
                         </Card>
 
-                        {items.map((item: CartItem) => (
-                            <Card key={item.id} className='flex flex-row px-2 py-3 w-full h-20 items-center '>
+                        {items.map((x: CartMarketItemListViewModel) => (
+                            <Card key={x.id} className='flex flex-row px-2 py-3 w-full h-20 items-center '>
 
                                 <div className='w-full text-center'>
-                                    <h2 className='text-lg'>{item.title}</h2>
+                                    <h2 className='text-lg'>{x.item.product.name}</h2>
                                 </div>
                                 <div className='w-full text-center flex flex-row items-center justify-center'>
-                                    <Image className='w-15 h-15' src={item.image} alt={item.title} width={200} height={200} />
+                                    <Image className='w-15 h-15' src={x.image ?? no_image} alt={x.item.product.name} width={200} height={200} />
                                 </div>
                                 <div className='w-full text-center'>
 
                                     <div className='flex items-center justify-center'>
                                         <button
-                                        type='button'
+                                            type='button'
                                             className='w-7 h-10 px-2 py-1 border rounded-r bg-green-500 hover:bg-green-400 cursor-pointer text-white font-bold hover:scale-105 transition-all duration-300 ease-in-out'
-                                            onClick={() => handleQuantityChange(item.id, (item.quantity || 1) - 1)}
+                                            onClick={() => handleQuantityChange(x.id, (x.cart_quantity || 1) - 1)}
                                         >
                                             -
                                         </button>
@@ -119,26 +127,26 @@ export default function CartPage() {
                                             [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                                             '
                                             type='number'
-                                            value={item.quantity || 1}
+                                            value={x.cart_quantity || 1}
                                             readOnly
                                         />
                                         <button
-                                        type='button'
+                                            type='button'
                                             className='w-7 h-10 px-2 py-1 border rounded-r bg-green-500 hover:bg-green-400 cursor-pointer text-white font-bold hover:scale-105 transition-all duration-300 ease-in-out'
-                                            onClick={() => handleQuantityChange(item.id, (item.quantity || 1) + 1)}
+                                            onClick={() => handleQuantityChange(x.id, (x.cart_quantity || 1) + 1)}
                                         >
                                             +
                                         </button>
                                     </div>
                                 </div>
                                 <div className='w-full text-center'>
-                                    <p className='mt-2'>{((item.quantity || 1) * item.price).toFixed(2)}</p>
+                                    <p className='mt-2 font-bold'>{formatCurrency((x.cart_quantity || 1) * x.price)}</p>
                                 </div>
                                 <div className='w-full text-center'>
                                     <Button
                                         className='bg-red-400 text-white hover:bg-red-700 cursor-pointer'
                                         variant="link"
-                                        onClick={() => handleRemoveFromCart(item.id)}
+                                        onClick={() => handleRemoveFromCart(x.id)}
                                     >
                                         {trans('common.remove')}
                                     </Button>
@@ -158,22 +166,28 @@ export default function CartPage() {
                 </div>
 
                 <div className='flex items-center justify-between mt-6'>
-                    <p>{trans('erp.subtotal')}: <span className='font-bold'>{subTotal.toFixed(2)}</span></p>
+                    <p>{trans('erp.subtotal')}: <span className='font-bold'>{
+                        formatCurrency(subTotal)}</span></p>
 
                 </div>
                 {
                     items.length > 0 && (
-                        <div>
-                            <Link href="/web/products">
+                        <div className='flex flex-row gap-5 items-center justify-center'>
                                 <Button
-                                    variant={"default"}
-                                    className='mt-6 bg-green-500 hover:bg-green-600 cursor-pointer'
-
+                                variant={"default"}
+                                    className='mt-6 bg-gray-500 hover:bg-gray-500 cursor-not-allowed'
                                 >
                                     {trans('e-commerce.continueShopping')}
                                     <ChevronRightIcon />
                                 </Button>
-                            </Link>
+                                <Button
+                                    variant={"default"}
+                                    className='mt-6 bg-green-500 hover:bg-green-600 cursor-pointer'
+                                    onClick={handleOrder}
+                                >
+                                    {trans('e-commerce.cart.order')}
+                                    <ChevronRightIcon />
+                                </Button>
                         </div>
 
                     )

@@ -1,11 +1,13 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
 import User from '../../layer1_business/entities/auth/User';
+import RoleModel from './RoleModel';
 
 class UserModel extends Model<User> {
   static associate(models: any) {
     // Define associations here
     // Example: this.hasMany(models.OrderModel, { foreignKey: 'user_id' });
+    return Object.values(models);
   }
 }
 UserModel.init(
@@ -63,4 +65,6 @@ UserModel.init(
     timestamps: false,
   }
 );
+
+UserModel.associate({ RoleModel });
 export default UserModel;

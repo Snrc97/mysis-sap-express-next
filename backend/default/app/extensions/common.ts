@@ -79,6 +79,7 @@ Object.defineProperty(Router, 'resource', {
     if (controller.index) {
       this.get(base, async (req, res) => await controller.index(req, res));
     }
+
     if (controller.show) {
       this.get(id, async (req, res) => await controller.show(req, res));
     }
@@ -91,6 +92,10 @@ Object.defineProperty(Router, 'resource', {
     }
     if (controller.destroy) {
       this.delete(id, async (req, res) => await controller.destroy(req, res));
+    }
+
+    if (controller.pluck) {
+      this.get(base, async (req, res) => await controller.pluck(req, res));
     }
 
     return this;

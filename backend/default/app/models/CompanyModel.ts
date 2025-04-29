@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
 import Company from '../../layer1_business/entities/erp/Company';
+import AddressModel from './AddressModel';
 
 
 class CompanyModel extends Model <Company> {
@@ -9,6 +10,7 @@ class CompanyModel extends Model <Company> {
   static associate(models: any) {
     // Define associations here
     this.belongsTo(models.AddressModel, { foreignKey: 'address_id' });
+    return Object.values(models);
   }
 
 
@@ -51,5 +53,6 @@ CompanyModel.init( {
   timestamps: false
 });
 
+CompanyModel.associate({AddressModel});
 export default CompanyModel;
 
