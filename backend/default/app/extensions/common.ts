@@ -3,7 +3,10 @@ import { RequestHandler } from 'express-serve-static-core';
 import BaseController from '../controllers/BaseController';
 
 type RouterCallback = (r: Router) => void;
-type MiddlewareOrCallback = RequestHandler | RequestHandler[] | RouterCallback;
+type MiddlewareOrRouteCallback =
+  | RequestHandler
+  | RequestHandler[]
+  | RouterCallback;
 declare module 'express-serve-static-core' {
   interface Response {
     customJson(data: unknown): Response;
@@ -12,7 +15,8 @@ declare module 'express-serve-static-core' {
   interface Router {
     group(
       prefix: string,
-      ...middlewareOrCallback: MiddlewareOrCallback[]
+      groupRouteCallback: RouterCallback,
+      middleware?: RequestHandler | RequestHandler[]
     ): Router;
     resource(
       path: string,
@@ -36,35 +40,23 @@ Object.defineProperty(response, 'customJson', {
   writable: true,
 });
 
-let subRouter : Router;
-Object.defineProperty(Router, 'group', {
+Object.defineProperty(Router as any, 'group', {
   value: function (
     prefix: string,
-    ...middlewareOrCallbacks: MiddlewareOrCallback[]
+    groupRouteCallback: RouterCallback,
+    middleware?: RequestHandler | RequestHandler[]
   ) {
-     const router = Router();
-     subRouter = Router();
+    const subRouter = Router();
 
-    middlewareOrCallbacks.forEach(
-      (middlewareOrCallback) => {
-        if (typeof middlewareOrCallback === 'function') {
-          const paramsLength = middlewareOrCallback.length;
-          if (paramsLength > 1) {
-            const mw = Array.isArray(middlewareOrCallback)
-              ? middlewareOrCallback
-              : [middlewareOrCallback];
-              router.use([...mw]);
-          } else {
-            (middlewareOrCallback as RouterCallback)(router);
-          }
-        }
-      },
-      [router]
-    );
+    if (middleware) {
+      subRouter.use(middleware);
+    }
 
-    subRouter.use(prefix, this);
+    groupRouteCallback(subRouter);
 
-    return subRouter;
+    this.use(`/${prefix}`, subRouter);
+
+    return this;
   },
 });
 
