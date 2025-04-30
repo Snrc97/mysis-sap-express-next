@@ -16,7 +16,7 @@ import { MarketItemListViewModel } from '@/../../backend/default/layer2_applicat
 
 export const fetchMarketItems = async () => {
     // setIsLoading(true);
-    const _marketListItems: MarketItemListViewModel[] = await apiService.get("market-item").then(x => x.data);
+    const _marketListItems: MarketItemListViewModel[] = await apiService.get("public/market-item").then(x => x.data);
     // setIsLoading(false);
     return _marketListItems;
 }
@@ -32,7 +32,7 @@ export default function Products() {
 
     useEffect(() => {
         const fetchItems = async () => {
-            const _marketListItems = await apiService.get('market-item').then(x => x.data);
+            const _marketListItems = await apiService.get('public/market-item').then(x => x.data);
             setMarketListItems(_marketListItems);
         }
         fetchItems();

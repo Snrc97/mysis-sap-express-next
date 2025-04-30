@@ -5,15 +5,23 @@ import cors from 'cors';
 const app: any = express();
 
 const allowedOrigins = [
+  '',
+  '/',
+  'http://localhost:8000/api/order',
   'http://localhost:8000',
   'http://localhost:3000',
+  'web/products/cart',
   'https://mysissoft.site',
+  'http://localhost:3000/web/products/cart',
+  'http://localhost:3000/web/products/detail',
+  'http://localhost:3000/web',
+  'http://localhost:3000',
 ];
 
 const corsOptions = {
   origin: (origin, callback) => {
     // If the origin is in the allowed list, allow the request
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -21,10 +29,13 @@ const corsOptions = {
   },
   credentials: true, // Enable credentials for cookies/auth headers
   allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+  exposedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+
+
 
 app.use(bodyParser.json());
 
@@ -37,6 +48,7 @@ const api_prefix = '/api';
 // Use routes
 
 app.use(api_prefix, router);
+
 
 export default app;
 export { express };

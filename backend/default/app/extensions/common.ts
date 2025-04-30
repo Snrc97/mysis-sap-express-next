@@ -3,10 +3,17 @@ import { RequestHandler } from 'express-serve-static-core';
 import BaseController from '../controllers/BaseController';
 
 type RouterCallback = (r: Router) => void;
-type MiddlewareOrRouteCallback =
-  | RequestHandler
-  | RequestHandler[]
-  | RouterCallback;
+
+export type PublicRouteMiddleware = {
+  index?: RequestHandler | RequestHandler[];
+  show?: RequestHandler | RequestHandler[];
+  store?: RequestHandler | RequestHandler[];
+  update?: RequestHandler | RequestHandler[];
+  queue?: RequestHandler | RequestHandler[];
+  destroy?: RequestHandler | RequestHandler[];
+};
+
+
 declare module 'express-serve-static-core' {
   interface Response {
     customJson(data: unknown): Response;
@@ -22,6 +29,11 @@ declare module 'express-serve-static-core' {
       path: string,
       controller: BaseController,
       middleware?: RequestHandler | RequestHandler[]
+    ): Router;
+    public(
+      path: string,
+      controller: BaseController,
+      middleware?: PublicRouteMiddleware
     ): Router;
   }
 }
@@ -113,8 +125,59 @@ Object.defineProperty(Router, 'resource', {
       );
     }
 
-    if (controller.pluck) {
-      this.get(base, async (req, res) => await controller.pluck(req, res));
+    return this;
+  },
+});
+
+Object.defineProperty(Router, 'public', {
+  value: function (
+    path: string,
+    controller: BaseController,
+    middleware?: PublicRouteMiddleware
+  ) {
+    const base = `/${path}`;
+    const id = `${base}/:id`;
+
+    if (controller.index) {
+      this.get(
+        base,
+        middleware?.index ?? [],
+        async (req, res) => await controller.index(req, res)
+      );
+    }
+
+    if (controller.show) {
+      this.get(
+        id,
+        middleware?.show ?? [],
+        async (req, res) => await controller.show(req, res)
+      );
+    }
+    if (controller.store) {
+      this.post(
+        base,
+        middleware?.store ?? [],
+        async (req, res) => await controller.store(req, res)
+      );
+    }
+    if (controller.update) {
+      this.put(
+        id,
+        middleware?.update ?? [],
+        async (req, res) => await controller.update(req, res)
+      );
+      this.patch(
+        id,
+        middleware?.queue ?? [],
+        async (req, res) => await controller.update(req, res)
+      );
+    }
+    if (controller.destroy) {
+      this.delete(
+        id,
+        middleware?.destroy ?? [],
+        async (req, res) => await controller.destroy(req, res)
+      );
     }
 
     return this;

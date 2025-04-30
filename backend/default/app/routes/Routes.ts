@@ -15,19 +15,19 @@ router.get(
   async (req, res) => await orderController.index(req, res)
 );
 
+router.group('public', (router) => {
+  router.public('order', orderController);
+  router.public('customer', customerController);
+  router.public('market', marketController);
+  router.public('market-item', marketItemController);
+});
 
+router.resource('user', userController, userAuthentication);
+router.resource('order', orderController, userAuthentication);
+router.resource('customer', customerController, userAuthentication);
+router.resource('market', marketController, userAuthentication);
+router.resource('market-item', marketItemController, userAuthentication);
 
-router.group(
-  'admin',
-  (router) => {
-    router.resource('user', userController);
-    router.resource('order', orderController);
-    router.resource('customer', customerController);
-    router.resource('market', marketController);
-    router.resource('market-item', marketItemController);
-  },
-  userAuthentication
-);
 router.group('auth', (router) => {
   router.post('/register', authController.register);
   router.post('/login', validateLogin, authController.login);
@@ -36,12 +36,5 @@ router.group('auth', (router) => {
   router.post('/verify-email', authController.verifyEmail);
   router.post('/verify-phone-number', authController.verifyPhoneNumber);
 });
-
-router.group('hey', (router) => {
-});
-
-
-
-
 
 export default router;

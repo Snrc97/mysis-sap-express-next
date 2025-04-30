@@ -1,16 +1,12 @@
 import BaseController from './BaseController';
 import jwt from 'jsonwebtoken';
-import UserRepository, { userRepository as repo } from '../repositories/UserRepository';
+import UserRepository, {
+  userRepository as repo,
+} from '../repositories/UserRepository';
 import { md5 } from 'js-md5';
 
 class AuthController {
-
-
-  constructor() {
-
-  }
-
-
+  constructor() {}
 
   async register(req, res) {
     try {
@@ -23,18 +19,16 @@ class AuthController {
   }
 
   async login(req, res) {
-
     try {
-      req.body.password = md5(req.body.password);
-      const user = await repo.findAll({
+      // req.body.password = md5(req.body.password);
+      const users = await repo.findAll({
         where: { email: req.body.email, password: req.body.password },
       });
-      if (user) {
-        const token = jwt.sign(
-          { userId: user.id, email: user.email },
-          process.env.JWT_SECRET || 'secret',
-          { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
-        );
+      if (users.length > 0) {
+        const user = users[0];
+        const secretKey: any = process?.env?.JWT_SECRET ?? null;
+        const payload = { id: user.id, email: user.email };
+        const token = jwt.sign(payload, secretKey, { expiresIn: '30d' });
         res.cookie('auth-token', token, {
           httpOnly: true,
           sameSite: 'strict',
@@ -50,7 +44,7 @@ class AuthController {
       res.status(500).customJson({ success: false, msg: err.stack });
     }
   }
-  
+
   logout(req, res) {
     try {
       res.clearCookie('auth-token');

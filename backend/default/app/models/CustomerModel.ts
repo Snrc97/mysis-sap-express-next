@@ -8,8 +8,8 @@ class CustomerModel extends Model <Customer> {
   
   static associate(models: any) {
     // Define associations here
-    this.belongsTo(models.AddressModel, { foreignKey: 'address_id', as: 'address' });
-    this.belongsTo(models.UserModel, { foreignKey: 'user_id', as: 'user' });
+
+
     return Object.values(models);
   }
 
@@ -20,6 +20,8 @@ CustomerModel.init( {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
+    unique: true,
+
   },
   address_id: {
     type: DataTypes.INTEGER,
@@ -55,5 +57,9 @@ CustomerModel.init( {
 });
 
 CustomerModel.associate({ AddressModel, UserModel });
+CustomerModel.belongsTo(AddressModel, { foreignKey: 'address_id', as: 'address' });
+CustomerModel.belongsTo(UserModel, { foreignKey: 'user_id', as: 'user' });
+UserModel.hasOne(CustomerModel, { foreignKey: 'user_id', as: 'customer', sourceKey: 'id' });
+
 export default CustomerModel;
 

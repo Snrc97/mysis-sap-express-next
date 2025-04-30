@@ -6,6 +6,12 @@ import { ActivityIcon, Loader, Loader2, LoaderCircle, LoaderPinwheel } from 'luc
 import { apiService } from '@/scripts/api-service';
 import { MarketItemListViewModel } from '../../../../backend/default/layer2_application/view_models/erp/MarketItemViewModels';
 
+export type MysisContextProps = {
+  isLoading?: boolean;
+  setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>;
+  handleWithAsyncrousLoading?: (action: () => Promise<void>) => Promise<void>;
+}
+
 const MysisContext = createContext({});
 export function MysisProvider({ children }: { children: any }) {
 
@@ -30,7 +36,7 @@ export function MysisProvider({ children }: { children: any }) {
 
 
 
-  const values = {
+  const values : MysisContextProps = {
     isLoading,
     setIsLoading,
     handleWithAsyncrousLoading

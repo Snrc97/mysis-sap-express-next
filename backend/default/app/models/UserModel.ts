@@ -2,11 +2,13 @@ import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
 import User from '../../layer1_business/entities/auth/User';
 import RoleModel from './RoleModel';
+import CustomerModel from './CustomerModel';
 
 class UserModel extends Model<User> {
   static associate(models: any) {
     // Define associations here
     // Example: this.hasMany(models.OrderModel, { foreignKey: 'user_id' });
+    
     return Object.values(models);
   }
 }
@@ -16,6 +18,7 @@ UserModel.init(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+      unique: true,
     },
     role_id: {
       type: DataTypes.INTEGER,
@@ -66,5 +69,8 @@ UserModel.init(
   }
 );
 
-UserModel.associate({ RoleModel });
+UserModel.associate({ RoleModel, CustomerModel });
+UserModel.belongsTo(RoleModel, { foreignKey: 'role_id', as: 'role' });
+
+
 export default UserModel;

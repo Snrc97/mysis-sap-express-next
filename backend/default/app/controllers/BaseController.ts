@@ -8,6 +8,7 @@ class BaseController {
   constructor(repo: any) {
     this.repo = repo;
     this.attributes.pluck = ['id', 'name'];
+    
   }
 
   async index(req, res) {

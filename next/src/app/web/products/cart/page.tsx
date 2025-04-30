@@ -68,15 +68,15 @@ export default function CartPage() {
         const cmds = items.map((marketItem: CartMarketItemListViewModel) => {
             return {
                 market_id: marketItem.market_id,
-                item_id: marketItem.id,
+                market_item_id: marketItem.id,
                 quantity: marketItem.cart_quantity
             }
         });
 
         const results: any[] = [];
         cmds.forEach(async (cmd: any) => {
-            const result = await apiService.post( "order", cmd);
-            if (result.success) {
+            const result = await apiService.post("order", cmd);
+            if (result.success == true) {
                 localStorageRemoveItem('cart');
                 handleLoadTable();
                
@@ -87,7 +87,7 @@ export default function CartPage() {
         const success = !results.some((res: any) => res?.success == false);
         Swal.fire({
             title: trans('common.status'),
-            text: trans('common.success'),
+            text: trans('common.process_successful', { process_name: trans('erp.order') }),
             icon: success ? 'success' : 'error',
             timer: 2000
         })

@@ -4,6 +4,9 @@ import CustomerModel from '../models/CustomerModel';
 import MarketItemModel from '../models/MarketItemModel';
 import ItemModel from '../models/ItemModel';
 import ProductModel from '../models/ProductModel';
+import { userRepository } from '../repositories/UserRepository';
+import UserModel from '../models/UserModel';
+import CustomerRepository, { customerRepository } from '../repositories/CustomerRepository';
 
 class OrderController extends BaseController {
   constructor() {
@@ -30,6 +33,25 @@ class OrderController extends BaseController {
       ],
     };
   }
+
+  async store(req, res) {
+    const user_id = req.user.id;
+    const customer_id = await customerRepository.findById(user_id).then((data) => data.id);
+
+    req.body.customer_id = customer_id;
+    
+    await super.store(req, res);
+  }
+
+  async update(req, res) {
+    await this.repo
+      .update(req.params.id, req.body)
+      .then((data) => res.customJson({ data }))
+      .catch((err) =>
+        res.status(400).customJson({ success: false, msg: err.message })
+      );
+  }
+
 
   async pluck(req, res) {
     await this.repo

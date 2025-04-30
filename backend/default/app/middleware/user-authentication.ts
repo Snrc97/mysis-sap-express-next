@@ -15,16 +15,12 @@ export const userAuthentication = (
 
   try {
     const jwtSecret = process.env.JWT_SECRET || "secret";
-    const decoded = jwt.verify(token, jwtSecret) as {
-      user: {
-        id: string;
-      };
-    };
+    const decoded =  jwt.verify(token,jwtSecret);
+    (req as any).user = decoded;
 
-    (req as any).user = decoded.user;
     next();
   } catch (err) {
-    res.status(401).json({ msg: "Invalid JWT Token" });
+    res.status(401).json({ msg: "Invalid JWT Token: " + err.message || "" });
   }
 };
 

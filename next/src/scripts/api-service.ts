@@ -36,9 +36,9 @@ export class ApiService {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this.getToken()}`,
-        Cookie: document.cookie,
+        // Cookie: document.cookie,
       },
-      credentials: "include",
+      // credentials: "include",
       body: data ? JSON.stringify(data) : undefined,
     };
 

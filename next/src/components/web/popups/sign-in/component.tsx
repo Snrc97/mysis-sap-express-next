@@ -1,9 +1,10 @@
 'use client'
+import MysisContext, { MysisContextProps } from '@/components/context/MysisProvider'
 import { ButtonSpinner } from '@/components/ui-custom/ButtonSpinner'
 import Icon from '@/components/ui-custom/Icon'
 import { apiService } from '@/scripts/api-service'
 import { setCookie } from '@/scripts/nookies-cookies'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import 'swiper/css'
 import 'swiper/css/autoplay'
@@ -21,6 +22,10 @@ export default function SignIn() {
     const [showPassword, setShowPassword] = useState(false);
 
     const [hasLoggedIn, setHasLoggedIn] = useState(false);
+
+
+    const { handleWithAsyncrousLoading } : MysisContextProps = useContext(MysisContext);
+
     useEffect(() => {
         setHasLoggedIn(checkHasLoggedIn());
 
@@ -28,7 +33,7 @@ export default function SignIn() {
 
     // alert(hasLoggedIn);
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         localStorageRemoveItem('auth-token');
         setHasLoggedIn(checkHasLoggedIn());
     }
@@ -36,11 +41,14 @@ export default function SignIn() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+      
         if (!hasLoggedIn) {
-            await handleLogin();
+            const tryLogin = async () => await handleWithAsyncrousLoading?.(handleLogin) ?? await handleLogin();
+            await tryLogin();
         }
         else {
-            handleLogout();
+            const tryLogout = async () => await handleWithAsyncrousLoading?.(handleLogout) ?? await handleLogout();
+            await tryLogout();
         }
     }
 
