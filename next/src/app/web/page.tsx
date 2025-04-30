@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/autoplay'
@@ -9,9 +9,12 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 import HeroCover from '@/components/web/hero-cover'
-import ProductCard, { ProductCardItem } from '@/components/web/product-card'
+import ProductCard from '@/components/web/product-card'
 import { A11y, Autoplay, Controller, EffectFade, FreeMode, Grid, HashNavigation, History, Keyboard, Manipulation, Navigation, Pagination, Parallax, Thumbs, Virtual } from 'swiper/modules'
 import MainLayout from '@/components/web/layout/main'
+import { MarketItemListViewModel } from '../../../../backend/default/layer2_application/view_models/erp/MarketItemViewModels'
+import no_image from '@/assets/images/no-image-available.jpg'
+import { fetchMarketItems } from './products/page'
 
 export default function HomePage() {
     const [activeSlide, setActiveSlide] = useState(0);
@@ -19,57 +22,23 @@ export default function HomePage() {
     const [coverSwiper, setCoverSwiper] = useState<SwiperClass>();
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass>();
 
-    const products: ProductCardItem[] = [
-        {
-            id: 1,
-            title: 'Product 1',
-            description: "Ürün 1",
-            image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-            price: 30
-        },
-        {
-            id: 2,
-            title: 'Product 2',
-            description: "Ürün 2",
-            image: 'https://images.unsplash.com/photo-1692032667961-d17dcb5cef15?w=500&auto=format&fit=crop&q=60',
-            price: 30
-        },
-        {
-            id: 3,
-            title: 'Product 3',
-            description: "Ürün 3",
-            image: 'https://images.unsplash.com/photo-1692032667961-d17dcb5cef15?w=500&auto=format&fit=crop&q=60',
-            price: 30
-        },
-        {
-            id: 4,
-            title: 'Product 4',
-            description: "Ürün 4",
-            image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-            price: 40
-        },
-        {
-            id: 5,
-            title: 'Product 3',
-            description: "Ürün 3",
-            image: 'https://images.unsplash.com/photo-1692032667961-d17dcb5cef15?w=500&auto=format&fit=crop&q=60',
-            price: 30
-        },
-        {
-            id: 6,
-            title: 'Product 4',
-            description: "Ürün 4",
-            image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-            price: 40
-        },
-        {
-            id: 7,
-            title: 'Product 4',
-            description: "Ürün 4",
-            image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-            price: 40
-        },
-    ];
+
+    const [marketListItems, setMarketListItems] = useState<MarketItemListViewModel[]>([]);
+
+
+    useEffect(() => {
+
+        const handleFetchMarketItems = async () => {
+            const getMarketItems = await fetchMarketItems();
+            setMarketListItems(getMarketItems);
+
+        }
+        handleFetchMarketItems();
+
+
+    }, []);
+
+
 
     return (
         <MainLayout className='flex flex-col w-full items-center'>
@@ -81,7 +50,7 @@ export default function HomePage() {
                 > */}
                 <div className='w-full h-full flex flex-row items-start justify-center bg-blue-100'>
                     <Swiper
-                    onSwiper={setCoverSwiper}
+                        onSwiper={setCoverSwiper}
                         className='w-full h-full z-999'
                         modules={[
                             Autoplay,
@@ -90,7 +59,7 @@ export default function HomePage() {
                             Navigation,
                             EffectFade
                         ]}
-                        
+
                         spaceBetween={10}
                         slidesPerView={1}
                         loop={true}
@@ -103,11 +72,11 @@ export default function HomePage() {
                         thumbs={{ swiper: thumbsSwiper }}
                         onActiveIndexChange={(swiper: any) => setActiveSlide(swiper.activeIndex)}
                     >
-                        {products.map((product: any, index: number) => (
+                        {marketListItems.map((marketListItem: MarketItemListViewModel, index: number) => (
                             <SwiperSlide key={index}>
                                 <Image
-                                    src={product.image}
-                                    alt={product.title}
+                                    src={marketListItem.image || no_image}
+                                    alt={marketListItem.item?.product?.name || ''}
                                     width={1920}
                                     height={1080}
                                     className="object-cover w-[100%] h-160"
@@ -124,23 +93,22 @@ export default function HomePage() {
                             slidesPerView={4}
                             freeMode={true}
                             watchSlidesProgress={true}
-                            
+
                             modules={[FreeMode, Navigation, Thumbs]}
                             className="mySwiper h-90 absolute"
                             onActiveIndexChange={(swiper: any) => setActiveSlide(swiper.activeIndex)}
                         >
-                            {products.map((product: any, index: number) => (
-                                <SwiperSlide key={index}  className={'cursor-pointer transition duration-600 ease-in-out border-green-500' + (activeSlide === index ? ' border-2' : ' hover:border-5')}>
+                            {marketListItems.map((marketListItem: MarketItemListViewModel, index: number) => (
+                                <SwiperSlide key={index} className={'cursor-pointer transition duration-600 ease-in-out border-green-500' + (activeSlide === index ? ' border-2' : ' hover:border-5')}>
 
                                     {/* thumbnail */}
                                     <Image
-                                        src={product.image}
-                                        alt={product.title}
+                                        src={marketListItem.image || no_image}
+                                        alt={marketListItem.item?.product?.name || ''}
                                         width={500}
                                         height={500}
                                         onClick={() => {
-                                            if(coverSwiper && thumbsSwiper)
-                                            {
+                                            if (coverSwiper && thumbsSwiper) {
                                                 thumbsSwiper.slideTo(index);
                                                 coverSwiper.slideTo(index);
                                             }
@@ -184,9 +152,9 @@ export default function HomePage() {
                 >
                     {
 
-                        products.map((product: any, index: number) => (
+                        marketListItems.map((marketListItem: MarketItemListViewModel, index: number) => (
                             <SwiperSlide key={index}>
-                                <ProductCard key={index} product={product} />
+                                <ProductCard marketListItem={marketListItem} />
                             </SwiperSlide>
                         ))
 

@@ -61,7 +61,7 @@ export default function SignIn() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="w-auto h-auto bg-white rounded-lg shadow-lg">
+            <div className="w-auto h-auto bg-white dark:bg-gray-600 rounded-lg shadow-lg">
 
                 {
                     hasLoggedIn &&

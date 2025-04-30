@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InputType } from "./datatable";
+import { setDefaultOptions } from 'date-fns';
+import { apiService } from '@/scripts/api-service';
 
 
 
@@ -14,6 +16,7 @@ export interface ReusableFormProps {
   placeholder?: string;
   format?: string;
   onChange?: (value: string | number | readonly string[]) => void;
+  endpoint?: string;
 
   // case type : select
   options?: { value: string | number; label: string }[];
@@ -24,16 +27,20 @@ export const ReusableFormElement: React.FC<ReusableFormProps> = ({
   name,
   label,
   type,
-  elementType,
-  options,
+  elementType = "text",
+  options = [],
+  endpoint,
   defaultValue,
-  required,
-  disabled,
+  required = true,
+  disabled = false,
   placeholder,
   onChange
 }) => {
 
+  type = elementType == "select" ? "select" : type ?? "input"
+
   const [value, setValue] = useState(defaultValue);
+  const [_options, setOptions] = useState(options);
 
 
   const handleOnChange = (prmValue: string | number | readonly string[]) => {
@@ -96,7 +103,7 @@ export const ReusableFormElement: React.FC<ReusableFormProps> = ({
             </div>
           );
 
-        default:
+        case "datetime-local":
           return (
             <input
               type={elementType}
@@ -111,9 +118,29 @@ export const ReusableFormElement: React.FC<ReusableFormProps> = ({
           );
       }
 
+    break;
 
-     
+
     case "select":
+
+      const fetchOptions = async () => {
+        console.log("select", endpoint);
+        if (!endpoint) {
+          return;
+        }
+        const response = await apiService.get(endpoint + '?pluck=1');
+        const data = await response.json();
+        setOptions(data);
+
+        console.log("select YES", data);
+
+      }
+
+      useEffect(() => {
+        fetchOptions();
+      }, []);
+
+
       return (
         <select name={name}
           title={label}
@@ -123,9 +150,9 @@ export const ReusableFormElement: React.FC<ReusableFormProps> = ({
           disabled={disabled}
           className="form-select bg-gray-300 border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
         >
-          {options?.map((option) => (
+          {_options?.map((option) => (
             <option key={option.value} value={option.value} >
-              {option.label}
+              {option?.label ?? option.value}
             </option>
           ))}
         </select>

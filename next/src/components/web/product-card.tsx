@@ -5,6 +5,7 @@ import Icon from '../ui-custom/Icon'
 import { motion } from "framer-motion"
 import { MarketItemListViewModel } from '@/../../backend/default/layer2_application/view_models/erp/MarketItemViewModels'
 import no_image from '@/assets/images/no-image-available.jpg'
+import { formatCurrency } from '@/helpers/extensions/client_helper'
 
 type ProductCardProps = {
     className?: string;
@@ -61,10 +62,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ marketListItem, className, On
     }
 
     return (
-        <div className={className + " h-full border rounded-lg overflow-hidden shadow-md hover:shadow-xl"}>
+        <div className={className + " h-full border rounded-lg overflow-hidden shadow-md hover:shadow-xl dark:bg-gray-800 dark:hover:bg-gray-700"}>
             <Link href={`/product/${marketListItem.id}`}>
                 <Image
-                    src={marketListItem.image ?? no_image}
+                    src={marketListItem?.image || no_image}
                     alt={marketListItem.item.product.name}
                     width={300}
                     height={300}
@@ -72,7 +73,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ marketListItem, className, On
                 />
                 <div className="p-4">
                     <div className='flex flex-row items-center justify-between'>
-                        <h2 className="text-lg text-gray-600 font-semibold">{marketListItem.item.product.name}</h2>
+                        <h2 className="text-lg font-semibold">{marketListItem.item.product.name}</h2>
                         <motion.div className='w-[90px] h-[90px]' key={isAddedToCart ? 1 : 0} onClick={(e) => { e.preventDefault(); handleAddToCart(); }}
                             initial={{ scaleX: isAddedToCart ? 1 : -1 }}
                             animate={{ scaleX: isAddedToCart ? -1 : 1 }}
@@ -96,10 +97,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ marketListItem, className, On
                     </div>
                     <div className='h-full w-full flex flex-col'>
                         <div className='w-full h-25 mt-1'>
-                            <p className="text-gray-700 text-wrap overflow-hidden">{marketListItem.item.product.description}</p>
+                            <p className=" text-wrap overflow-hidden">{marketListItem.item.product.description}</p>
                         </div>
                         <div className='w-full text-end'>
-                            <p className="text-gray-600 font-bold">{(marketListItem.currency?.Symbol ?? "₺") + marketListItem.price.toFixed(2)}</p>
+                            <p className="font-bold">{formatCurrency(marketListItem.price)}</p>
                         </div>
                     </div>
 

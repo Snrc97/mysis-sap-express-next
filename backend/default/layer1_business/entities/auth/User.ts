@@ -9,7 +9,7 @@ export default interface User extends IEntity {
   email: string;
   password: string;
   phone_number?: string;
-  status: UserStatus;
+  status?: UserStatus;
   last_login?: Date;
   created_at?: Date;
   updated_at?: Date;

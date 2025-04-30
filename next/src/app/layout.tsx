@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import NextTopLoader from 'nextjs-toploader';
-import MysisProvider from '@/components/context/MysisProvider';
+import { MysisProvider } from '@/components/context/MysisProvider';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

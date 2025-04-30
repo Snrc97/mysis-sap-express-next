@@ -2,13 +2,14 @@ import { DataTypes, Model } from 'sequelize';
 import { databaseManager, sequelize } from '../config/database';
 import Customer from '../../layer1_business/entities/erp/Customer';
 import AddressModel from './AddressModel';
+import UserModel from './UserModel';
 
 class CustomerModel extends Model <Customer> {
   
   static associate(models: any) {
     // Define associations here
-    // Example: this.belongsTo(models.UserModel, { foreignKey: 'customer_id' });
-    this.belongsTo(models.AddressModel, { foreignKey: 'address_id' });
+    this.belongsTo(models.AddressModel, { foreignKey: 'address_id', as: 'address' });
+    this.belongsTo(models.UserModel, { foreignKey: 'user_id', as: 'user' });
     return Object.values(models);
   }
 
@@ -24,6 +25,10 @@ CustomerModel.init( {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
   first_name: {
     type: DataTypes.STRING(50),
     allowNull: false,
@@ -35,10 +40,12 @@ CustomerModel.init( {
   created_at: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: DataTypes.NOW,
   },
   updated_at: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: DataTypes.NOW,
   },
 },
 {
@@ -47,6 +54,6 @@ CustomerModel.init( {
   timestamps: false
 });
 
-CustomerModel.associate({ AddressModel });
+CustomerModel.associate({ AddressModel, UserModel });
 export default CustomerModel;
 

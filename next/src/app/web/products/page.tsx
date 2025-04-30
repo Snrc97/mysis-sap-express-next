@@ -14,20 +14,25 @@ import { apiService } from '@/scripts/api-service'
 
 import { MarketItemListViewModel } from '@/../../backend/default/layer2_application/view_models/erp/MarketItemViewModels'
 
+export const fetchMarketItems = async () => {
+    // setIsLoading(true);
+    const _marketListItems: MarketItemListViewModel[] = await apiService.get("market-item").then(x => x.data);
+    // setIsLoading(false);
+    return _marketListItems;
+}
+
 export default function Products() {
 
 
-    let _marketListItems: MarketItemListViewModel[] = [
-
-    ];
 
 
 
-    const [marketListItems, setMarketListItems] = useState<MarketItemListViewModel[]>(_marketListItems);
+    const [marketListItems, setMarketListItems] = useState<MarketItemListViewModel[]>([]);
+    const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
         const fetchItems = async () => {
-            _marketListItems = await apiService.get('market-item').then(x => x.data);
+            const _marketListItems = await apiService.get('market-item').then(x => x.data);
             setMarketListItems(_marketListItems);
         }
         fetchItems();
@@ -56,13 +61,13 @@ export default function Products() {
     }, []);
 
 
-   
+
 
     // handleFilter as well
     const handleSetMarketListItems = (props: { __marketListItems?: MarketItemListViewModel[], sortBy?: string }) => {
         let { __marketListItems, sortBy } = props;
         __marketListItems = __marketListItems || marketListItems;
-        sortBy = sortBy || selectedSortBy;
+        sortBy = sortBy ?? selectedSortBy;
         if (!sortBy) {
             setMarketListItems(__marketListItems);
         }
@@ -87,13 +92,19 @@ export default function Products() {
 
 
             {/* Sort by Price */}
-            <div className="w-full h-full bg-green-300  font-bold flex flex-row items-center justify-end px-66 py-2">
+            <div className="w-full h-full bg-gray-300 dark:bg-gray-700 font-bold flex flex-row items-center justify-end px-66 py-2">
                 <span className="mr-2 font-bold text-xl">{trans('common.sort')}:</span>
-                <select title='Sort' className="border border-gray-300 text-white rounded-xl px-3 py-1 bg-green-600 hover:bg-green-700" onChange={(e) => {
-                    const value = e.currentTarget.value;
-                    setSelectedSortBy(value);
-                    handleSetMarketListItems({ sortBy: value });
-                }}>
+                <select title='Sort' className="border border-gray-300 rounded-xl px-3 py-1 
+                bg-gray-300
+                hover:bg-gray-400
+                
+                dark:bg-gray-700 
+                dark:hover:bg-gray-600
+                " onChange={(e) => {
+                        const value = e.currentTarget.value;
+                        setSelectedSortBy(value);
+                        handleSetMarketListItems({ sortBy: value });
+                    }}>
                     <option value="">{trans('common.select')}</option>
                     <option value="asc">{trans('e-commerce.sort.priceLowToHigh')}</option>
                     <option value="desc">{trans('e-commerce.sort.priceHighToLow')}</option>
@@ -101,7 +112,7 @@ export default function Products() {
             </div>
             <div className="flex flex-row w-full h-full py-10 px-10 gap-10">
                 {/* Sidebar */}
-                <div className="w-1/4 h-full p-4 bg-gray-100">
+                <div className="w-1/4 h-full p-4 bg-gray-100 dark:bg-gray-800">
                     {/* Search Bar */}
                     <div className="mb-4">
                         <input
@@ -110,11 +121,8 @@ export default function Products() {
                             className="w-full p-2 border border-gray-300 rounded"
                             onChange={(e) => {
                                 const value = e.currentTarget.value.toLowerCase();
-                                const filteredProducts = _marketListItems.filter((x) => (
-                                    x.item.product.name.toLowerCase().includes(value) ||
-                                    x.item.product.description.toLowerCase().includes(value)
-                                ));
-                                handleSetMarketListItems({ __marketListItems: filteredProducts });
+                                setSearchValue(value);
+
                             }}
                         />
                     </div>
@@ -148,16 +156,14 @@ export default function Products() {
 
 
                     <div className='w-full h-full gap-6 flex flex-row flex-wrap items-start justify-start '>
-
                         {
-                            marketListItems.map((x, index) => (
-                                <ProductCard key={x.id} className='w-70' marketListItem={x} OnAddedToCart={(product => handleAddToCart())} />
-                            ))
+                            marketListItems.map((x, index) => {
+                                const conds = x.item?.product?.name?.toLowerCase()?.includes(searchValue) ||
+                                    x.item?.product?.description?.toLowerCase()?.includes(searchValue);
+                                return conds && <ProductCard key={x.id} className='w-70' marketListItem={x} OnAddedToCart={(product => handleAddToCart())} />
+                            })
+
                         }
-
-
-
-
                     </div>
 
 

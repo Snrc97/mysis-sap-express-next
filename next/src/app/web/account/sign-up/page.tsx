@@ -1,16 +1,11 @@
 'use client'
-import Image from 'next/image'
-import { useRef, useState } from 'react'
-import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
+import { useState } from 'react'
 import 'swiper/css'
 import 'swiper/css/autoplay'
 import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
-import HeroCover from '@/components/web/hero-cover'
-import ProductCard, { ProductCardItem } from '@/components/web/product-card'
-import { A11y, Autoplay, Controller, EffectFade, FreeMode, Grid, HashNavigation, History, Keyboard, Manipulation, Navigation, Pagination, Parallax, Thumbs, Virtual } from 'swiper/modules'
 import MainLayout from '@/components/web/layout/main'
 
 export default function SignIn() {

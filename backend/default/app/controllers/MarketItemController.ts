@@ -4,13 +4,19 @@ import ItemModel from '../models/ItemModel';
 import ProductModel from '../models/ProductModel';
 import BrandModel from '../models/BrandModel';
 import CategoryModel from '../models/CategoryModel';
+import CurrencyModel from '../models/CurrencyModel';
 
 class MarketItemController extends BaseController {
   constructor() {
     super(marketItemRepository);
-    this.attributes = ['id', 'market_id', 'price', 'quantity', 'content', 'created_at'],
+    this.attributes = ['id', 'market_id', 'image', 'price', 'quantity', 'content', 'created_at'],
     this.includes = {
       index: [
+        {
+          model: CurrencyModel,
+          as: 'currency',
+          attributes: ['id', 'Symbol'],
+        },
         { model: ItemModel,
           as: 'item',
           attributes: ['id', 'serial_number', 'sku', 'barcode','created_at', 'expiration_date'],

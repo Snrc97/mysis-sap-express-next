@@ -5,6 +5,29 @@ class CustomerController extends BaseController {
   constructor() {
     super(customerRepository);
   }
+
+  async pluck(req, res) {
+    await this.repo
+
+      .findAll({ include: this.includes.index })
+      .then((data) => {
+        return data.map((x: any) => {
+
+          const specs = [
+            x.first_name + ' ' + x.last_name,
+          ]
+
+          return {
+            id: x.id,
+            name: specs.join('   -   '),
+          };
+        });
+      })
+      .then((data) => res.customJson({ data: data }))
+      .catch((err) =>
+        res.status(500).customJson({ success: false, msg: err.message })
+      );
+  }
 }
 
 const customerController = new CustomerController();

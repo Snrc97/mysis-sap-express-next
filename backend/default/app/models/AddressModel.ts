@@ -55,15 +55,17 @@ AddressModel.init( {
   created_at: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: DataTypes.NOW,
   },
   updated_at: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: DataTypes.NOW,
   },
 },
 {
   sequelize,
-  tableName: '_customer',
+  tableName: '_address',
   timestamps: false
 });
 

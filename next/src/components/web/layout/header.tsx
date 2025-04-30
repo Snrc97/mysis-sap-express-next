@@ -83,13 +83,13 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
         onBlur={() => setSearchInputVisible(false)}
 
       >
-        <form className='flex flex-row items-center rounded-xl bg-white border-2 border-gray-700' onSubmit={(e) => {
+        <form className='flex flex-row items-center rounded-xl dark:bg-gray-800 border-2 border-gray-700' onSubmit={(e) => {
           e.preventDefault();
           const formData = new FormData(e.currentTarget);
           const searchQuery = formData.get('search') as string;
           redirect(`?search?q=${searchQuery}`);
         }}>
-          <input id='search-input' type="text" name="search" className='w-full h-full outline-none text-black px-4' placeholder="Arama Yap" />
+          <input id='search-input' type="text" name="search" className='w-full h-full outline-none text-black dark:text-white px-4' placeholder="Arama Yap" />
 
 
           <Button type="submit" variant={"secondary"} className='bg-green-700 cursor-pointer text-white' size={"icon"}>
@@ -225,7 +225,7 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
         </div>
         <div key={hamburgerMenuOpen ? 1 : 0} className={`
             flex
-           bg-white
+            dark:bg-gray-800
            absolute
              min-[1390px]:visible
             min-[1390px]:w-[100%]
@@ -276,6 +276,7 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
                       relative 
                       transition-all
                       hover:text-gray-700
+                      dark:hover:text-gray-400
                       hover:scale-105
                       ">{button.title}</Link>
                         : // if the header button is icon-button

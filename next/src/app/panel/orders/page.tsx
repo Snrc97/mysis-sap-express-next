@@ -5,7 +5,7 @@ import { DataTableActionProps } from "@/components/ui-reusables/datatable";
 import Datatable from '@/components/ui-reusables/datatable';
 import PageContainer from "@/components/layout/page-container";
 import ColumnMap from '@/types/ColumnMap';
-import OrderMaps, { OrderMapsType } from '@/maps/order/map';
+import { getColumnMap } from '@/maps/order/map';
 import { useEffect, useState } from 'react';
 
 function Orders() {
@@ -17,7 +17,7 @@ function Orders() {
     deleteable: true,
   };
 
-  const [columnMap, setColumnMap] = useState<ColumnMap>(OrderMaps.columnMap);
+  const [columnMap, setColumnMap] = useState<ColumnMap>(getColumnMap().columnMap);
 
 
   const endpoint = "order";

@@ -13,7 +13,7 @@ type HeaderProps = {
 
 const Header: React.FC<any> = ({ title, description }: HeaderProps) => {
   return (
-    <header className="w-full h-16 bg-gray-800 text-white flex items-center justify-between">
+    <header className="w-full h-16 bg-gray-800 flex items-center justify-between dark:bg-gray-900">
       <div className="flex flex-col gap-2 justify-center">
         <h1 className="text-2xl font-bold">{title}</h1>
         <p className="text-lg">{description}</p>
@@ -29,7 +29,7 @@ const Header: React.FC<any> = ({ title, description }: HeaderProps) => {
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-2 w-20">
               <Button variant={"ghost"} className="relative h-12 w-6">
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">3</span>
+                <span className="absolute -top-1 -right-1 bg-red-500 text-xs font-bold px-1.5 py-0.5 rounded-full">3</span>
               </Button>
               <Icon name={"bell"} size={28} className="absolute" />
 

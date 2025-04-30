@@ -42,15 +42,17 @@ CurrencyModel.init( {
   created_at: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: DataTypes.NOW,
   },
   updated_at: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: DataTypes.NOW,
   },
 },
 {
   sequelize,
-  tableName: '_market_item',
+  tableName: '_currency',
   timestamps: false
 });
 

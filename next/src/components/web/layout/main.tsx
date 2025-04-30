@@ -36,7 +36,7 @@ export default function MainLayout({
             animate="enter"
             exit="exit"
             transition={{ duration: 0.2 }}
-            className="flex flex-col min-h-screen bg-white"
+            className="flex flex-col min-h-screen bg-white dark:bg-gray-900 dark:text-white"
         >
             <Header description={description || ""} headerButtons={headerButtons}/>
             <main className={className + " my-16"}>

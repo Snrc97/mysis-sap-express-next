@@ -440,12 +440,9 @@ const Datatable: React.FC<DataTableProps> = memo(
                                     {
 
                                         <ReusableFormElement
-                                            name={column.name}
-                                            label={column.label}
-                                            type={column?.elementType === "select" ? "select" : column?.type ?? "input"}
-                                            elementType={column?.elementType ?? "text"}
-                                            options={column?.options ?? []}
-                                            required={true}
+                                        {
+                                            ...column
+                                        }
                                             defaultValue={selectedRowIndex !== undefined ? (viewRows[selectedRowIndex]?.[column.name] ?? undefined) : undefined}
                                             onChange={(value) => { modalInputs[column.name] = value; }}
                                             disabled={crudMode === "show"}

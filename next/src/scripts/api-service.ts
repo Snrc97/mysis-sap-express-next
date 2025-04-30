@@ -24,7 +24,6 @@ export class ApiService {
     data?: unknown
   ): Promise<any> {
     const url = new URL(`${this.baseUrl}${endpoint || ""}`);
-    console.log(url);
     if (params) {
       Object.entries(params).forEach(([key, value]) =>
         url.searchParams.append(key, value as string)

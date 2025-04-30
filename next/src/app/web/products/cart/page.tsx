@@ -11,6 +11,7 @@ import { CartMarketItemListViewModel } from '@/../../backend/default/layer2_appl
 import no_image from '@/assets/images/no-image-available.jpg'
 import { formatCurrency } from '@/helpers/extensions/client_helper'
 import { apiService } from '@/scripts/api-service'
+import Swal from 'sweetalert2'
 
 
 
@@ -64,16 +65,38 @@ export default function CartPage() {
     }
 
     const handleOrder = async () => {
-        const body: any = {
-            marketItems: items
-        }
-        const result = await apiService.post( "order", body);
+        const cmds = items.map((marketItem: CartMarketItemListViewModel) => {
+            return {
+                market_id: marketItem.market_id,
+                item_id: marketItem.id,
+                quantity: marketItem.cart_quantity
+            }
+        });
+
+        const results: any[] = [];
+        cmds.forEach(async (cmd: any) => {
+            const result = await apiService.post( "order", cmd);
+            if (result.success) {
+                localStorageRemoveItem('cart');
+                handleLoadTable();
+               
+            }
+            results.push(result);
+        }, results);
+      
+        const success = !results.some((res: any) => res?.success == false);
+        Swal.fire({
+            title: trans('common.status'),
+            text: trans('common.success'),
+            icon: success ? 'success' : 'error',
+            timer: 2000
+        })
     }
 
     return (
         <MainLayout title={trans('e-commerce.myCart')} className='flex flex-col w-full items-center bg-blue'  >
             <div
-                className='w-[70%] h-[700px] overflow-y-scroll flex flex-col px-6 py-6 md:px-12 md:py-12 bg-white rounded-md shadow-md items-center justify-start'
+                className='w-[70%] h-[700px] overflow-y-scroll flex flex-col px-6 py-6 md:px-12 md:py-12 bg-white dark:bg-gray-800 rounded-md shadow-md items-center justify-start'
             >
 
                 {items.length === 0 ? (

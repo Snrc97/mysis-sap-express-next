@@ -8,8 +8,8 @@ class OrderModel extends Model<Order> {
   static associate(models: any) {
     // Define associations here
     // Example: this.belongsTo(models.UserModel, { foreignKey: 'customer_id' });
-    this.belongsTo(models.CustomerModel, { foreignKey: 'customer_id' });
-    this.belongsTo(models.MarketItemModel, { foreignKey: 'market_item_id' });
+    this.belongsTo(models.CustomerModel, { foreignKey: 'customer_id', as: 'customer' });
+    this.belongsTo(models.MarketItemModel, { foreignKey: 'market_item_id', as: 'market_item' });
     return Object.values(models);
   }
 }
@@ -24,17 +24,15 @@ OrderModel.init(
     customer_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0,
     },
     market_item_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0,
     },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0,
+      defaultValue: 1,
     },
     status: {
       type: DataTypes.STRING(50),
@@ -44,10 +42,12 @@ OrderModel.init(
     created_at: {
       type: DataTypes.DATE,
       allowNull: true,
+      defaultValue: DataTypes.NOW,
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: true,
+      defaultValue: DataTypes.NOW,
     },
   },
   {
