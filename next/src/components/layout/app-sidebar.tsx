@@ -14,6 +14,7 @@ import {
 import NestedSidebar, { NestedSidebarItem } from "@/components/ui-reusables/nested-sidebar";
 import { Button } from "../ui/button";
 import { destroyCookie } from "@/scripts/nookies-cookies";
+import { apiService } from '@/scripts/api-service';
 
 // Menu items.
 const items : NestedSidebarItem[] = [
@@ -155,9 +156,11 @@ const items : NestedSidebarItem[] = [
 export default function AppSidebar() {
 
 
-    const handleSignOut = () => {
+    const handleSignOut = async () => {
        destroyCookie("auth-token");
-       window.location.reload();
+       localStorageRemoveItem('auth-token');
+       await apiService.post("auth/logout");
+    //    window.location.reload();
     }
 
 
@@ -186,7 +189,7 @@ export default function AppSidebar() {
                         className="w-full"
                         onClick={() => handleSignOut()}
                     >
-                        Çıkış
+                        {trans("common.account.sign-out")}
                     </Button>
                 </div>
 

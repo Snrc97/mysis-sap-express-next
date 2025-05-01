@@ -80,11 +80,11 @@
 
     "account": {
       "login": "Giriş Yap",
-      "logout": "Cıkıs Yap",
+      "logout": "Çıkış Yap",
       "register": "Kayıt Ol",
       "sign-in": "Giriş Yap",
       "sign-up": "Kayıt Ol",
-      "sign-out": "Cıkıs Yap",
+      "sign-out": "Çıkış Yap",
       "forgot_password": "Şifremi Unuttum",
       "reset_password": "Şifremi Sıfırla",
       "login_with_google": "Google ile Giriş Yap",

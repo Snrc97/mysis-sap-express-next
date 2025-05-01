@@ -13,8 +13,14 @@ export class ApiService {
   }
 
   private getToken(): string | null {
-    const token = localStorageGetItem('auth-token') ;
-    return token;
+    if(typeof window !== 'undefined')
+    {
+      const token = localStorage.getItem('auth-token') ;
+
+      return token;
+    }
+
+    return null;
   }
 
   public async request(
@@ -36,9 +42,9 @@ export class ApiService {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this.getToken()}`,
-        // Cookie: document.cookie,
+        Cookie: document.cookie,
       },
-      // credentials: "include",
+      credentials: "include",
       body: data ? JSON.stringify(data) : undefined,
     };
 
