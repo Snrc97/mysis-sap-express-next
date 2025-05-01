@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 28 Nis 2025, 02:03:01
+-- Üretim Zamanı: 01 May 2025, 21:25:52
 -- Sunucu sürümü: 8.3.0
 -- PHP Sürümü: 8.3.6
 
@@ -207,6 +207,7 @@ DROP TABLE IF EXISTS `_customer`;
 CREATE TABLE IF NOT EXISTS `_customer` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `address_id` bigint NOT NULL,
+  `user_id` bigint DEFAULT NULL,
   `first_name` varchar(50) COLLATE utf8mb4_turkish_ci NOT NULL,
   `last_name` varchar(50) COLLATE utf8mb4_turkish_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -218,11 +219,11 @@ CREATE TABLE IF NOT EXISTS `_customer` (
 -- Tablo döküm verisi `_customer`
 --
 
-INSERT INTO `_customer` (`id`, `address_id`, `first_name`, `last_name`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Okan', 'Kara', '2025-04-27 19:52:25', '2025-04-27 21:00:25'),
-(2, 2, 'Müjdat', 'Güneş', '2025-04-27 19:52:25', '2025-04-27 21:00:34'),
-(3, 5, 'Kaan', 'Demirci', '2025-04-27 21:14:11', '2025-04-27 21:14:58'),
-(4, 6, 'Hakan', 'Şanlı', '2025-04-27 21:14:11', '2025-04-27 21:15:00');
+INSERT INTO `_customer` (`id`, `address_id`, `user_id`, `first_name`, `last_name`, `created_at`, `updated_at`) VALUES
+(1, 1, NULL, 'Okan', 'Kara', '2025-04-27 19:52:25', '2025-04-27 21:00:25'),
+(2, 2, 2, 'Müjdat', 'Güneş', '2025-04-27 19:52:25', '2025-04-30 12:22:11'),
+(3, 5, 1, 'Kaan', 'Demirci', '2025-04-27 21:14:11', '2025-04-30 20:28:55'),
+(4, 6, NULL, 'Hakan', 'Şanlı', '2025-04-27 21:14:11', '2025-04-27 21:15:00');
 
 -- --------------------------------------------------------
 
@@ -495,6 +496,8 @@ CREATE TABLE IF NOT EXISTS `_market_item` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `market_id` bigint NOT NULL,
   `item_id` bigint NOT NULL,
+  `currency_id` int DEFAULT NULL,
+  `image` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci DEFAULT NULL,
   `price` float NOT NULL DEFAULT '0',
   `quantity` smallint NOT NULL DEFAULT '0',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci,
@@ -508,9 +511,9 @@ CREATE TABLE IF NOT EXISTS `_market_item` (
 -- Tablo döküm verisi `_market_item`
 --
 
-INSERT INTO `_market_item` (`id`, `market_id`, `item_id`, `price`, `quantity`, `content`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 100, 30, 'Tamamen çalışma için üretilmiş eşsiz makine', '2025-04-27 19:22:13', '2025-04-27 19:22:13'),
-(2, 1, 2, 900, 300, 'Kokusu 1 gün boyunca kalan uzun ömürlü parfürm', '2025-04-27 19:22:13', '2025-04-27 19:22:13');
+INSERT INTO `_market_item` (`id`, `market_id`, `item_id`, `currency_id`, `image`, `price`, `quantity`, `content`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, NULL, 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 50567, 30, 'Tamamen çalışma için üretilmiş eşsiz makine', '2025-04-27 19:22:13', '2025-04-30 11:32:19'),
+(2, 1, 2, NULL, 'https://images.unsplash.com/photo-1595425959632-34f2822322ce?q=80&w=1998&auto=format&fit=crop&ixlib=rb-4.0.3', 700, 300, 'Kokusu 1 gün boyunca kalan uzun ömürlü parfürm', '2025-04-27 19:22:13', '2025-05-01 13:16:47');
 
 -- --------------------------------------------------------
 
@@ -603,23 +606,23 @@ DROP TABLE IF EXISTS `_order`;
 CREATE TABLE IF NOT EXISTS `_order` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `customer_id` bigint NOT NULL,
-  `product_id` bigint NOT NULL,
+  `market_item_id` bigint NOT NULL,
   `quantity` int DEFAULT '1',
-  `status` enum('pending','shipped','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci DEFAULT 'pending',
+  `status` enum('pending','shipped','accepted','rejected','delivered','cancelled','returned') CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `customer_id` (`customer_id`) USING BTREE,
-  KEY `product_id` (`product_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+  KEY `market_item_id` (`market_item_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 
 --
 -- Tablo döküm verisi `_order`
 --
 
-INSERT INTO `_order` (`id`, `customer_id`, `product_id`, `quantity`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, '', '2025-04-27 21:20:22', '2025-04-27 21:20:22'),
-(2, 2, 2, 2, '', '2025-04-27 21:20:22', '2025-04-27 21:20:22');
+INSERT INTO `_order` (`id`, `customer_id`, `market_item_id`, `quantity`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 'pending', '2025-04-28 12:00:00', '2025-04-29 17:42:30'),
+(2, 2, 2, 2, 'shipped', '2025-04-28 21:20:00', '2025-04-29 23:36:30');
 
 -- --------------------------------------------------------
 
@@ -741,7 +744,7 @@ CREATE TABLE IF NOT EXISTS `_role` (
 INSERT INTO `_role` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'super_admin', '2025-04-21 17:14:52', '2025-04-21 17:15:03'),
 (2, 'admin', '2025-04-27 14:20:04', '2025-04-27 14:20:04'),
-(3, 'customer', '2025-04-27 14:20:18', '2025-04-27 14:20:18');
+(3, 'user', '2025-04-27 14:20:18', '2025-04-29 17:48:20');
 
 -- --------------------------------------------------------
 
@@ -863,7 +866,7 @@ CREATE TABLE IF NOT EXISTS `_user` (
 
 INSERT INTO `_user` (`id`, `role_id`, `username`, `email`, `password`, `phone_number`, `status`, `last_login`, `created_at`, `updated_at`) VALUES
 (1, 1, 'snrc', 'webkule.studios@gmail.com', '123456', '5347100469', 'verified', NULL, '2025-04-21 15:22:42', '2025-04-27 21:24:58'),
-(2, 3, 'ttss', 'testmusteri@mail.com', '123456', '5424056547', 'verified', NULL, '2025-04-23 16:38:46', '2025-04-27 21:25:01');
+(2, 3, 'muhdatg1', 'testmusteri@mail.com', '123456', '5424056547', 'verified', NULL, '2025-04-23 16:38:46', '2025-04-30 12:22:30');
 
 -- --------------------------------------------------------
 
