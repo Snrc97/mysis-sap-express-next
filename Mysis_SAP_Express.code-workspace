@@ -1,0 +1,36 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+			"folderPathColor.custom1": "#afc54c",
+			"folderPathColor.custom2": "#86acff",
+			"folderPathColor.custom3": "#4cadc5",
+		},
+		"folder-path-color.folders": [
+			{
+				"path": "backend",
+				"symbol": "AP",
+				"color": "custom1"
+			},
+			{
+				"path": "next",
+				"symbol": "SR",
+				"color": "custom2"
+			},
+			{
+				"path": "frontend/src/hooks",
+				"symbol": "SR",
+				"color": "green"
+			},
+			{
+				"path": "frontend/src/styles",
+				"symbol": "T",
+				"color": "yellow"
+			}
+		]
+	}
+}
