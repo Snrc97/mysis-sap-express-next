@@ -10,7 +10,7 @@ import { Icons } from '@/components/ui-reusables/icons';
 import { redirect, useRouter } from 'next/navigation';
 import { motion } from "framer-motion";
 
-import { loadAppLangs, setAppLang } from '@/helpers/extensions/server_helper';
+import { loadAppLangs } from '@/helpers/extensions/server_helper';
 import SignIn from '../popups/sign-in/component';
 import LanguageDropdownList from '@/components/ui-custom/LanguageDropdownList';
 

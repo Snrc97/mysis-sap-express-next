@@ -24,7 +24,7 @@ export default function SignIn() {
     const [hasLoggedIn, setHasLoggedIn] = useState(false);
 
 
-    const { handleWithAsyncrousLoading } : MysisContextProps = useContext(MysisContext);
+    const { handleWithAsyncrousLoading } : any = useContext(MysisContext);
 
     useEffect(() => {
         setHasLoggedIn(checkHasLoggedIn());
