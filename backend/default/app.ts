@@ -5,23 +5,17 @@ import cors from 'cors';
 const app: any = express();
 
 const allowedOrigins = [
-  '',
   '/',
-  'http://localhost:8000/api/order',
-  'http://localhost:8000',
-  'http://localhost:3000',
-  'web/products/cart',
-  'https://mysissoft.site',
-  'http://localhost:3000/web/products/cart',
-  'http://localhost:3000/web/products/detail',
-  'http://localhost:3000/web',
-  'http://localhost:3000',
+  '*',
+  'mysissoft.site',
+  'http://localhost',
+  'http://localhost',
 ];
 
 const corsOptions = {
   origin: (origin, callback) => {
     // If the origin is in the allowed list, allow the request
-    if (allowedOrigins.includes(origin) || !origin) {
+    if ( !origin || allowedOrigins.includes(origin) || allowedOrigins.some((url) => origin?.includes(url))) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
