@@ -27,15 +27,11 @@
     "order_status_enum": {
       "pending": "Beklemede",
       "accepted": "Onaylandı",
-      "rejected": "Reddedildi",
-      "draft": "Taslak",
-      "confirmed": "Onaylandı",
-      "processing": "İşleniyor",
       "shipped": "Gönderildi",
       "delivered": "Teslim Edildi",
-      "cancelled": "Iptal Edildi",
       "returned": "İade Edildi",
-      "added": "Eklendi"
+      "cancelled": "Iptal Edildi",
+      "rejected": "Reddedildi"
     },
     "order_status": "Sipariş Durumu",
     "order_date": "Sipariş Tarihi",
