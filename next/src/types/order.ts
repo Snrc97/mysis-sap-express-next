@@ -1,11 +1,11 @@
  enum OrderStatus {
   pending = 'Beklemede',
-  shipped = 'Kargoya Verildi',
   accepted = 'Onaylandı',
-  rejected = 'Reddedildi',
+  shipped = 'Kargoya Verildi',
   delivered = 'Teslim Edildi',
-  cancelled = 'Iptal Edildi',
   returned = 'İade Edildi',
+  cancelled = 'Iptal Edildi',
+  rejected = 'Reddedildi',
 }
 
  const OrderStatus_options = Array.toPluckFromEnum(OrderStatus).map((x:any) => ({
