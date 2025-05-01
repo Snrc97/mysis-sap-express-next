@@ -81,13 +81,14 @@ class MicroservicesContainer
 }
 
 const microServices : ApiService[] = []; 
-hosts.forEach((service: typeof hosts[0]) => {
-  const apiService = new ApiService(service.name, service.url);
-  microServices.push(apiService);
-}, [microServices]);
-// const apiService = new ApiService("https://mysissoft.site/api/");
+// hosts.forEach((service: any) => {
+//   const apiService = new ApiService(service.name, service.url);
+//   microServices.push(apiService);
+// }, [microServices]);
+const apiService = new ApiService("default","https://mysissoft.site/api/");
+microServices.push(apiService);
 
  const microservicesContainer = new MicroservicesContainer(microServices);
- const apiService : ApiService = microservicesContainer.getService("default") ?? new ApiService("default","http://localhost:8000/api/"); 
+//  const apiService : ApiService = microservicesContainer.getService("default") ?? new ApiService("default","http://localhost:8000/api/"); 
 
 export { apiService, microservicesContainer } ;
