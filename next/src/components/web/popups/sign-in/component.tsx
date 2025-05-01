@@ -62,7 +62,7 @@ export default function SignIn() {
         if (res.success) {
             const data = res.data;
             const token = data.token;
-            localStorageSetItem('auth-token', token);
+            setCookie('auth-token', token);
             setHasLoggedIn(checkHasLoggedIn());
         }
     }

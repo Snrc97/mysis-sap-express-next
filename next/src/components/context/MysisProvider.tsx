@@ -1,10 +1,9 @@
-'use client';
-import { createContext, useEffect, useState } from 'react';
-import { translations as loadTranslations } from '@/helpers/extensions/server_helper';
-import { Progress } from '@radix-ui/react-progress';
-import { ActivityIcon, Loader, Loader2, LoaderCircle, LoaderPinwheel } from 'lucide-react';
-import { apiService } from '@/scripts/api-service';
-import { MarketItemListViewModel } from '../../../../backend/default/layer2_application/view_models/erp/MarketItemViewModels';
+'use client'
+import { createContext, useEffect, useState } from 'react'
+import { translations as loadTranslations } from '@/helpers/extensions/server_helper'
+import { Loader } from 'lucide-react'
+
+import '@/helpers/extensions/client_helper'
 
 export type MysisContextProps = {
   isLoading?: boolean;
@@ -39,8 +38,7 @@ export function MysisProvider({ children }: { children: any }) {
   const values : MysisContextProps = {
     isLoading,
     setIsLoading,
-    handleWithAsyncrousLoading
-
+    handleWithAsyncrousLoading,
   }
 
 

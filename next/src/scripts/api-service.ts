@@ -1,3 +1,4 @@
+"use client";
 "use strict";
 import { DynamicKeyValue } from "@/components/ui-reusables/datatable";
 import { getCookie } from "./nookies-cookies";
@@ -15,7 +16,7 @@ export class ApiService {
   private getToken(): string | null {
     if(typeof window !== 'undefined')
     {
-      const token = localStorage.getItem('auth-token') ;
+      const token = getCookie('auth-token');
 
       return token;
     }

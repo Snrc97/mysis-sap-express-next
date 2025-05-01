@@ -45,7 +45,7 @@ class AuthController {
     }
   }
 
-  logout(req, res) {
+  async logout(req, res) {
     try {
       res.clearCookie('auth-token');
       res.status(200).customJson({ msg: 'Çıkış Başarılı' });

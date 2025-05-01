@@ -1,18 +1,18 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import jwt from 'jsonwebtoken';
+import * as jwt from '@/helpers/extensions/modules/jwt-jose';
 
-
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const url = req.nextUrl.pathname;
 
-  const token = req.headers.get('Authorization')?.replace('Bearer ', '') || '';
-  //   const token = req.cookies.get('auth-token')?.value || '';
+  const cookie = req.cookies.get('auth-token')?.value;
 
-  let decoded: any = null;
+  const token = cookie ?? req.headers.get('Authorization')?.replace('Bearer ', '') ?? '';
+
+
   try {
-    const jwtSecret = process.env.JWT_SECRET || 'secret';
-     decoded = jwt.verify(token, jwtSecret);
+     const decoded = await jwt.verify(token);
+     (req as any).user = decoded;
   } catch (err: any) {
     // res.status(401).json({ msg: 'Invalid JWT Token: ' + err.message || '' });
     if((req as any).force_out){
@@ -22,10 +22,7 @@ export function middleware(req: NextRequest) {
     }
     
   }
-  finally
-  {
-    (req as any).user = decoded;
-  }
+ 
 
   return NextResponse.next();
 }

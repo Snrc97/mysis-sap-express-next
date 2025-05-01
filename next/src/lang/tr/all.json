@@ -92,9 +92,20 @@
       "login_with_twitter": "Twitter ile Giriş Yap",
       "email": "E-posta",
       "password": "Şifre",
-      "confirm_password": "Şifre Tekrar"
+      "confirm_password": "Şifre Tekrar",
+      "labels": {
+        "enter_email_to_sign_in": "Hesabınıza giriş yapmak için e-posta adresinizi girin",
+        "dont_have_an_account": "Hesabınız yok mu?",
+        "continue_if_no_any": "Yoksa devam edin" 
+      },
+      "placeholders": {
+        "email": "E-posta Adresinizi girin",
+        "password": "Şifrenizi girin",
+        "confirm_password": "Şifrenizi tekrar girin"
+      }
     },
 
+    "success": "Başarılı",
     "error": "Hata",
     "warning": "Uyarı",
     "info": "Bilgi",

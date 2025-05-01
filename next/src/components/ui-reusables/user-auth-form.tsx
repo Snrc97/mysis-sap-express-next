@@ -32,42 +32,52 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
 
 
-  async function onSubmit(data: FormData) {
-    setIsLoading(true)
+  async function onSubmit(dto: FormData) {
+    // setIsLoading(true)
     let result = false;
     try {
 
-      const signInResult = await apiService.post("auth/login", data);
+      const signInResult = await apiService.post("auth/login", dto);
       result = signInResult?.success ?? false;
 
-      if (!signInResult?.success) {
+      
+    
+     
+      setTimeout(() => {
+        // setIsLoading(false);
 
-        toast({
-          title: "Bir hata oluştu.",
-          description: "Giriş isteğiniz başarısız oldu. Lütfen tekrar deneyin.",
-          variant: "destructive",
-        });
-      }
-      setCookie("auth-token", signInResult?.data?.token);
+        const resultMsg_success = {
+          color: "green",
+          title: trans("common.success"),
+          description: trans("common.process_successful", { process_name: trans("common.account.sign-in") }),
+        }
+  
+        const resultMsg_fail = {
+          color: "red",
+          title: trans("common.error"),
+          description: trans("common.process_failed", { process_name: trans("common.account.sign-in") }),
+        }
+  
+        const resultMsg = result ? resultMsg_success : resultMsg_fail;
+  
+          toast({
+            ...resultMsg,
+            variant: "destructive",
+          });
+  
 
-
+        if(result)
+        {
+          setCookie("auth-token", signInResult?.data?.token);
+          window.location.reload();
+        }
+      }, 1000);
     }
     catch (error) {
       console.error(error)
     }
     finally {
-      toast({
-        title: "Başarılı!",
-        description:
-          "Giriş işlemi başarılı. Yönlendiriliyorsunuz...",
-      });
-      setTimeout(() => {
-        setIsLoading(false);
-        if(result)
-        {
-          window.location.reload();
-        }
-      }, 1000);
+
 
 
       return true;
@@ -81,11 +91,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
-              E-posta
+              {trans("common.account.labels.email")}
             </Label>
             <Input
               id="email"
-              placeholder="E-posta Adresinizi girin"
+              placeholder={trans("common.account.labels.email")}
               type="email"
               autoCapitalize="none"
               autoComplete="email"
@@ -98,7 +108,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Input
               id="password"
               security="false"
-              placeholder="Şifrenizi girin"
+              placeholder={trans("common.account.labels.password")}
               type="password"
               autoCapitalize="none"
               autoComplete="current-password"
@@ -123,7 +133,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Giriş Yap
+            {trans("common.account.sign-in")}
           </button>
         </div>
       </form>
@@ -133,7 +143,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
-            Yoksa devam edin
+            {trans("common.account.labels.continue_if_no_any")}
           </span>
         </div>
       </div>

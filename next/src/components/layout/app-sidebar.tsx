@@ -160,7 +160,7 @@ export default function AppSidebar() {
        destroyCookie("auth-token");
        localStorageRemoveItem('auth-token');
        await apiService.post("auth/logout");
-    //    window.location.reload();
+        window.location.reload();
     }
 
 
