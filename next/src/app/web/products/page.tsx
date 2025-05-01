@@ -14,12 +14,6 @@ import { apiService } from '@/scripts/api-service'
 
 import { MarketItemListViewModel } from '@/../../backend/default/layer2_application/view_models/erp/MarketItemViewModels'
 
-export const fetchMarketItems = async () => {
-    // setIsLoading(true);
-    const _marketListItems: MarketItemListViewModel[] = await apiService.get("public/market-item").then(x => x.data);
-    // setIsLoading(false);
-    return _marketListItems;
-}
 
 export default function Products() {
 

@@ -14,7 +14,8 @@ import { A11y, Autoplay, Controller, EffectFade, FreeMode, Grid, HashNavigation,
 import MainLayout from '@/components/web/layout/main'
 import { MarketItemListViewModel } from '../../../../backend/default/layer2_application/view_models/erp/MarketItemViewModels'
 import no_image from '@/assets/images/no-image-available.jpg'
-import { fetchMarketItems } from './products/page'
+import { apiService } from '@/scripts/api-service'
+
 
 export default function HomePage() {
     const [activeSlide, setActiveSlide] = useState(0);
@@ -29,7 +30,7 @@ export default function HomePage() {
     useEffect(() => {
 
         const handleFetchMarketItems = async () => {
-            const getMarketItems = await fetchMarketItems();
+            const getMarketItems = await apiService.get("public/market-item").then(x => x.data);
             setMarketListItems(getMarketItems);
 
         }

@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import { UserSubscriptionPlan } from "@/types"
 import { cn, formatDate } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import {
@@ -17,7 +16,7 @@ import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/ui-reusables/icons"
 
 interface BillingFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  subscriptionPlan: UserSubscriptionPlan & {
+  subscriptionPlan: any & {
     isCanceled: boolean
   }
 }

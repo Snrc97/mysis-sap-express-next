@@ -1,7 +1,7 @@
 "use strict";
 import { DynamicKeyValue } from "@/components/ui-reusables/datatable";
 import { getLocalCookie, setLocalCookie } from "./nookies-cookies";
-import * as restConfig from "@/config/json/rest.config.json";
+import { hosts } from "@/config/json/rest.config.json";
 
 export class ApiService {
   public name: string;
@@ -81,7 +81,7 @@ class MicroservicesContainer
 }
 
 const microServices : ApiService[] = []; 
-restConfig.hosts.forEach((service: typeof restConfig.hosts[0]) => {
+hosts.forEach((service: typeof hosts[0]) => {
   const apiService = new ApiService(service.name, service.url);
   microServices.push(apiService);
 }, [microServices]);

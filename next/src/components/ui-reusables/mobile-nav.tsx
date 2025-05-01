@@ -1,20 +1,20 @@
 import * as React from "react"
 import Link from "next/link"
 
-import { MainNavItem } from "@/types"
-import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { useLockBody } from "@/hooks/use-lock-body"
 import { Icons } from "@/components/ui-reusables/icons"
 
 interface MobileNavProps {
-  items: MainNavItem[]
+  items: any[]
   children?: React.ReactNode
 }
 
 export function MobileNav({ items, children }: MobileNavProps) {
   useLockBody()
-
+  const siteConfig = {
+    name: ""
+  }
   return (
     <div
       className={cn(

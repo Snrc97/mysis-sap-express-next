@@ -3,11 +3,10 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { SidebarNavItem } from "@/types"
 import { cn } from "@/lib/utils"
 
 export interface DocsSidebarNavProps {
-  items: SidebarNavItem[]
+  items: any[]
 }
 
 export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
@@ -30,7 +29,7 @@ export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
 }
 
 interface DocsSidebarNavItemsProps {
-  items: SidebarNavItem[]
+  items: any[]
   pathname: string | null
 }
 
