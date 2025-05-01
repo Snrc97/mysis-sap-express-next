@@ -1,4 +1,4 @@
-import IViewModel from '../IViewModel'
+import IViewModel from '../IViewModel.ts'
 
 export interface MarketItemListViewModel extends IViewModel {
 

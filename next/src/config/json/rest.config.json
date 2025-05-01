@@ -2,7 +2,7 @@
   "hosts": [
     {
       "name": "default",
-      "url": "https://mysissoft.site/api/"
+      "url": "http://localhost:8000/api/"
     }
   ]
 }

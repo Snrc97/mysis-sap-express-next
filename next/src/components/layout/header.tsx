@@ -3,8 +3,7 @@ import ThemeToggle from "@/components/theme-toggle";
 import Icon from "@/components/ui-custom/Icon";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import dynamic from 'next/dynamic';
-const LanguageDropdown = dynamic(() => import('@/components/ui-custom/LanguageDropdown'), { ssr: false });
+import LanguageDropdown from '../ui-custom/LanguageDropdown';
 
 type HeaderProps = {
   title: string;
