@@ -61,11 +61,22 @@ class BaseController {
       );
   }
 
-  async pluck(req, res) {
+  async pluck(req, res, mapKeys?: string[]) {
     await this.repo
 
       .findAll({ include: this.includes.pluck, attributes: ['id', 'name'] })
-      .then((data) => res.customJson({ data: data }))
+      .then((data) => {
+      
+        data = data.map((x: any) => {
+          return {
+            value: x.id,
+            label: x.name,
+          };
+        });
+      
+        res.customJson({ data: data })
+      
+      })
       .catch((err) =>
         res.status(500).customJson({ success: false, msg: err.message })
       );

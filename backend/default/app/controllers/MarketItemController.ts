@@ -43,7 +43,24 @@ class MarketItemController extends BaseController {
     };
   }
 
+  async pluck(req, res) {
+    await this.repo
 
+      .findAll({ include: this.includes.index })
+      .then((data) => {
+        return data.map((x: any) => {
+
+          return {
+            value: x.id,
+            label: x.item?.product?.name,
+          };
+        });
+      })
+      .then((data) => res.customJson({ data: data }))
+      .catch((err) =>
+        res.status(500).customJson({ success: false, msg: err.message })
+      );
+  }
 }
 
 const marketItemController = new MarketItemController();

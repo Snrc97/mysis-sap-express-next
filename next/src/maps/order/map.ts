@@ -2,7 +2,7 @@
 import MysisProvider from '@/components/context/MysisProvider';
 import { ReusableFormProps } from '@/components/ui-reusables/reusable-form-element';
 import ColumnMap from '@/types/ColumnMap';
-import { OrderStatus, OrderStatus_options } from '@/types/order';
+import { OrderStatus, getOrderStatus_options } from '@/types/order';
 import { useContext } from 'react';
 
 export type OrderMapsType = {
@@ -18,6 +18,8 @@ export const getColumnMap = () => {
     status: trans('common.status'),
   };
 
+  const OrderStatus_options = getOrderStatus_options();
+
   const table: ReusableFormProps[] = [
     {
       name: 'id',
@@ -26,23 +28,11 @@ export const getColumnMap = () => {
       elementType: 'number',
     },
     {
-      name: 'customer_id',
-      label: labels.customer,
-      type: 'select',
-      endpoint: 'customer',
-      
-    },
-    {
-      name: 'market_item_id',
-      label: labels.market_item,
-      type: 'select',
-      endpoint: 'market-item',
-    },
-    {
       name: 'status',
       label: labels.status,
       type: 'select',
       options: OrderStatus_options,
+      format: "erp.order_status_enum"
     },
     {
       name: 'created_at',

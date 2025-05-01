@@ -66,8 +66,8 @@ class OrderController extends BaseController {
           ]
 
           return {
-            id: x.id,
-            name: specs.join('   -   '),
+            value: x.id,
+            label: specs.join('   -   '),
           };
         });
       })

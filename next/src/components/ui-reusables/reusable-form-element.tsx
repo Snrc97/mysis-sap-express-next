@@ -124,16 +124,11 @@ export const ReusableFormElement: React.FC<ReusableFormProps> = ({
     case "select":
 
       const fetchOptions = async () => {
-        console.log("select", endpoint);
         if (!endpoint) {
           return;
         }
-        const response = await apiService.get(endpoint + '?pluck=1');
-        const data = await response.json();
+        const data = await apiService.get(endpoint + '?pluck=1').then(x => x.data);
         setOptions(data);
-
-        console.log("select YES", data);
-
       }
 
       useEffect(() => {

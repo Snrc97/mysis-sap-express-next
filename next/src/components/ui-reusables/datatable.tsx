@@ -48,21 +48,24 @@ const getRowsByPaging = (rows: any[], currentPage: number, rowsPerPage: number) 
 }
 
 const getRowValueForFormattedColumn = ({ rowValue, column }: { rowValue: any, column: ReusableFormProps }) => {
-    if (column.type == "input") {
-        if (column.format) {
+    if (column.format) {
+        if (column.type == "input") {
             switch (column.elementType) {
                 case "date":
-
                     rowValue = moment.utc(rowValue).format(column.format);
-
                     break;
                 case "datetime-local":
                     rowValue = moment.utc(rowValue).format(column.format);
                     break;
-                default:
+                case "text":
+                    rowValue = trans(column.format + "." + rowValue);
                     break;
             }
         }
+        else if (column.type == "select") {
+            rowValue = trans(column.format + "." + rowValue);
+        }
+
     }
 
     return rowValue;
@@ -86,7 +89,7 @@ const Datatable: React.FC<DataTableProps> = memo(
             getRowsByPaging(rows, currentPage, rowsPerPage) : []
         );
 
-        const handleRefresh = async (onDataLoaded?: (data:any) => void) => {
+        const handleRefresh = async (onDataLoaded?: (data: any) => void) => {
             setRefreshing(true);
             if (url) {
                 await apiService.get(url).then(x => {
@@ -104,7 +107,7 @@ const Datatable: React.FC<DataTableProps> = memo(
 
                 });
             }
-            
+
             setRefreshing(false);
         }
 
@@ -274,7 +277,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                                     className="border border-gray-300 text-lg p-3"
 
                                 >
-                                    İşlemler
+                                    {trans("common.actions")}
                                 </TableCell>
                             }
 
@@ -302,7 +305,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                                                 const elementType = column.type;
                                                 const editInput = document.createElement(elementType == "input" ? "input" : "select");
                                                 editInput.setAttribute("class", "w-full h-full bg-gray-200 text-gray-900 border border-gray-300 rounded-md p-2");
-                                               
+
                                                 const input = e.currentTarget as HTMLTableCellElement
                                                 const oldInnerText = `${input.innerText}`;
                                                 let rowValue = viewRows[index][column.name];
@@ -326,7 +329,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                                                     }
                                                     rowValue = moment(rowValue).utcOffset(0).format(formatSt);
                                                     editInput.setAttribute("value", rowValue);
-                                                    
+
                                                     editInput.onblur = (e) => {
                                                         let newValue = moment(editInput.value).format(formatSt);
                                                         if (newValue !== rowValue) {
@@ -355,9 +358,9 @@ const Datatable: React.FC<DataTableProps> = memo(
                                                 }
 
 
-                                                
-                                                if(!input.children.length){
-                                                    
+
+                                                if (!input.children.length) {
+
 
                                                     input.innerText = '';
                                                     input.appendChild(editInput);
@@ -368,12 +371,11 @@ const Datatable: React.FC<DataTableProps> = memo(
 
                                                 editInput.addEventListener('blur', () => {
                                                     input.removeChild(editInput);
-                                                    if(input.innerText == '')
-                                                    {
+                                                    if (input.innerText == '') {
                                                         input.innerText = oldInnerText;
                                                         // handleRefresh();
                                                     }
-                                                   
+
 
                                                 });
 
@@ -440,9 +442,9 @@ const Datatable: React.FC<DataTableProps> = memo(
                                     {
 
                                         <ReusableFormElement
-                                        {
+                                            {
                                             ...column
-                                        }
+                                            }
                                             defaultValue={selectedRowIndex !== undefined ? (viewRows[selectedRowIndex]?.[column.name] ?? undefined) : undefined}
                                             onChange={(value) => { modalInputs[column.name] = value; }}
                                             disabled={crudMode === "show"}
@@ -455,8 +457,8 @@ const Datatable: React.FC<DataTableProps> = memo(
                             ))}
                         </form>
                         <div className="flex flex-row justify-end items-center gap-2 p-0 m-0">
-                            <Button className="bg-gray-600 hover:bg-gray-700 cursor-pointer text-gray-300 hover:text-gray-200 border-white" 
-                            onClick={() => setIsModalOpen(false)}>Kapat</Button>
+                            <Button className="bg-gray-600 hover:bg-gray-700 cursor-pointer text-gray-300 hover:text-gray-200 border-white"
+                                onClick={() => setIsModalOpen(false)}>Kapat</Button>
                             {
                                 crudMode !== "show" &&
                                 <Button
