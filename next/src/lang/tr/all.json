@@ -78,7 +78,10 @@
     "process_successful": "İşlem Başarılı : {process_name?}",
     "process_unsuccessful": "İşlem Başarısız : {process_name?}",
 
+    "and": "ve",
+
     "account": {
+      "create": "Hesap Oluştur",
       "login": "Giriş Yap",
       "logout": "Çıkış Yap",
       "register": "Kayıt Ol",
@@ -92,8 +95,13 @@
       "login_with_twitter": "Twitter ile Giriş Yap",
       "email": "E-posta",
       "password": "Şifre",
-      "confirm_password": "Şifre Tekrar",
+      "password_again": "Şifre Tekrar",
+      "service_terms": "Hizmet Şartları",
+      "privacy_policy": "Gizlilik Politikası",
+      "you_agree": "kabul etmiş olursunuz.",
       "labels": {
+      "by_continuing": "Devam'a tıklayarak",
+        "fill_fields_below_to_sign_up": "Hesap oluşturmak için aşağıdaki alanları doldurunuz",
         "enter_email_to_sign_in": "Hesabınıza giriş yapmak için e-posta adresinizi girin",
         "dont_have_an_account": "Hesabınız yok mu?",
         "continue_if_no_any": "Yoksa devam edin" 
@@ -101,7 +109,7 @@
       "placeholders": {
         "email": "E-posta Adresinizi girin",
         "password": "Şifrenizi girin",
-        "confirm_password": "Şifrenizi tekrar girin"
+        "password_again": "Şifrenizi tekrar girin"
       }
     },
 

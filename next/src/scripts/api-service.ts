@@ -1,7 +1,6 @@
-"use client";
 "use strict";
 import { DynamicKeyValue } from "@/components/ui-reusables/datatable";
-import { getCookie } from "./nookies-cookies";
+import { getLocalCookie, setLocalCookie } from "./nookies-cookies";
 import * as restConfig from "@/config/json/rest.config.json";
 
 export class ApiService {
@@ -14,14 +13,8 @@ export class ApiService {
   }
 
   private getToken(): string | null {
-    if(typeof window !== 'undefined')
-    {
-      const token = getCookie('auth-token');
-
+      const token = getLocalCookie('auth-token');
       return token;
-    }
-
-    return null;
   }
 
   public async request(

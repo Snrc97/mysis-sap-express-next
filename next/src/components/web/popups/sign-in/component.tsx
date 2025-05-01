@@ -3,7 +3,7 @@ import MysisContext, { MysisContextProps } from '@/components/context/MysisProvi
 import { ButtonSpinner } from '@/components/ui-custom/ButtonSpinner'
 import Icon from '@/components/ui-custom/Icon'
 import { apiService } from '@/scripts/api-service'
-import { setCookie } from '@/scripts/nookies-cookies'
+import { setLocalCookie } from '@/scripts/nookies-cookies'
 import { useContext, useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import 'swiper/css'
@@ -62,7 +62,7 @@ export default function SignIn() {
         if (res.success) {
             const data = res.data;
             const token = data.token;
-            setCookie('auth-token', token);
+            setLocalCookie('auth-token', token);
             setHasLoggedIn(checkHasLoggedIn());
         }
     }

@@ -43,19 +43,21 @@ export type DataTableProps = {
 
 export type CrudMode = "create" | "update" | "show";
 
+
+
 const getRowsByPaging = (rows: any[], currentPage: number, rowsPerPage: number) => {
     return rows.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 }
 
-const getRowValueForFormattedColumn = ({ rowValue, column }: { rowValue: any, column: ReusableFormProps }) => {
+const getRowValueForFormattedColumn = ({ rowValue, column, utcOffset }: { rowValue: any, column: ReusableFormProps, utcOffset?: number }) => {
     if (column.format) {
         if (column.type == "input") {
             switch (column.elementType) {
                 case "date":
-                    rowValue = moment.utc(rowValue).format(column.format);
+                    rowValue = moment.utc(rowValue).utcOffset(utcOffset ?? 0).format(column.format);
                     break;
                 case "datetime-local":
-                    rowValue = moment.utc(rowValue).format(column.format);
+                    rowValue = moment.utc(rowValue).utcOffset(utcOffset ?? 0).format(column.format);
                     break;
                 case "text":
                     rowValue = trans(column.format + "." + rowValue);
@@ -165,12 +167,12 @@ const Datatable: React.FC<DataTableProps> = memo(
         }
 
 
-        const handleRowUpdate = (index: number) => {
+        const handleRowUpdate = async (index: number) => {
 
             if (actions?.updateable && url) {
 
                 const row = viewRows[index];
-                apiService.put(`${url}/${row.id}`, row).then(res => {
+                await apiService.put(`${url}/${row.id}`, row).then(res => {
                     if (res.success) {
                         setViewRows([...viewRows])
                         Swal.fire({
@@ -289,7 +291,7 @@ const Datatable: React.FC<DataTableProps> = memo(
                                 {viewColumns.map((column) => {
 
                                     let rowValue = row[column.name];
-                                    rowValue = getRowValueForFormattedColumn({ rowValue, column });
+                                    rowValue = getRowValueForFormattedColumn({ rowValue, column, utcOffset: 3 });
 
                                     return (
                                         <TableCell
@@ -298,12 +300,12 @@ const Datatable: React.FC<DataTableProps> = memo(
                                             className="border-b border-l border-r border-gray-300 w-120"
                                             onClick={(e) => {
 
-                                                if (!actions?.updateable) {
+                                                if (!actions?.updateable || column.disabled) {
                                                     return;
                                                 }
 
-                                                const elementType = column.type;
-                                                const editInput = document.createElement(elementType == "input" ? "input" : "select");
+                                                const type = column.type;
+                                                const editInput = document.createElement(type == "input" ? "input" : "select");
                                                 editInput.setAttribute("class", "w-full h-full bg-gray-200 text-gray-900 border border-gray-300 rounded-md p-2");
 
                                                 const input = e.currentTarget as HTMLTableCellElement
@@ -311,36 +313,44 @@ const Datatable: React.FC<DataTableProps> = memo(
                                                 let rowValue = viewRows[index][column.name];
 
 
-                                                const type: InputType | undefined = column.elementType;
+                                                const elementType: InputType | undefined = column.elementType;
 
 
 
-                                                if (elementType != "select") {
-                                                    editInput.setAttribute("type", type ?? "text");
+                                                if (type != "select") {
+                                                    editInput.setAttribute("type", elementType ?? "text");
                                                 }
 
-                                                if (elementType == "input") {
+                                                if (type == "input") {
                                                     let formatSt = "";
-                                                    if (type == "datetime-local") {
+                                                    if (elementType == "datetime-local") {
                                                         formatSt = "YYYY-MM-DDTHH:mm";
                                                     }
-                                                    else if (type == "date") {
+                                                    else if (elementType == "date") {
                                                         formatSt = "YYYY-MM-DD";
                                                     }
-                                                    rowValue = moment(rowValue).utcOffset(0).format(formatSt);
+                                                    if (formatSt) {
+                                                        rowValue = moment(rowValue).format(formatSt);
+                                                    }
                                                     editInput.setAttribute("value", rowValue);
 
-                                                    editInput.onblur = (e) => {
+                                                    editInput.onblur = async (e) => {
                                                         let newValue = moment(editInput.value).format(formatSt);
+                                                        
                                                         if (newValue !== rowValue) {
-                                                            viewRows[index][column.name] = moment(editInput.value).utcOffset(6).format(formatSt);
-                                                            handleRowUpdate(index);
-                                                            viewRows[index][column.name] = moment(editInput.value).utcOffset(3).format(formatSt);
+                                                            if (formatSt) {
+                                                                viewRows[index][column.name] = moment(editInput.value).format(formatSt);
+                                                            }
+                                                            await handleRowUpdate(index).then(() => {
+                                                            handleRefresh();
+                                                                
+                                                            });
+
 
                                                         }
                                                     }
                                                 }
-                                                else if (elementType == "select") {
+                                                else if (type == "select") {
                                                     column.options?.forEach((option: any) => {
                                                         const opt = document.createElement("option");
                                                         opt.value = option.value;
@@ -348,11 +358,11 @@ const Datatable: React.FC<DataTableProps> = memo(
                                                         editInput.appendChild(opt);
                                                     });
                                                     editInput.value = rowValue;
-                                                    editInput.onchange = (e) => {
-                                                        const newValue = editInput.value;
+                                                    editInput.onchange = async (e) => {
+                                                        let newValue = editInput.value;
                                                         if (newValue !== rowValue) {
                                                             viewRows[index][column.name] = newValue;
-                                                            handleRowUpdate(index)
+                                                            await handleRowUpdate(index)
                                                         }
                                                     }
                                                 }

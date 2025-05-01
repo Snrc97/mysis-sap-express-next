@@ -24,8 +24,9 @@ export const getColumnMap = () => {
     {
       name: 'id',
       label: 'ID',
-      type: 'input',
-      elementType: 'number',
+      type: "input",
+      elementType: "text",
+      disabled: true
     },
     {
       name: 'status',

@@ -13,11 +13,11 @@ import {
 
 import NestedSidebar, { NestedSidebarItem } from "@/components/ui-reusables/nested-sidebar";
 import { Button } from "../ui/button";
-import { destroyCookie } from "@/scripts/nookies-cookies";
+import { destroyLocalCookie } from "@/scripts/nookies-cookies";
 import { apiService } from '@/scripts/api-service';
 
 // Menu items.
-const items : NestedSidebarItem[] = [
+const items: NestedSidebarItem[] = [
     {
         title: "Yönetim Paneli",
         icon: "home",
@@ -62,7 +62,7 @@ const items : NestedSidebarItem[] = [
         icon: "CreditCard",
         isOpen: false,
         children: [
-           
+
             {
                 title: "Siparişler",
                 icon: "table",
@@ -75,7 +75,7 @@ const items : NestedSidebarItem[] = [
         icon: "user",
         isOpen: false,
         children: [
-           
+
             {
                 title: "Teklifler",
                 icon: "table",
@@ -95,7 +95,7 @@ const items : NestedSidebarItem[] = [
             },
         ]
     },
-    
+
     {
         title: "Stok ve Ürün Yönetimi",
         icon: "box",
@@ -149,55 +149,56 @@ const items : NestedSidebarItem[] = [
             },
         ]
     },
-   
-   
+
+
 ]
 
 export default function AppSidebar() {
 
 
     const handleSignOut = async () => {
-       destroyCookie("auth-token");
-       localStorageRemoveItem('auth-token');
-       await apiService.post("auth/logout");
-        window.location.reload();
+        const res = await apiService.post("auth/logout");
+        if (res?.success == true) {
+            destroyLocalCookie("auth-token");
+            window.location.reload();
+        }
     }
 
 
     return (
         <SidebarProvider>
 
-        <Sidebar collapsible="icon">
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel className="text-xl font-bold">MYSIS SAP SHADCN UI</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu className="my-5">
+            <Sidebar collapsible="icon">
+                <SidebarContent>
+                    <SidebarGroup>
+                        <SidebarGroupLabel className="text-xl font-bold">MYSIS SAP SHADCN UI</SidebarGroupLabel>
+                        <SidebarGroupContent>
+                            <SidebarMenu className="my-5">
 
-                        <NestedSidebar items={items} />
+                                <NestedSidebar items={items} />
 
-                          
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-            </SidebarContent>
-            <SidebarFooter>
-                <div className="flex items-center justify-center p-4">
-                    <Button
-                        size="sm"
-                        variant="outline"
-                        className="w-full"
-                        onClick={() => handleSignOut()}
-                    >
-                        {trans("common.account.sign-out")}
-                    </Button>
-                </div>
 
-                <div className="flex items-center justify-center p-4">
-                    <p className="text-sm text-gray-500">MYSIS SAP SHADCN UI</p>
-                </div>
-            </SidebarFooter>
-        </Sidebar >
+                            </SidebarMenu>
+                        </SidebarGroupContent>
+                    </SidebarGroup>
+                </SidebarContent>
+                <SidebarFooter>
+                    <div className="flex items-center justify-center p-4">
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            className="w-full cursor-pointer"
+                            onClick={() => handleSignOut()}
+                        >
+                            {trans("common.account.sign-out")}
+                        </Button>
+                    </div>
+
+                    <div className="flex items-center justify-center p-4">
+                        <p className="text-sm text-gray-500">MYSIS SAP SHADCN UI</p>
+                    </div>
+                </SidebarFooter>
+            </Sidebar >
         </SidebarProvider>
     )
 }
