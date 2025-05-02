@@ -1,4 +1,4 @@
-"use strict";
+"use client"
 import { DynamicKeyValue } from "@/components/ui-reusables/datatable";
 import { getLocalCookie, setLocalCookie } from "./nookies-cookies";
 import { hosts } from "@/config/json/rest.config.json";
@@ -36,9 +36,9 @@ export class ApiService {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this.getToken()}`,
-        Cookie: document.cookie,
+        // Cookie: document.cookie,
       },
-      credentials: "include",
+      // credentials: "same-origin",
       body: data ? JSON.stringify(data) : undefined,
     };
 
@@ -80,15 +80,16 @@ class MicroservicesContainer
   }
 }
 
-const microServices : ApiService[] = []; 
+// const microServices : ApiService[] = []; 
 // hosts.forEach((service: any) => {
 //   const apiService = new ApiService(service.name, service.url);
 //   microServices.push(apiService);
 // }, [microServices]);
-const apiService = new ApiService("default","https://mysissoft.site/api/");
-microServices.push(apiService);
+// microServices.push(apiService);
 
- const microservicesContainer = new MicroservicesContainer(microServices);
+//  const microservicesContainer = new MicroservicesContainer(microServices);
 //  const apiService : ApiService = microservicesContainer.getService("default") ?? new ApiService("default","http://localhost:8000/api/"); 
 
-export { apiService, microservicesContainer } ;
+const apiService = new ApiService("default","https://mysissoft.site/api/");
+
+export { apiService } ;

@@ -21,6 +21,8 @@ export default function HeroCover({
         width={1080}
         height={1920}
         priority
+        unoptimized
+
       />
       {children}
     </div>

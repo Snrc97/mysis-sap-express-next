@@ -132,7 +132,13 @@ export default function CartPage() {
                                     <h2 className='text-lg'>{x.item.product.name}</h2>
                                 </div>
                                 <div className='w-full text-center flex flex-row items-center justify-center'>
-                                    <Image className='w-15 h-15' src={x.image ?? no_image} alt={x.item.product.name} width={200} height={200} />
+                                    <Image className='w-15 h-15' 
+                                    src={x.image ?? no_image} 
+                                    alt={x.item.product.name} 
+                                    width={200} 
+                                    height={200} 
+                                    unoptimized
+                                     />
                                 </div>
                                 <div className='w-full text-center'>
 

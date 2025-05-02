@@ -81,6 +81,8 @@ export default function HomePage() {
                                     width={1920}
                                     height={1080}
                                     className="object-cover w-[100%] h-160"
+                                    unoptimized
+
                                 />
                             </SwiperSlide>
                         ))}
@@ -115,6 +117,8 @@ export default function HomePage() {
                                             }
                                         }}
                                         className="object-cover w-full h-full"
+                                    unoptimized
+
                                     />
                                 </SwiperSlide>
                             ))}

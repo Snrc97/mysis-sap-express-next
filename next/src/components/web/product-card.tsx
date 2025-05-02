@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -70,6 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ marketListItem, className, On
                     width={300}
                     height={300}
                     className={" object-cover w-full h-45 hover:scale-105 transition-transform duration-300 ease-in-out"}
+                    unoptimized
                 />
                 <div className="p-4">
                     <div className='flex flex-row items-center justify-between'>
