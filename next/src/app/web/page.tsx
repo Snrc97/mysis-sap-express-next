@@ -30,7 +30,7 @@ export default function HomePage() {
     useEffect(() => {
 
         const handleFetchMarketItems = async () => {
-            const getMarketItems = await apiService.get("public/market-item").then(x => x.data);
+            const getMarketItems = await apiService.get("public/market-item").then(x => x.data.concat(x.data));
             setMarketListItems(getMarketItems);
 
         }
@@ -133,40 +133,66 @@ export default function HomePage() {
 
             </div>
 
-            <div className='w-full h-full px-5 py-20'>
+            <div className='w-full h-full py-10 px-10'>
 
                 <Swiper
-                    className='w-full h-full z-999'
+                height={1000}
+                    className='z-999 w-full h-full flex flex-row flex-wrap items-center justify-center'
+                    navigation={{
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                    }}
+                    wrapperClass=''
                     direction='horizontal'
                     modules={[
                         Autoplay,
                         Thumbs,
                         FreeMode,
                         Navigation,
-                        EffectFade
+                        EffectFade,
                     ]}
-                    spaceBetween={30}
+                    spaceBetween={10}
                     slidesPerView={5}
                     loop={true}
                     speed={250}
                     pagination={{ clickable: true }}
-                    navigation={true}
                     slidesOffsetBefore={60}
-
+                    breakpoints={{
+                        320: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                            direction: 'vertical',
+                        },
+                        768: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                            direction: 'horizontal',
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 150,
+                            direction: 'horizontal',
+                        },
+                        1280: {
+                            slidesPerView: 3,
+                            spaceBetween: -50,
+                            direction: 'horizontal',
+                        },
+                        1536: {
+                            slidesPerView: 3,
+                            spaceBetween: -200,
+                            direction: 'horizontal',
+                        },
+                    }}
                     onActiveIndexChange={(swiper: any) => setActiveSlide(swiper.activeIndex)}
                 >
-                    {
-
-                        marketListItems.map((marketListItem: MarketItemListViewModel, index: number) => (
-                            <SwiperSlide key={index}>
-                                <ProductCard marketListItem={marketListItem} />
-                            </SwiperSlide>
-                        ))
-
-
-
-
-                    }
+                    {marketListItems.map((marketListItem: MarketItemListViewModel, index: number) => (
+                        <SwiperSlide key={index}>
+                            <ProductCard marketListItem={marketListItem} className='w-[300px] h-[450px]' />
+                        </SwiperSlide>
+                    ))}
+                    <div className="swiper-button-next" />
+                    <div className="swiper-button-prev" />
                 </Swiper>
 
 

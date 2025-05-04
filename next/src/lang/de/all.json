@@ -1,3 +1,170 @@
 {
-    
+  "sidebar": {
+    "franchise_and_customer_management": "Franchise- und Kundenverwaltung",
+    "order_management": "Bestellverwaltung",
+    "offer_management": "Angebotsverwaltung",
+    "logistic_and_export_management": "Logistik- und Exportverwaltung",
+    "stock_and_product_management": "Lager- und Produktverwaltung",
+    "management_panel": "Verwaltungspanel"
+  },
+  "erp": {
+    "stock_management": "Lagerverwaltung",
+    "stock": "Lager",
+    "warehouse": "Lagerhaus",
+    "warehouses": "Lagerhäuser",
+    "product": "Produkt",
+    "products": "Produkte",
+    "product_group": "Produktgruppe",
+    "product_group_list": "Produktgruppen",
+    "product_category": "Produktkategorie",
+    "product_type": "Produkttyp",
+    "product_unit": "Produkteinheit",
+    "product_unit_list": "Produkteinheiten",
+    "lod": "Ladung",
+    "serial_number": "Seriennummer",
+    "serial_numbers": "Seriennummern",
+    "order_number": "Bestellnummer",
+    "order_status_enum": {
+      "pending": "In Bearbeitung",
+      "accepted": "Akzeptiert",
+      "shipped": "Versendet",
+      "delivered": "Geliefert",
+      "returned": "Zurückgegeben",
+      "cancelled": "Storniert",
+      "rejected": "Abgelehnt"
+    },
+    "order_status": "Bestellstatus",
+    "order_date": "Bestelldatum",
+    "order": "Bestellung",
+    "customer": "Kunde",
+    "offer": "Angebot",
+    "offer_status": "Angebotsstatus",
+    "cart": "Warenkorb",
+    "market_item": "Marktartikel",
+    "item": "Artikel",
+    "cart_status": "Warenkorbstatus",
+    "subtotal": "Zwischensumme",
+    "total": "Gesamtsumme",
+    "price": "Preis",
+    "quantity": "Menge",
+    "unit": "Einheit",
+    "amount": "Betrag",
+    "barcode": "Strichcode",
+
+    "makeAnOffer": "Angebot erstellen"
+  },
+
+  "e-commerce": {
+    "continueShopping": "Weiter einkaufen",
+    "addToCart": "In den Warenkorb legen",
+    "removeFromCart": "Aus dem Warenkorb entfernen",
+    "viewCart": "Warenkorb ansehen",
+    "checkout": "Zur Kasse",
+    "myCart": "Mein Warenkorb",
+    "cart": {
+      "empty": "Ihr Warenkorb ist leer",
+      "order": "Bestellung aufgeben"
+    },
+    "sort": {
+      "priceLowToHigh": "Preis aufsteigend",
+      "priceHighToLow": "Preis absteigend",
+      "nameAZ": "Name A-Z",
+      "nameZA": "Name Z-A"
+    }
+  },
+
+  "common": {
+    "process_successful": "Vorgang erfolgreich : {process_name?}",
+    "process_unsuccessful": "Vorgang fehlgeschlagen : {process_name?}",
+
+    "and": "und",
+
+    "account": {
+      "create": "Konto erstellen",
+      "login": "Anmelden",
+      "logout": "Abmelden",
+      "register": "Registrieren",
+      "sign-in": "Anmelden",
+      "sign-up": "Registrieren",
+      "sign-out": "Abmelden",
+      "forgot_password": "Passwort vergessen",
+      "reset_password": "Passwort zurücksetzen",
+      "login_with_google": "Mit Google anmelden",
+      "login_with_facebook": "Mit Facebook anmelden",
+      "login_with_twitter": "Mit Twitter anmelden",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "password_again": "Passwort wiederholen",
+      "service_terms": "Nutzungsbedingungen",
+      "privacy_policy": "Datenschutzbestimmungen",
+      "you_agree": "Sie stimmen zu.",
+      "labels": {
+        "by_continuing": "Indem Sie fortfahren",
+        "fill_fields_below_to_sign_up": "Erforderliche Felder ausfüllen, um ein Konto zu erstellen",
+        "enter_email_to_sign_in": "E-Mail-Adresse eingeben, um sich anzumelden",
+        "dont_have_an_account": "Sie haben noch kein Konto?",
+        "continue_if_no_any": "Fahren Sie fort, wenn Sie noch kein Konto haben"
+      },
+      "placeholders": {
+        "email": "Email-Adresse",
+        "password": "Passwort",
+        "password_again": "Passwort wiederholen"
+      }
+    },
+
+    "success": "Erfolgreich",
+    "error": "Fehler",
+    "warning": "Warnung",
+    "info": "Information",
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "ok": "OK",
+    "yes": "Ja",
+    "no": "Nein",
+
+    "list": "Liste",
+    "list_of": "{what?} Liste",
+    "add": "{what?} hinzufügen",
+    "edit": "{what?} bearbeiten",
+    "delete": "{what?} löschen",
+    "remove": "{what?} entfernen",
+    "save": "Speichern",
+    "close": "Schließen",
+    "search": "Suchen",
+    "search_for": "{what?} suchen",
+    "searching": "Suche",
+    "status": "Status",
+    "actions": "Aktionen",
+    "select": "Auswählen",
+
+    "required": "Erforderlich",
+    "sort": "Sortieren",
+    "filter": "Filtern",
+
+    "image": "Bild",
+    "title": "Titel",
+    "description": "Beschreibung",
+    "date": "Datum",
+    "code": "Code",
+    "qrcode": "QR-Code",
+    "name": "Name",
+    "address": "Adresse",
+    "phone": "Telefon",
+    "email": "E-Mail",
+
+    "tr_dropdown": "Türkisch",
+    "en_dropdown": "Englisch",
+    "de_dropdown": "Deutsch",
+    "ar_dropdown": "Arabisch"
+  },
+
+  "web": {
+    "home": "Startseite",
+    "products": "Produkte",
+    "projects": "Projekte",
+    "consumer_groups": "Verbrauchergruppen",
+    "subjects": "Themen",
+    "services": "Dienstleistungen",
+    "company": "Unternehmen"
+  }
 }

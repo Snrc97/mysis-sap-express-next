@@ -1,0 +1,170 @@
+{
+  "sidebar": {
+    "franchise_and_customer_management": "إدارة الشراكة والعملاء",
+    "order_management": "إدارة الطلبات",
+    "offer_management": "إدارة العروض",
+    "logistic_and_export_management": "إدارة الشحن والتصدير",
+    "stock_and_product_management": "إدارة المخزون والمنتجات",
+    "management_panel": "لوحة التحكم"
+  },
+  "erp": {
+    "stock_management": "إدارة المخزون",
+    "stock": "المخزون",
+    "warehouse": "المخزن",
+    "warehouses": "المخازن",
+    "product": "المنتج",
+    "products": "المنتجات",
+    "product_group": "مجموعة المنتجات",
+    "product_group_list": "قائمة مجموعات المنتجات",
+    "product_category": "فئة المنتج",
+    "product_type": "نوع المنتج",
+    "product_unit": "وحدة المنتج",
+    "product_unit_list": "قائمة وحدات المنتجات",
+    "lod": "Lod",
+    "serial_number": "رقم السلسلة",
+    "serial_numbers": "أرقام السلسلة",
+    "order_number": "رقم الطلب",
+    "order_status_enum": {
+      "pending": "معلق",
+      "accepted": "مقبول",
+      "shipped": "تم شحنها",
+      "delivered": "تم تسليمها",
+      "returned": "تم إرجاعها",
+      "cancelled": "تم إلغاؤها",
+      "rejected": "تم رفضها"
+    },
+    "order_status": "حالة الطلب",
+    "order_date": "تاريخ الطلب",
+    "order": "الطلب",
+    "customer": "العميل",
+    "offer": "العرض",
+    "offer_status": "حالة العرض",
+    "cart": "السلة",
+    "market_item": "عنصر السوق",
+    "item": "العنصر",
+    "cart_status": "حالة السلة",
+    "subtotal": "المجموع الجزئي",
+    "total": "المجموع",
+    "price": "السعر",
+    "quantity": "الكمية",
+    "unit": "الوحدة",
+    "amount": "المبلغ",
+    "barcode": "رمز الشريط",
+
+    "makeAnOffer": "تقديم عرض"
+  },
+
+  "e-commerce": {
+    "continueShopping": "متابعة التسوق",
+    "addToCart": "أضف إلى السلة",
+    "removeFromCart": "أزل من السلة",
+    "viewCart": "عرض السلة",
+    "checkout": "دفع",
+    "myCart": "سलतي",
+    "cart": {
+      "empty": "سلة فارغة",
+      "order": "الطلب"
+    },
+    "sort": {
+      "priceLowToHigh": "من أقل سعر",
+      "priceHighToLow": "من أعلى سعر",
+      "nameAZ": "من أ - ي",
+      "nameZA": "من ي - أ"
+    }
+  },
+
+  "common": {
+    "process_successful": "عملية ناجحة : {process_name?}",
+    "process_unsuccessful": "عملية فاشلة : {process_name?}",
+
+    "and": "و",
+
+    "account": {
+      "create": "إنشاء حساب",
+      "login": "تسجيل الدخول",
+      "logout": "تسجيل الخروج",
+      "register": "تسجيل",
+      "sign-in": "تسجيل الدخول",
+      "sign-up": "تسجيل",
+      "sign-out": "تسجيل الخروج",
+      "forgot_password": "نسيان كلمة المرور",
+      "reset_password": "استعادة كلمة المرور",
+      "login_with_google": "تسجيل الدخول مع جوجل",
+      "login_with_facebook": "تسجيل الدخول مع فيس بوك",
+      "login_with_twitter": "تسجيل الدخول مع تويتر",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "password_again": "تأكيد كلمة المرور",
+      "service_terms": "شروط الخدمة",
+      "privacy_policy": "سياسة الخصوصية",
+      "you_agree": "أنت توافق",
+      "labels": {
+        "by_continuing": "بالاستمرار",
+        "fill_fields_below_to_sign_up": "املأ الحقول أدناه لإنشاء حساب",
+        "enter_email_to_sign_in": "أدخل بريدك الإلكتروني لتسجيل الدخول",
+        "dont_have_an_account": "لا تمتلك حسابا",
+        "continue_if_no_any": "متابعة إذا لم يكن لديك حساب"
+      },
+      "placeholders": {
+        "email": "أدخل بريدك الإلكتروني",
+        "password": "أدخل كلمة المرور",
+        "password_again": "أدخل تأكيد كلمة المرور"
+      }
+    },
+
+    "success": "نجاح",
+    "error": "خطأ",
+    "warning": "تحذير",
+    "info": "معلومات",
+    "confirm": "تأكيد",
+    "cancel": "إلغاء",
+    "ok": "موافق",
+    "yes": "نعم",
+    "no": "لا",
+
+    "list": "قائمة",
+    "list_of": "قائمة {what?}",
+    "add": "أضف {what?}",
+    "edit": "تحرير {what?}",
+    "delete": "حذف {what?}",
+    "remove": "أزل {what?}",
+    "save": "حفظ",
+    "close": "إغلاق",
+    "search": "بحث",
+    "search_for": "بحث عن {what?}",
+    "searching": "جاري البحث",
+    "status": "الحالة",
+    "actions": "العمال",
+    "select": "اختر",
+
+    "required": "مطلوب",
+    "sort": "ترتيب",
+    "filter": "مرشح",
+
+    "image": "صورة",
+    "title": "عنوان",
+    "description": "وصف",
+    "date": "تاريخ",
+    "code": "كود",
+    "qrcode": "QR كود",
+    "name": "الاسم",
+    "address": "العنوان",
+    "phone": "هاتف",
+    "email": "البريد الإلكتروني",
+
+    "tr_dropdown": "التركية",
+    "en_dropdown": "الإنجليزية",
+    "de_dropdown": "الألمانية",
+    "ar_dropdown": "العربية"
+  },
+
+  "web": {
+    "home": "الرئيسية",
+    "products": "المنتجات",
+    "projects": "المشاريع",
+    "consumer_groups": "مجموعات المستهلكين",
+    "subjects": "الموضوعات",
+    "services": "الخدمات",
+    "company": "الشركة"
+  }
+}

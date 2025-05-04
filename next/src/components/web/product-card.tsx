@@ -22,7 +22,7 @@ const checkIsAddedToCart = (x: MarketItemListViewModel) => {
     return otherProducts.find((p: MarketItemListViewModel) => p.id === x.id)
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ marketListItem, className, OnAddedToCart, OnAddedToFavourites }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ marketListItem, className = "", OnAddedToCart, OnAddedToFavourites }) => {
 
 
 
@@ -63,7 +63,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ marketListItem, className, On
     }
 
     return (
-        <div className={className + " h-full border rounded-lg overflow-hidden shadow-md hover:shadow-xl dark:bg-gray-800 dark:hover:bg-gray-700"}>
+        <div className={className + " min-w-[300px] min-h-[200px] border rounded-lg overflow-hidden shadow-md hover:shadow-xl dark:bg-gray-800 dark:hover:bg-gray-700"}>
             <Link href={`/product/${marketListItem.id}`}>
                 <Image
                     src={marketListItem?.image || no_image}

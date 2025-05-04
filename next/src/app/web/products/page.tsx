@@ -104,9 +104,10 @@ export default function Products() {
                     <option value="desc">{trans('e-commerce.sort.priceHighToLow')}</option>
                 </select>
             </div>
-            <div className="flex flex-row w-full h-full py-10 px-10 gap-10">
-                {/* Sidebar */}
-                <div className="w-1/4 h-full p-4 bg-gray-100 dark:bg-gray-800">
+             {/* Sidebar */}
+            <div className="flex flex-row w-full h-full py-10 px-10 gap-10 max-[680px]:flex-col">
+                {/* Filters */}
+                <div className="w-full h-full p-4 bg-gray-100 dark:bg-gray-800">
                     {/* Search Bar */}
                     <div className="mb-4">
                         <input
@@ -121,7 +122,6 @@ export default function Products() {
                         />
                     </div>
 
-                    {/* Filters */}
                     <div>
                         <h3 className="font-semibold mb-2">Filtreler</h3>
                         <div>
@@ -149,7 +149,7 @@ export default function Products() {
 
 
 
-                    <div className='w-full h-full gap-6 flex flex-row flex-wrap items-start justify-start '>
+                    <div className='w-full h-full gap-6 flex flex-row flex-wrap items-start justify-end max-[680px]:justify-center '>
                         {
                             marketListItems.map((x, index) => {
                                 const conds = x.item?.product?.name?.toLowerCase()?.includes(searchValue) ||
