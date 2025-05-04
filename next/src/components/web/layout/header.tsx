@@ -109,7 +109,7 @@ const Header: React.FC<HeaderProps> = ({ description, headerButtons = [] }) => {
 
     return (
       <motion.div
-        className="w-57 h-[150px] overflow-y-scroll absolute mt-[25.5%] min-[1390px]:ml-[5px] min-[1390px]:z-[-1]"
+        className="w-57 h-[150px] overflow-y-scroll absolute max-[1390px]:mt-[183px] min-[1390px]:mt-[214px] min-[1390px]:ml-[5px] min-[1390px]:z-[-1]"
         initial={{ opacity: 0, y: -150 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.75, ease: 'easeInOut' }}
